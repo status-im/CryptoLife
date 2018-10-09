@@ -1,4 +1,4 @@
-#CryptoLife Judging Criteria
+# #CryptoLife Judging Criteria
 
 > “Do not wait for the last judgment. It comes every day.” - Albert Camus
  
@@ -38,7 +38,7 @@ User Experience & Design | 1 | We really care about UX and Deisgn at Status. Bui
 
 ## Categories and Prizes
 
-Each category will be marked out of 10, bringing us to a score out of 100. The highest score in each track wins a prize. Exact amounts and tracks will be announced shortly.
+Each category will be marked out of 10, bringing us to a score out of 100. The top 5 scores in each category will then be discussed independently by the judges, who will announce the winners and runners up in each track after further deliberation. Their decisions will be final.
 
 Each major sponsor also gets to specify a list of hacks they'd like to see, or potentially even their own track. These will also be announced before the event, and will serve as separate prizes also handed out at the closing ceremony.
 
