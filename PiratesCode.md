@@ -4,7 +4,9 @@ We want to come together to exchange ideas, make new friends, and build things a
 Hackers care about code; not criteria such as degrees, age, race, nationality, sex, sexual orientation, gender, gender identity or expression, disability, physical appearance, religion (or lack thereof), or position.
 
 ## Be Open
-Be welcoming to all. Especially welcome newcomers to the community. Great things can happen when we show up with an open mind and curiosity.
+Be welcoming to all. Especially welcome newcomers to the community. Great things can happen when we show up with an open mind and curiosity. 
+
+This also refers to the fact that all code submitted to this repo for consideration at the hackathon **must** be [open source](https://opensource.org/faq). We use the Mozilla Public License most often at Status, but you can find a good list of options [here](https://opensource.org/licenses)
 
 ## Be Kind
 Be kind to others. Treat their work, time, and perspectives as worthy of your attention. Treat others as you would like to be treated yourself and respect the #buidl.
