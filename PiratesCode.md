@@ -30,3 +30,6 @@ If you believe you have found a bug or vulnerability, please submit a report to 
 - [CCC Hacker Ethics](https://www.ccc.de/en/hackerethics)
 - [Hacker One Disclosure Guidelines](https://www.hackerone.com/disclosure-guidelines)
 - [Steven Levy’s Hacker Ethic](https://en.wikipedia.org/wiki/Hacker_ethic)
+
+## Contact
+If you have any questions, before or during the event, please contact ceri@status.im or find her in person (it's pronounced K-er-y) at #CryptoLife for all your pirate needs.
