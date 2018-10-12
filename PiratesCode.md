@@ -1,7 +1,7 @@
 # CryptoLife Pirate's Code
 We want to come together to exchange ideas, make new friends, and build things as an inclusive community set adrift on the high digital seas, navigating these distributed networks by no more than the stars in our own eyes. 
 
-Hackers care about code; not criteria such as degrees, age, race, nationality, sex, sexual orientation, gender, gender identity or expression, disability, physical appearance, religion (or lack thereof), or position.
+Hackers and pirates care about code; not criteria such as degrees, age, race, nationality, sex, sexual orientation, gender, gender identity or expression, disability, physical appearance, religion (or lack thereof), or position.
 
 ## Be Open
 Be welcoming to all. Especially welcome newcomers to the community. Great things can happen when we show up with an open mind and curiosity. 
