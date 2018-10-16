@@ -24,7 +24,7 @@ You can check out the #CryptoLife Master List [here](https://our.status.im/your-
 
     ```shell
     git add .
-    git commit -m "<team_name> Submission for #CryptoLife" 
+    git commit -m "<team_name> Submission for CryptoLife" 
     git push
     ```
 
