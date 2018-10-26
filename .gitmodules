@@ -1,0 +1,3 @@
+[submodule "UniversalLoginRelayer"]
+	path = UniversalLoginRelayer
+	url = git@github.com:LinumLabs/UniversalLoginRelayer.git
