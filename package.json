@@ -11,7 +11,9 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "chart.js": "^2.7.3",
     "nuxt": "^2.1.0",
+    "vue-chartjs": "^3.4.0",
     "vuetify": "^1.2.6"
   },
   "devDependencies": {
