@@ -1,0 +1,13 @@
+.items-holder {
+  padding: 50px;
+  .etsy-holder {
+    cursor: pointer;
+    width: 400px;
+    height: 280px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    background-color: darkgreen;
+    box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+  }
+}

@@ -1,0 +1,100 @@
+<div class="content">
+	<dapp-header></dapp-header>
+	<router-outlet></router-outlet>
+</div>
+<footer class="footer">
+</footer>
+
+<!--<div class="container">-->
+<!--<div class="row">-->
+<!--<div class="col-12 text-center">-->
+<!--<h1>Billboard</h1>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="col-12 text-center">-->
+<!--<button class="btn btn-info" (click)="getCurrentBlock()">Get Current Block Number</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row" *ngIf="currentBlock">-->
+<!--<div class="col-12 text-center align-self-center billboard">{{currentBlock}}</div>-->
+<!--</div>-->
+<!--<br>-->
+<!--<div class="row">-->
+<!--<div class="col-12 text-center">-->
+<!--<button class="btn btn-info" (click)="getGasPrice()">Get Gas Price</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row" *ngIf="gasPrice">-->
+<!--<div class="col-12 text-center align-self-center billboard">{{gasPrice}}</div>-->
+<!--</div>-->
+<!--<br>-->
+<!--<div class="row">-->
+<!--<div class="col no-gutters">-->
+<!--<div class="card">-->
+<!--<div class=" card-body ">-->
+<!--<h5 class="card-title ">Get transaction based on TxHash</h5>-->
+<!--<div>-->
+<!--<input type="text" #transactionHash placeholder="0x...">-->
+<!--<button class="btn btn-info" (click)="getTransactionHash(transactionHash.value)">Get Transaction</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<br>-->
+<!--<hr>-->
+<!--<div class="row">-->
+<!--<div class="col-12 text-center">-->
+<!--<button class="btn btn-info" (click)="getBillboardContent()">Get Billboard Content</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="row" *ngIf="billboardContent">-->
+<!--<div class="col-12 text-center align-self-center billboard">{{billboardContent}}</div>-->
+<!--</div>-->
+<!--<br>-->
+<!--<div class="row">-->
+<!--<div class="col no-gutters">-->
+<!--<div class="card">-->
+<!--<div class=" card-body ">-->
+<!--<h5 class="card-title ">Checks how much money have been spent by an address</h5>-->
+<!--<div>-->
+<!--<input type="text" [(ngModel)]="address" placeholder="0x...">-->
+<!--<button class="btn btn-info" (click)="moneySpent()">Check</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<br>-->
+<!--<hr>-->
+<!--<br>-->
+<!--<div class="row">-->
+<!--<div class="col no-gutters">-->
+<!--<div class="card">-->
+<!--<div class=" card-body ">-->
+<!--<h5 class="card-title ">Buy billboard</h5>-->
+<!--<div>-->
+<!--<input type="text" [(ngModel)]="newSlogan" placeholder="Your slogan">-->
+<!--<input type="text" [(ngModel)]="privateKey" placeholder="Your private key">-->
+<!--<button class="btn btn-info" (click)="buyBillboard()">Buy</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<br>-->
+<!--<div class="row">-->
+<!--<div class="col no-gutters">-->
+<!--<div class="card">-->
+<!--<div class=" card-body ">-->
+<!--<h5 class="card-title ">Create Wallet</h5>-->
+<!--<div>-->
+<!--<input type="password" [(ngModel)]="encryptPassword" placeholder="Your password">-->
+<!--<button class="btn btn-info" (click)="createWallet()">Create Wallet</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
