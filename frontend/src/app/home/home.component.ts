@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
 			id: 0,
 			name: 'Гривна',
 			description: 'Яката гривна',
-			price: '1 DAO',
+			price: '1 DAI',
 			imagePath: ''
 		});
 
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
 			id: 1,
 			name: 'Амулет',
 			description: 'Амулетът на Купка',
-			price: '13 DAO',
+			price: '13 DAI',
 			imagePath: ''
 		})
 	}
