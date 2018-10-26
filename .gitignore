@@ -1,7 +1,7 @@
 .idea
 yarn-error.log
 /.vscode
-node_modules
+*/node_modules
 /node_modules
 /universal-login-contracts/build/
 /universal-login-contracts/node_modules
