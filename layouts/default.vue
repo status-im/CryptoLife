@@ -1,9 +1,8 @@
 <template>
   <v-app light>
     <v-navigation-drawer
-      clipped="false"
       v-model="drawer"
-      fixed
+      :clipped="true"
       app
     >
       <v-list>
