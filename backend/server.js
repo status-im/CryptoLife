@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
 
+require('./config/mongo').config();
+
 const bodyParser = require('body-parser');
 var cors = require('cors')
 
