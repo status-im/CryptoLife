@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bs58": "^4.0.1",
     "etherlime": "^0.9.11",
+    "ethers": "^4.0.7",
     "openzeppelin-solidity": "1.12.0"
   }
 }
