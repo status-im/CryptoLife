@@ -57,13 +57,13 @@ contract Marketplace {
     ///      not used in smart contract logic, may be helpful for disputes, etc.
     /// @dev May include chat history of the parties, related to agreement
     /// @dev May be empty
-    string description;
+    //string description;
   }
 
   /**
    * @dev All the contracts that were properly signed and submitted into the system
    */
-  Contract[] public contractsRepository;
+  mapping(uint256 => Contract) public contractsRepository;
 
   /**
    * @dev Track of record for each participant: list of contract IDs (index in `contractsRepository`)
@@ -71,11 +71,11 @@ contract Marketplace {
   mapping(address => uint256[]) contractsHistory;
 
 
-  mapping(address => mapping(address => uint256)) nonces;
-
   /**
    * @dev Constructs a message to be signed by the parties
    * @dev Requires `signDueDate` to be in the future or now
+   * @dev Requires contract ID to be unique, non-existent in the system
+   * @param contractId unique ID of the contract to submit
    * @param client the client
    * @param supplier the supplier
    * @param initialAmount amount to pay to supplier by client
@@ -88,6 +88,7 @@ contract Marketplace {
    * @return keccak256 hash of the input parameters - a message to sign
    */
   function constructContract(
+    uint256 contractId,
     address client,
     address supplier,
     uint64 initialAmount,
@@ -96,6 +97,7 @@ contract Marketplace {
     uint32 disputePeriod
   ) public constant returns(bytes32) {
     // validate the input
+    require(contractsRepository[contractId].client == address(0));
     require(client != address(0));
     require(supplier != address(0));
     require(client != supplier);
@@ -106,13 +108,13 @@ contract Marketplace {
 
     // calculate sha3 of the tightly packed variables including nonce
     return keccak256(
+      contractId,
       client,
       supplier,
       initialAmount,
       signDueDate,
       validityPeriod,
-      disputePeriod,
-      nonces[client][supplier]
+      disputePeriod
     );
   }
 
@@ -120,6 +122,8 @@ contract Marketplace {
    * @dev Submits signed contract into the system
    * @dev Requires the message to be sent by one of the parties
    *      and be signed by another one
+   * @dev Requires contract ID to be unique, non-existent in the system
+   * @param contractId unique ID of the contract to submit
    * @param client the client
    * @param supplier the supplier
    * @param initialAmount amount to pay to supplier by client
@@ -134,6 +138,7 @@ contract Marketplace {
    * @param s part of the ECDSA signature - signature[64:128]
    */
   function submitSignedContract(
+    uint256 contractId,
     address client,
     address supplier,
     uint64 initialAmount,
@@ -145,14 +150,46 @@ contract Marketplace {
     bytes32 s
   ) public {
     // extract message signature using eth_sign and EIP712 algorithms
-    address ethSign = recoverEthSign(client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod, v, r, s);
-    address eip712 = recoverEIP712(client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod, v, r, s);
+    address ethSign = recoverEthSign(contractId, client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod, v, r, s);
+    address eip712 = recoverEIP712(contractId, client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod, v, r, s);
 
     // validate the input and signatures
     require(msg.sender == client && (ethSign == supplier || eip712 == supplier) || msg.sender == supplier && (ethSign == client || eip712 == client));
 
-    // update nonce to prevent "double spend"
-    nonces[client][supplier]++;
+    // create the contract data structure
+    Contract memory c = Contract({
+      client: client,
+      supplier: supplier,
+      initialAmount: initialAmount,
+      amountPaid: 0,
+      amountAgreed: 0,
+      signDueDate: signDueDate,
+      dateSigned: uint64(now),
+      validityPeriod: validityPeriod,
+      disputePeriod: disputePeriod,
+      dateFinished: 0
+    });
+
+    // push contract into the storage
+    contractsRepository[contractId] = c;
+
+    // TODO: emmit an event
+  }
+
+  /**
+   * @notice Allows client to pay to supplier according to the contract
+   */
+  function pay(uint256 contractId, uint64 amount) public payable {
+    // TODO: implement
+  }
+
+  /**
+   * @notice Allows supplier to change contract terms (reduce the amount
+   *      to pay or leave it equal to initial) in case if client didn't pay
+   *      an amount initially agreed between the parties
+   */
+  function update(uint256 contractId, uint64 amount) public {
+    // TODO: implement
   }
 
   /**
@@ -160,6 +197,7 @@ contract Marketplace {
    * @dev Returns the address which signed the order
    * @dev See https://github.com/paritytech/parity-ethereum/issues/8127
    * @dev See https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign
+   * @param contractId unique ID of the contract to submit
    * @param client the client
    * @param supplier the supplier
    * @param initialAmount amount to pay to supplier by client
@@ -175,6 +213,7 @@ contract Marketplace {
    * @return recovered address of the message signer
    */
   function recoverEthSign(
+    uint256 contractId,
     address client,
     address supplier,
     uint64 initialAmount,
@@ -189,12 +228,13 @@ contract Marketplace {
     v = v < 27 ? v + 27 : v;
 
     // eth_sign, https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign
-    return ecrecover(keccak256("\x19Ethereum Signed Message:\n32", constructContract(client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod)), v, r, s);
+    return ecrecover(keccak256("\x19Ethereum Signed Message:\n32", constructContract(contractId, client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod)), v, r, s);
   }
 
   /**
    * @dev Used to verify a transfer order signature according to EIP712
    * @dev Returns the address which signed the message
+   * @param contractId unique ID of the contract to submit
    * @param client the client
    * @param supplier the supplier
    * @param initialAmount amount to pay to supplier by client
@@ -210,6 +250,7 @@ contract Marketplace {
    * @return recovered address of the message signer
    */
   function recoverEIP712(
+    uint256 contractId,
     address client,
     address supplier,
     uint64 initialAmount,
@@ -224,7 +265,7 @@ contract Marketplace {
     v = v < 27 ? v + 27 : v;
 
     // EIP712, https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md
-    return ecrecover(constructContract(client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod), v, r, s);
+    return ecrecover(constructContract(contractId, client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod), v, r, s);
   }
 
 }
