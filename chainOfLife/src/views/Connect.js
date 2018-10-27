@@ -17,7 +17,7 @@ class Connect extends Component {
           <TextBox
             placeholder="bob"
             onChange={this.props.onChange.bind(this)}
-          /> .mylogin.eth
+          /> .chainoflife.eth
         </div>
 
         <button onClick={this.props.onNextClick.bind(this)}>Connect</button>
