@@ -19,11 +19,12 @@
     background-image: url("../../assets/images/d-letter.png");
   }
   .status-logo {
-    display: inline-block;
+    position: absolute;
+    top: 20px;
     cursor: pointer;
     margin-left: 40px;
     width: 60px;
-    
+
     color: #f45800;
     fill: #f45800;
   }

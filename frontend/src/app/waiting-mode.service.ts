@@ -16,8 +16,8 @@ export class WaitingModeService {
 		return this.waitingSubject.subscribe(observer);
 	}
 
-	public pushWaitingSubject() {
-		return this.waitingSubject.next();
+	public pushWaitingSubject(waiting) {
+		return this.waitingSubject.next(waiting);
 	}
 
 }

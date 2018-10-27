@@ -5,6 +5,7 @@ import axios, { AxiosPromise } from 'axios';
 import { environment } from './../../environments/environment';
 import * as limePayWeb from 'limepay-web/dist/lime-pay.min.js';
 import { ShopperStoreService } from '../shopper-store.service';
+import { WaitingModeService } from '../waiting-mode.service';
 
 @Component({
 	selector: 'dapp-payment',
@@ -16,13 +17,15 @@ export class PaymentComponent implements OnInit {
 	@ViewChild(DetailsComponent) detailsComponent: DetailsComponent;
 	public activateLimePay = false;
 
-	constructor(private shopperStoreService: ShopperStoreService) {
+	constructor(private shopperStoreService: ShopperStoreService,
+		private waitingService: WaitingModeService) {
 	}
 
 	ngOnInit() {
 	}
 
 	public async onPayWithLimePay() {
+		this.waitingService.pushWaitingSubject(true);
 		let shopperId = this.shopperStoreService.getShopperId();
 		let wallet = ethers.Wallet.createRandom();
 
@@ -53,15 +56,14 @@ export class PaymentComponent implements OnInit {
 		};
 
 		limePayWeb.init(limeToken, limePayConfig).then(result => {
-
-			// TODO Show payment FORM
+			this.waitingService.pushWaitingSubject(false);
+			this.activateLimePay = true;
 
 		}).catch((err) => {
+			this.waitingService.pushWaitingSubject(false);
 			console.log(err);
 			alert('Form initialization failed');
 			// Implement some logic
-		}).then(() => {
-			this.activateLimePay = true;
 		});
 
 		console.log(limeToken);
