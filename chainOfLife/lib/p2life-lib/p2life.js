@@ -80,4 +80,28 @@ export default class P2life {
     }
     return rsp;
   }
+
+  countNeighours(col, row) {
+    const rowAbove = (row = 0) ? this.dish.length - 1 : row - 1;
+    const rowBelow = (row = this.dish.length - 1) ? 0 : row + 1;
+    const rows = [rowAbove,row,rowBelow];
+    const colPrev = (col = 0) ? this.dish.length - 1 : col - 1;
+    const colNext = (col = this.dish.length - 1) ? 0 : col + 1;
+    const cols = [colPrev, col, colNext];
+
+    let numA;
+    let numB;
+
+    for (let i; i < 3; i++) {
+      for (let j; j < 3; j++) {
+        if (i != 2 && j != 2) {
+          const cell = this.dish[rows[i]][cols[j]];
+          if(cell == 1) numA ++;
+          if(cell == 2) numB ++;
+        }
+      }
+    }
+  }
+
+  return [numA, numB];
 }
