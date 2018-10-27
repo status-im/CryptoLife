@@ -1,16 +1,15 @@
 .items-holder {
-  padding: 50px;
-  margin-right: 0;
+  padding: 25px 40px 0px 40px;
   .etsy-holder {
+    margin: 10px;
     cursor: pointer;
-    height: 280px;
-    max-width: 350px;
+    height: 275px;
+    width: 212px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 10px #777;
-    border-radius: 5px;
-    border: 1px solid dimgrey;
+    box-shadow: 0 2px 10px #999;
+    border: none;
     &:hover {
-      box-shadow: 0 0 30px #f45800;
+      box-shadow: 0 0 30px #5A7963;
     }
     .item-image {
       height: 200px;
@@ -19,11 +18,13 @@
       border-bottom: 1px solid #f5f5f5;
     }
     .item-info {
-      padding: 30px 15px;
+      padding: 30px 10px 20px 10px;
+      background-color: white;
+      height: 75px;
       .name {
+        float: left;
+        font-size: 12px;
         display: inline-block;
-        padding-right: 15px;
-        width: 65%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -33,6 +34,7 @@
         font-size: 14px;
       }
       .price {
+        font-size: 12px;
         float: right;
         font-weight: bold;
       }
