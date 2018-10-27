@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { splitIntoSubArray, getConfigHash, encodeConfigBytes32Array }  from '../util/hex';
 
+import { Redirect } from 'react-router';
+
 class Input extends Component {
 
   constructor(props) {
@@ -12,7 +14,9 @@ class Input extends Component {
 
     let config = (new Array(props.size)).fill(false);
     this.state = {
-      config: config
+      config: config,
+      gameId: '0x00',
+      mined: false
     };
   }
 
@@ -21,6 +25,7 @@ class Input extends Component {
       const newConfig = this.state.config.slice();
       newConfig[i] = !newConfig[i];
       this.setState({
+        ...this.state,
         config: newConfig
       });
     };
@@ -51,8 +56,21 @@ class Input extends Component {
   async registerGame() {
     const boolConfig = this.state.config;
     const account = (await this.props.eth.web3.eth.getAccounts())[0];
-    await this.props.eth.contract.methods.register(getConfigHash(boolConfig)).send({
+    const gameId = getConfigHash(boolConfig);
+    await this.props.eth.contract.methods.register(gameId).send({
       from: account
+    });
+    this.props.eth.eventEmitter.on('data', event => {
+      if(event.event === "StartGame" && event.returnValues.gameId === gameId) {
+        this.setState({
+          ...this.state,
+          mined: true
+        });
+      }
+    });
+    this.setState({
+      ...this.state,
+      gameId: gameId
     });
   }
 
@@ -66,6 +84,9 @@ class Input extends Component {
   }
 
   render() {
+    if (this.state.mined) {
+      return <Redirect to={"/waiting/" + this.state.gameId} />;
+    }
     return (
       <div>
         {this.renderButtonGrid()}
