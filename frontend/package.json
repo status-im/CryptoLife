@@ -8,6 +8,8 @@
     "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
+    "abi-decoder": "^1.2.0",
+    "axios": "^0.18.0",
     "domain-name-parser": "^2.3.0",
     "ethjs-ens": "^2.0.1",
     "ethjs-provider-http": "^0.1.6",
