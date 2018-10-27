@@ -75,10 +75,6 @@ const ContentWrapper = styled.div`
 const localWeb3 = new Web3()
 
 export default class Addreth extends Component {
-  static async getInitialProps({ query }) {
-    return query
-  }
-
   state = {
     metamaskAvailable: false,
     account: null,
@@ -87,6 +83,12 @@ export default class Addreth extends Component {
     titleValue: '',
     editDescription: false,
     descriptionValue: '',
+    isAddrethValid: true,
+    isAddrethValidated: false
+  }
+
+  static async getInitialProps({ query }) {
+    return query
   }
 
   constructor() {
@@ -123,10 +125,6 @@ export default class Addreth extends Component {
   validateENSDomain(addreth) {
     const domain = parse(addreth)
     return domain.tld == 'eth'
-  }
-
-  validateAddreth(addreth) {
-    return localWeb3.utils.isAddress(addreth) || this.validateENSDomain(addreth)
   }
 
   initMetaMask = () => {
@@ -303,11 +301,29 @@ export default class Addreth extends Component {
       })
   }
 
-  async ensureEthAddress() {
-    if (this.validateENSDomain(this.props.addreth)) {
-      const domain = this.props.addreth;
+  async probeEnsDomain(addreth) {
+    if (this.validateENSDomain(addreth)) {
       try {
-        let address = await Utils.resolveEnsDomain(domain);
+        await Utils.resolveEnsDomain(addreth);
+        return true
+      } catch (e) {
+        console.error(e);
+        return false
+      }
+    }
+  }
+
+  async validateAddreth(addreth) {
+    const web3 = new Web3()
+    const foo = await this.probeEnsDomain(addreth);
+    const isValid = web3.utils.isAddress(addreth) || await this.probeEnsDomain(addreth);
+    this.setState({isAddrethValid: isValid, isAddrethValidated: true});
+  }
+
+  async ensureEthAddress(addreth) {
+    if (this.validateENSDomain(addreth)) {
+      try {
+        let address = await Utils.resolveEnsDomain(addreth);
         Router.push(`/addreth/${address}`);
       } catch (e) {
         console.error(e);
@@ -316,7 +332,25 @@ export default class Addreth extends Component {
   }
 
   componentDidMount() {
-    this.ensureEthAddress();
+    this.ensureEthAddress(this.props.addreth);
+    this.validateAddreth(this.props.addreth);
+  }
+
+  renderBody() {
+    if (!this.state.isAddrethValidated) {
+      return <div>Back in the tube and staining...</div>
+    } else if (!this.state.isAddrethValid) {
+      return <NotAnAddreth/>
+    } else {
+      return (
+        <Container>
+          <DonationForm address={this.props.addreth} donationNetworkID={4} />
+          <LeaderboardContainer>
+            <Leaderboard address={this.props.addreth} />
+          </LeaderboardContainer>
+        </Container>
+      )
+    }
   }
 
   render() {
@@ -396,11 +430,7 @@ export default class Addreth extends Component {
           >
             {addreth}
           </a>
-          <DonationForm address={this.props.addreth} donationNetworkID={4} />
-          <LeaderboardContainer>
-            <Leaderboard address={this.props.addreth} />
-          </LeaderboardContainer>
-          {!this.validateAddreth(addreth) && <NotAnAddreth />}
+          {this.renderBody()}
         </Container>
       </div>
     )
