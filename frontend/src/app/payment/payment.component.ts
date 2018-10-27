@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { DetailsComponent } from '../details/details.component';
 
 @Component({
 	selector: 'dapp-payment',
@@ -7,6 +8,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 	encapsulation: ViewEncapsulation.None
 })
 export class PaymentComponent implements OnInit {
+	@ViewChild(DetailsComponent) detailsComponent: DetailsComponent;
 
 	constructor() {
 	}
@@ -14,4 +16,7 @@ export class PaymentComponent implements OnInit {
 	ngOnInit() {
 	}
 
+	public onLimePayProcess() {
+		console.log(this.detailsComponent.etsyItem);
+	}
 }
