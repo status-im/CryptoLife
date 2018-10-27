@@ -3,6 +3,11 @@ import styled from 'styled-components'
 import Web3 from 'web3'
 import Emojify from 'react-emojione'
 
+const LeaderboardContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+`
+
 const TxGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr 1fr 3fr 1fr;
@@ -14,10 +19,9 @@ const TxLink = styled.a`
   text-decoration: none;
 `
 
-const AmountDonated = (props) => {
-  return <div>Total amount donated: {props.amount}</div>;
+const AmountDonated = props => {
+  return <div>Total amount donated: {props.amount}</div>
 }
-
 
 export default class Leaderboard extends PureComponent {
   state = {
@@ -30,72 +34,70 @@ export default class Leaderboard extends PureComponent {
     const url = `https://api.etherscan.io/api?module=account&action=txlist&address=${address}`
     const response = await fetch(url)
     const json = await response.json()
-    return this.processTxList(json.result);
+    return this.processTxList(json.result)
   }
 
   processTxList = ethlist => {
-    let myweb3 = new Web3(web3.currentProvider);
+    let myweb3 = new Web3(web3.currentProvider)
     let filteredEthList = ethlist
       .map(obj => {
-        obj.value = new myweb3.utils.BN(obj.value); // convert string to BigNumber
-        return obj;
+        obj.value = new myweb3.utils.BN(obj.value) // convert string to BigNumber
+        return obj
       })
       .filter(obj => {
-        return obj.value.cmp(new myweb3.utils.BN(0));
+        return obj.value.cmp(new myweb3.utils.BN(0))
       }) // filter out zero-value transactions
       .reduce((acc, cur) => {
         // group by address and sum tx value
-        if (cur.isError !== "0") {
+        if (cur.isError !== '0') {
           // tx was not successful - skip it.
-          return acc;
+          return acc
         }
         if (cur.from == this.props.address) {
           // tx was outgoing - don't add it in
-          return acc;
+          return acc
         }
-        if (typeof acc[cur.from] === "undefined") {
+        if (typeof acc[cur.from] === 'undefined') {
           acc[cur.from] = {
             from: cur.from,
             value: new myweb3.utils.BN(0),
             input: cur.input,
-            hash: []
-          };
+            hash: [],
+          }
         }
-        acc[cur.from].value = cur.value.add(acc[cur.from].value);
+        acc[cur.from].value = cur.value.add(acc[cur.from].value)
         acc[cur.from].input =
-          cur.input !== "0x" && cur.input !== "0x00"
+          cur.input !== '0x' && cur.input !== '0x00'
             ? myweb3.utils.hexToAscii(cur.input)
-            : acc[cur.from].input;
-        acc[cur.from].hash.push(cur.hash);
-        return acc;
-      }, {});
+            : acc[cur.from].input
+        acc[cur.from].hash.push(cur.hash)
+        return acc
+      }, {})
     filteredEthList = Object.keys(filteredEthList)
       .map(val => filteredEthList[val])
       .sort((a, b) => {
         // sort greatest to least
-        return b.value.cmp(a.value);
+        return b.value.cmp(a.value)
       })
       .map((obj, index) => {
         // add rank
-        obj.rank = index + 1;
-        return obj;
-      });
+        obj.rank = index + 1
+        return obj
+      })
     const ethTotal = filteredEthList.reduce((acc, cur) => {
-      return acc.add(cur.value);
-    }, new myweb3.utils.BN(0));
-    filteredEthList = filteredEthList
-      .map((obj) => {
-        obj.value = parseFloat(myweb3.utils.fromWei(obj.value)).toFixed(2);
-        return obj;
-      });
+      return acc.add(cur.value)
+    }, new myweb3.utils.BN(0))
+    filteredEthList = filteredEthList.map(obj => {
+      obj.value = parseFloat(myweb3.utils.fromWei(obj.value)).toFixed(2)
+      return obj
+    })
     return this.setState({
       txs: filteredEthList,
-      totalAmount: parseFloat(myweb3.utils.fromWei(ethTotal)).toFixed(2)
-    });
-  };
+      totalAmount: parseFloat(myweb3.utils.fromWei(ethTotal)).toFixed(2),
+    })
+  }
 
   componentDidMount = async () => {
-
     this.fetchTxs(this.props.address)
   }
 
@@ -106,27 +108,34 @@ export default class Leaderboard extends PureComponent {
           <span>{tx.rank}</span>
           <span>{tx.from}</span>
           <span>{tx.value} ETH</span>
-          <span><Emojify>{tx.input}</Emojify></span>
+          <span>
+            <Emojify>{tx.input}</Emojify>
+          </span>
           <span>
             {tx.hash.map((hash, index) => (
-              <TxLink key={hash} href={`https://blockscout.com/eth/mainnet/tx/${hash}`} target="_blank">
-                [{index+1}]
-              </TxLink>))}
+              <TxLink
+                key={hash}
+                href={`https://blockscout.com/eth/mainnet/tx/${hash}`}
+                target="_blank"
+              >
+                [{index + 1}]
+              </TxLink>
+            ))}
           </span>
         </React.Fragment>
-      ));
+      ))
       return (
-        <div>
-        <AmountDonated amount={this.state.totalAmount}/>
-        <TxGrid>
-          <span>Rank</span>
-          <span>From</span>
-          <span>Value</span>
-          <span>Message</span>
-          <span>Tx</span>
-          {TxsList}
-        </TxGrid>
-      </div>
+        <LeaderboardContainer>
+          <AmountDonated amount={this.state.totalAmount} />
+          <TxGrid>
+            <span>Rank</span>
+            <span>From</span>
+            <span>Value</span>
+            <span>Message</span>
+            <span>Tx</span>
+            {TxsList}
+          </TxGrid>
+        </LeaderboardContainer>
       )
     } else {
       return <div />

@@ -24,6 +24,11 @@ const Container = styled.div`
     grid-template-columns: (auto-fit, 1fr);
   }
 `
+const LeaderboardContainer = styled.div`
+  display: grid;
+  grid-column: 1 / span 2;
+`
+
 const AddrethLink = styled.a`
   word-wrap: wrap;
   color: #03dac6;
@@ -60,7 +65,9 @@ export default class Addreth extends Component {
           {this.props.addreth}
         </AddrethLink>
         <DonationForm address={this.props.addreth} donationNetworkID={4} />
-        <Leaderboard address={this.props.addreth} />
+        <LeaderboardContainer>
+          <Leaderboard address={this.props.addreth} />
+        </LeaderboardContainer>
         {!isAddrethValid && <NotAnAddreth />}
       </Container>
     )
