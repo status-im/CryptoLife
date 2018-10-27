@@ -48,7 +48,7 @@ export class DetsyStoreService {
 			name: 'Crypto Unicorn Doll',
 			description: 'Kawaii Plush Toy Soft Unicorn Doll Appease Sleeping Pillow Kids Room Decor Toy For Children Pupil Christmas Halloween present',
 			price: 50,
-			imagePath: '/assets/images/unicorn.jpg'
+			imagePath: '/assets/images/unicorn.png'
 		});
 
 		DETSY_STORE.set('453e9847086a4993bb526a350b6ae252', {
