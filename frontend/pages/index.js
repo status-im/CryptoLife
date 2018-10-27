@@ -8,7 +8,7 @@ import parseDomain from 'domain-name-parser'
 import { Router, Link } from '../routes'
 
 import SearchBar from '../components/SearchBar'
-import Button from '../components/button'
+import Button from '../components/Button'
 
 const web3 = new Web3()
 
