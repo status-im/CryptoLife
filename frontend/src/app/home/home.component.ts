@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EtsyItem } from '../models/etsy-item';
 import { Router } from '@angular/router';
+import { DETSY_STORE, DetsyStoreService } from '../detsy-store.service';
 
 @Component({
 	selector: 'dapp-home',
@@ -10,25 +11,14 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
 	public etsyItems: EtsyItem[];
 
-	constructor(private router: Router) {
+	constructor(private router: Router,
+		private detsyService: DetsyStoreService) {
 	}
 
 	ngOnInit() {
 		this.etsyItems = [];
-		this.etsyItems.push({
-			id: 0,
-			name: 'Гривна',
-			description: 'Яката гривна',
-			price: '1 DAI',
-			imagePath: ''
-		});
-
-		this.etsyItems.push({
-			id: 1,
-			name: 'Амулет',
-			description: 'Амулетът на Купка',
-			price: '13 DAI',
-			imagePath: ''
+		DETSY_STORE.forEach((item) => {
+			this.etsyItems.push(item);
 		})
 	}
 
