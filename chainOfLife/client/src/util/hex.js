@@ -35,6 +35,11 @@ function encodeConfig(boolArray) {
   return '0x' + hex;
 }
 
+function encodeConfigBytes32Array(boolArray) {
+  const str = encodeConfig(boolArray).replace('0x', '');
+  return splitIntoSubArray(str, 64).map(bytes32 => '0x' + bytes32);
+}
+
 function splitIntoSubArray(arr, count) {
     let newArray = [];
     const numIter = Math.floor(arr.length/count);
@@ -46,4 +51,4 @@ function splitIntoSubArray(arr, count) {
     return newArray;
 }
 
-export { encodeConfig, splitIntoSubArray, getConfigHash };
+export { encodeConfig, splitIntoSubArray, getConfigHash, encodeConfigBytes32Array };

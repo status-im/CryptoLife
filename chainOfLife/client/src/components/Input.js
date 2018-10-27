@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { splitIntoSubArray, getConfigHash }  from '../util/hex';
+import { splitIntoSubArray, getConfigHash, encodeConfigBytes32Array }  from '../util/hex';
 
 class Input extends Component {
 
@@ -8,6 +8,7 @@ class Input extends Component {
     super(props);
 
     this.registerGame = this.registerGame.bind(this);
+    this.joinGame = this.joinGame.bind(this);
 
     let config = (new Array(props.size)).fill(false);
     this.state = {
@@ -23,8 +24,9 @@ class Input extends Component {
         config: newConfig
       });
     };
+    const color = this.props.gameId ? "yellow" : "blue";
     const style = {
-      backgroundColor: alive ? "blue" : "grey",
+      backgroundColor: alive ? color : "grey",
       height: 20,
       width: 20
     };
@@ -55,15 +57,21 @@ class Input extends Component {
   }
 
   async joinGame() {
-    
+    const boolConfig = this.state.config;
+    const account = (await this.props.eth.web3.eth.getAccounts())[0];
+    console.log(encodeConfigBytes32Array(boolConfig));
+    await this.props.eth.contract.methods.join(this.props.gameId, encodeConfigBytes32Array(boolConfig)).send({
+      from: account
+    });
   }
 
   render() {
-    console.log(this.props.gameId);
     return (
       <div>
         {this.renderButtonGrid()}
-        <button onClick={this.registerGame}>Host</button>
+        {this.props.gameId ? 
+          <button onClick={this.joinGame}>Join</button> :
+          <button onClick={this.registerGame}>Host</button>}
       </div>
     );
   }

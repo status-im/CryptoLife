@@ -39,7 +39,7 @@ class GameList extends Component {
     const gameLinks = this.state.games.map(game => {
       return (
         <div>
-          {game.gameId}
+          <Link to={"/join/" + game.gameId}> {game.gameId} </Link>
         </div>
       );
     });

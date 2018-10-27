@@ -38,7 +38,8 @@
     "react-native-public-ip": "^1.0.0",
     "universal-login-contracts": "file:lib/universal-login-contracts",
     "universal-login-relayer": "file:lib/universal-login-relayer",
-    "universal-login-sdk": "file:lib/universal-login-sdk"
+    "universal-login-sdk": "file:lib/universal-login-sdk",
+    "web3-eth-abi": "^1.0.0-beta.36"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
