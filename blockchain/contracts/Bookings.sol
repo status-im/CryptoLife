@@ -51,6 +51,21 @@ contract Bookings {
         return (guestDates[msg.sender].year, guestDates[msg.sender].month, guestDates[msg.sender].day);
     }
 
+    function canCheckIn() public view returns(bool) {
+        uint16 year = DateTime.getYear(now);
+        uint8 month = DateTime.getMonth(now);
+        uint8 day = DateTime.getDay(now);
+
+        if(hasGuestCheckedIn()) return false;
+        // NOTE: also return false if it's too early
+        return bookings[year][month][day].guest == msg.sender;
+    }
+
+    function canCheckOut() public view returns(bool) {
+        if(!hasGuestCheckedIn()) return false;
+        return checkedInGuest == msg.sender;
+    }
+
     function bookRoom(uint16 year, uint8 month, uint8 day) public payable {
         require(isAvailable(year, month, day), "Already reserved");
         require(msg.value == price, "Invalid amount");

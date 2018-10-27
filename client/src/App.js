@@ -11,6 +11,7 @@ import config from "./config.json"
 import LoadingView from "./views/loading"
 import MessageView from "./views/message"
 import HomeView from "./views/home"
+import RoomView from "./views/room"
 import Container from "./widgets/container"
 
 class App extends Component {
@@ -64,7 +65,7 @@ class App extends Component {
             <Container>
                 <Switch>
                     <Route path="/" exact component={HomeView} />
-                    {/* <Route path="/access" exact component={AccessView} /> */}
+                    <Route path="/room" exact component={RoomView} />
                     <Redirect to="/" />
                 </Switch>
             </Container></div>

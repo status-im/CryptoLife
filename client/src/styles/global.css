@@ -14,6 +14,9 @@ body {
 	width: 100%;
 }
 
+.margin-top {
+	margin-top: 10px;
+}
 .margin-bottom {
 	margin-bottom: 10px;
 }

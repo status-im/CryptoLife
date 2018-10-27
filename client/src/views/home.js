@@ -11,8 +11,10 @@ class HomeView extends Component {
 		this.Bookings = getBookingsInstance()
 		this.state = {
 			selectedDate: null,
-			currentBooking: null,
-			bookingLoading: false
+			myBookingDate: null,
+			bookingLoading: false,
+			canCheckIn: false,
+			canCheckOut: false
 		}
 	}
 
@@ -21,11 +23,11 @@ class HomeView extends Component {
 	}
 
 	fetchGuestBooking() {
-		this.Bookings.methods.getBooking().call({from: this.props.accounts[0]})
+		this.Bookings.methods.getBooking().call({ from: this.props.accounts[0] })
 			.then(result => {
 				if (result[0] != "0" && result[1] != "0" && result[2] != "0") {
 					this.setState({
-						currentBooking: {
+						myBookingDate: {
 							year: result[0],
 							month: result[1],
 							day: result[2]
@@ -33,12 +35,17 @@ class HomeView extends Component {
 					})
 				}
 				else {
-					this.setState({ currentBooking: null })
+					this.setState({ myBookingDate: null })
 				}
 			})
+			.then(() => this.Bookings.methods.canCheckIn().call({ from: this.props.accounts[0] }))
+			.then(result => this.setState({ canCheckIn: result }))
+			.then(() => this.Bookings.methods.canCheckOut().call({ from: this.props.accounts[0] }))
+			.then(result => this.setState({ canCheckOut: result }))
 			.catch(err => {
-				this.setState({ currentBooking: null })
+				this.setState({ myBookingDate: null })
 				message.warn("The availability status could not be checked")
+alert(err.message);
 				this.setState({ selectedDate: null })
 			})
 	}
@@ -98,13 +105,51 @@ class HomeView extends Component {
 			})
 	}
 
+	onCancelBooking() {
+		if (!this.state.myBookingDate) return
+
+		this.setState({ bookingLoading: true })
+
+		return this.Bookings.methods.cancelBooking(this.state.myBookingDate.year, this.state.myBookingDate.month, this.state.myBookingDate.day)
+			.send({ from: this.props.accounts[0] })
+			.then(() => {
+				this.setState({ bookingLoading: false })
+
+				message.success("Your reservation has been registered!")
+				this.fetchGuestBooking()
+			}).catch(err => {
+				this.setState({ bookingLoading: false })
+				message.warn("The transaction could not be completed")
+				console.error(err)
+			})
+	}
+
+	onRoomClick() {
+		this.props.history.push("/room")
+	}
+
 	renderCurrentReservation() {
+		// let canCheckIn = false
+		// let now = new Date()
+		// if (this.state.myBookingDate) {
+		// 	if (this.state.myBookingDate.year == now.getFullYear() &&
+		// 		this.state.myBookingDate.month == (now.getMonth() + 1) &&
+		// 		this.state.myBookingDate.day == now.getDate()) {
+		// 		canCheckIn = true
+		// 	}
+		// }
 		return <div>
 			<Card className="margin-bottom">
 				<p>You currently have a reservation</p>
-				<p>Arrival on {this.state.currentBooking.day}/{this.state.currentBooking.month}/{this.state.currentBooking.year}</p>
+				<p>Arrival on {this.state.myBookingDate.day}/{this.state.myBookingDate.month}/{this.state.myBookingDate.year}</p>
 			</Card>
-			<Button type="danger" className="width-100" onClick={() => this.onBookRoom()}>Cancel booking</Button>
+			{
+				this.state.canCheckIn ? <Button type="primary" className="width-100 margin-bottom" onClick={() => this.onRoomClick()}>Check In</Button> : null
+			}
+			{
+				this.state.canCheckOut ? <Button type="primary" className="width-100 margin-bottom" onClick={() => this.onRoomClick()}>Room access</Button> : null
+			}
+			<Button type="danger" className="width-100" onClick={() => this.onCancelBooking()}>Cancel booking</Button>
 		</div>
 	}
 
@@ -122,7 +167,7 @@ class HomeView extends Component {
 
 			{
 				this.state.bookingLoading ?
-					<p>Please wait... <Spin /></p> : null
+					<p className="margin-top">Please wait... <Spin /></p> : null
 			}
 		</div>
 	}
@@ -131,11 +176,11 @@ class HomeView extends Component {
 		return <div id="home">
 			<Row>
 				<Col>
-					<p id="headline">Welcome to the first distributed hotel</p>
+					<p className="margin-top">Welcome to the first distributed hotel</p>
 				</Col>
 			</Row>
 
-			{this.state.currentBooking ? this.renderCurrentReservation() : this.renderBookForm()}
+			{this.state.myBookingDate ? this.renderCurrentReservation() : this.renderBookForm()}
 		</div>
 	}
 }
