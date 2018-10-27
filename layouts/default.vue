@@ -6,7 +6,7 @@
     </v-toolbar>
     <v-content style="margin-bottom: 50px">
       <v-container>
-        <Profile v-if="$store.state.auth"/>
+        <Profile v-if="$nuxt.$route.name !== ''"/>
         <nuxt />
       </v-container>
     </v-content>
