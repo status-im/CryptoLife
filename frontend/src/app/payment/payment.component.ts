@@ -5,6 +5,7 @@ import axios, { AxiosPromise } from 'axios';
 import { environment } from './../../environments/environment';
 import * as limePayWeb from 'limepay-web/dist/lime-pay.min.js';
 import { ShopperStoreService } from '../shopper-store.service';
+import * as MarketplaceService from './../eth-services/marketplace';
 
 @Component({
 	selector: 'dapp-payment',
@@ -15,7 +16,7 @@ import { ShopperStoreService } from '../shopper-store.service';
 export class PaymentComponent implements OnInit {
 	@ViewChild(DetailsComponent) detailsComponent: DetailsComponent;
 	public activateLimePay = false;
-
+	private wallet;
 	constructor(private shopperStoreService: ShopperStoreService) {
 	}
 
@@ -24,10 +25,11 @@ export class PaymentComponent implements OnInit {
 
 	public async onPayWithLimePay() {
 		let shopperId = this.shopperStoreService.getShopperId();
-		let wallet = ethers.Wallet.createRandom();
+		this.wallet = ethers.Wallet.createRandom();
 
 		let item = this.detailsComponent.etsyItem;
-		let requestData = { itemName: item.name, price: 1, walletAddress: wallet.address, shopperId: shopperId };
+		let itemPrice = 50000000000000000000
+		let requestData = { itemName: item.name, price: itemPrice, walletAddress: this.wallet.address, shopperId: shopperId };
 
 		let result = await axios({
 			method: "POST",
@@ -67,16 +69,18 @@ export class PaymentComponent implements OnInit {
 		console.log(limeToken);
 	}
 
-	onProcessPayment() {
-		// const cardHolderInformation = {
-		// 	name: "George Spasov",
-		// 	countryCode: "bg",
-		// 	zip: "1010",
-		// 	street: "Dragan Tsankov",
-		// 	isCompany: false
-		// };
+	async onProcessPayment() {
+		const cardHolderInformation = {
+			name: "George Spasov",
+			countryCode: "bg",
+			zip: "1010",
+			street: "Dragan Tsankov",
+			isCompany: false
+		};
 
-		// let signedTransactions = await signTransactions();
-		// limePayWeb.PaymentService.processPayment(cardHolderInformation, signedTransactions);
+		let jsonWallet = await this.wallet.encrypt("123");
+
+		let signedTransactions = await MarketplaceService.buyItemWithCreditCard(JSON.parse(jsonWallet), "123");
+		limePayWeb.PaymentService.processPayment(cardHolderInformation, signedTransactions);
 	}
 }
