@@ -24,7 +24,9 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public showQrCode() {
@@ -49,7 +51,7 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
       org_name: 'Detsy',
       org_usage_policy_url: 'https://bloom.co/legal/terms',
       org_privacy_policy_url: 'https://bloom.co/legal/privacy',
-      types: ['full-name', 'email'],
+      types: ['email'],
     };
 
     const options = {
