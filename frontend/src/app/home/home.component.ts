@@ -29,6 +29,37 @@ export class HomeComponent implements OnInit {
 			description: 'Амулетът на Купка',
 			price: '13 DAI',
 			imagePath: ''
+		});
+
+		this.etsyItems.push({
+			id: 1,
+			name: 'Амулет',
+			description: 'Амулетът на Купка',
+			price: '13 DAI',
+			imagePath: ''
+		});
+
+		this.etsyItems.push({
+			id: 1,
+			name: 'Амулет',
+			description: 'Амулетът на Купка',
+			price: '13 DAI',
+			imagePath: ''
+		});
+		this.etsyItems.push({
+			id: 1,
+			name: 'Амулет',
+			description: 'Амулетът на Купка',
+			price: '13 DAI',
+			imagePath: ''
+		});
+
+		this.etsyItems.push({
+			id: 1,
+			name: 'Амулет',
+			description: 'Амулетът на Купка',
+			price: '13 DAI',
+			imagePath: ''
 		})
 	}
 
