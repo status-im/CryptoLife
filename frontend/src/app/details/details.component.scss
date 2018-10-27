@@ -15,7 +15,8 @@
   }
   .button-holder {
     float: right;
-    margin-right: 30px;
+    text-align: center;
+    width: calc(100% - 420px);
     .purchase {
       cursor: pointer;
       border-radius: 5px;

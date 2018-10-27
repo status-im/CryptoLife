@@ -4,5 +4,5 @@ export interface EtsyItem {
 	qty: number;
 	description: string;
 	imagePath: string | null;
-	price: string | null;
+	price: string | number;
 }

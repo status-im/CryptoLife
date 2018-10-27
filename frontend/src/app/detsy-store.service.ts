@@ -21,7 +21,7 @@ export class DetsyStoreService {
 			'Chain Length: 50+5cm\n' +
 			'Cabochon Diameter: 20*27mm \n' +
 			'Package Including: 1 piece necklace',
-			price: '1 DAI',
+			price: 1,
 			imagePath: '/assets/images/flag-of-venezuela.jpg'
 		});
 
@@ -38,7 +38,7 @@ export class DetsyStoreService {
 			'1 x belt\n' +
 			'1 x velvet bag\n' +
 			'Note: Light shooting and different displays may cause the color of the item in the picture a little different from the real thing. The measurement allowed error is +/- 1-3cm.',
-			price: '1 DAI',
+			price: 5,
 			imagePath: '/assets/images/leather-bracelet-argentina.jpg'
 		});
 
@@ -47,7 +47,7 @@ export class DetsyStoreService {
 			qty: 1,
 			name: 'Soft Unicorn Doll ',
 			description: 'Kawaii Plush Toy Soft Unicorn Doll Appease Sleeping Pillow Kids Room Decor Toy For Children Pupil Christmas Halloween present',
-			price: '1 DAI',
+			price: 8,
 			imagePath: '/assets/images/unicorn.jpg'
 		});
 
@@ -64,7 +64,7 @@ export class DetsyStoreService {
 			'1 x belt\n' +
 			'1 x velvet bag\n' +
 			'Note: Light shooting and different displays may cause the color of the item in the picture a little different from the real thing. The measurement allowed error is +/- 1-3cm.',
-			price: '1 DAI',
+			price: 5,
 			imagePath: '/assets/images/leather-bracelet-argentina.jpg'
 		});
 
@@ -81,7 +81,7 @@ export class DetsyStoreService {
 			'1 x belt\n' +
 			'1 x velvet bag\n' +
 			'Note: Light shooting and different displays may cause the color of the item in the picture a little different from the real thing. The measurement allowed error is +/- 1-3cm.',
-			price: '1 DAI',
+			price: 7,
 			imagePath: '/assets/images/leather-bracelet-argentina.jpg'
 		});
 
@@ -98,7 +98,7 @@ export class DetsyStoreService {
 			'1 x belt\n' +
 			'1 x velvet bag\n' +
 			'Note: Light shooting and different displays may cause the color of the item in the picture a little different from the real thing. The measurement allowed error is +/- 1-3cm.',
-			price: '1 DAI',
+			price: 9,
 			imagePath: '/assets/images/leather-bracelet-argentina.jpg'
 		});
 	}
