@@ -14,6 +14,11 @@ const TxLink = styled.a`
   text-decoration: none;
 `
 
+const AmountDonated = (props) => {
+  return <div>Total amount donated: {props.amount}</div>;
+}
+
+
 export default class Leaderboard extends PureComponent {
   state = {
     txs: [],
@@ -90,6 +95,7 @@ export default class Leaderboard extends PureComponent {
   };
 
   componentDidMount = async () => {
+
     this.fetchTxs(this.props.address)
   }
 
@@ -110,6 +116,8 @@ export default class Leaderboard extends PureComponent {
         </React.Fragment>
       ));
       return (
+        <div>
+        <AmountDonated amount={this.state.totalAmount}/>
         <TxGrid>
           <span>Rank</span>
           <span>From</span>
@@ -118,6 +126,7 @@ export default class Leaderboard extends PureComponent {
           <span>Tx</span>
           {TxsList}
         </TxGrid>
+      </div>
       )
     } else {
       return <div />
