@@ -28,7 +28,6 @@ export class BloomListenService {
     console.log('listening');
 
     this.socket.on('message', (data) => {
-      console.log(data);
       this.pushLogin(data);
     });
   }

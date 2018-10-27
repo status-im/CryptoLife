@@ -1,39 +1,49 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
 import { createRequestQRCode, removeRequestQRCode, RequestData, Action } from '@bloomprotocol/share-kit';
 import { UUID } from 'angular2-uuid';
 import { BloomListenService } from '../bloom-listen-service.service';
 import { environment } from '../../environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'dapp-bloom-button',
   templateUrl: './bloom-button.component.html',
   styleUrls: ['./bloom-button.component.scss']
 })
-export class BloomButtonComponent implements OnInit {
+export class BloomButtonComponent implements OnInit, OnDestroy {
 
   public qrShown: boolean;
   @ViewChild('qrContainer') qrContainer: ElementRef;
   @Input() itemId: string;
+
+  public subscription: Subscription;
 
   constructor(private bloomListenService: BloomListenService) { }
 
   ngOnInit() {
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   public showQrCode() {
-    const uuidToken = UUID.UUID();
-    // Todo listen to a service for `${uuidToken}${this.itemId}`
-    this.bloomListenService.subscribeToLogin({
+    // const uuidToken = UUID.UUID();
+    const uuidToken = '';
+    this.subscription = this.bloomListenService.subscribeToLogin({
       next: (data) => {
-        console.log(this);
+        if (data.qrToken !== `${uuidToken}${this.itemId}`) {
+          return;
+        }
         console.log(data);
+        this.subscription.unsubscribe();
+        // Navigate
       }
     });
     this.qrShown = true;
     const requestData: RequestData = {
       action: Action.attestation,
-      // token: `${uuidToken}${this.itemId}`, TODO use this
-      token: `${this.itemId}`,
+      token: `${uuidToken}${this.itemId}`,
       url: `${environment.backendUrl}/api/receiveData`,
       org_logo_url: 'https://cdn.freebiesupply.com/logos/thumbs/2x/status-2-logo.png',
       org_name: 'Detsy',
