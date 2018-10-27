@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components'
 
 const Button = styled.button`
   font-size: 17px;
@@ -7,7 +7,7 @@ const Button = styled.button`
   max-width: 40vw;
   background: none;
   color: white;
-  border: 2px solid #e01c6b;
+  border: none;
   box-sizing: border-box; /* Button Shadow 1 */
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
   border-radius: 30px;
@@ -40,5 +40,5 @@ const Button = styled.button`
       border-color: white;
       color: white;
     `};
-`;
-export default Button;
+`
+export default Button
