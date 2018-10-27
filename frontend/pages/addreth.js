@@ -9,6 +9,8 @@ import abiDecoder from 'abi-decoder'
 import Leaderboard from '../components/Leaderboard'
 import DonationForm from '../components/DonationForm'
 import NotAnAddreth from '../components/NotAnAddreth'
+import { Router } from '../routes'
+import Utils from '../utils'
 
 const Container = styled.div`
   max-width: 100vw;
@@ -299,6 +301,22 @@ export default class Addreth extends Component {
         // handle error
         console.log(error)
       })
+  }
+
+  async ensureEthAddress() {
+    if (this.validateENSDomain(this.props.addreth)) {
+      const domain = this.props.addreth;
+      try {
+        let address = await Utils.resolveEnsDomain(domain);
+        Router.push(`/addreth/${address}`);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
+  componentDidMount() {
+    this.ensureEthAddress();
   }
 
   render() {
