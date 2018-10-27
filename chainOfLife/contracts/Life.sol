@@ -27,25 +27,33 @@ contract Life {
         aN += uint8(prevRow >> prevCell) & 0x01;
         aN += uint8(prevRow >> cell) & 0x01;
         aN += uint8(prevRow >> nextCell) & 0x01;
-        bN += uint8(prevRow >> prevCell) & 0x02;
-        bN += uint8(prevRow >> cell) & 0x02;
-        bN += uint8(prevRow >> nextCell) & 0x02;
+        bN += (uint8(prevRow >> prevCell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(prevRow >> cell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(prevRow >> nextCell) & 0x02) == 2 ? 1 : 0;
         // same
         aN += uint8(_dish[row] >> prevCell) & 0x01;
         aN += uint8(_dish[row] >> nextCell) & 0x01;
-        bN += uint8(_dish[row] >> prevCell) & 0x02;
-        bN += uint8(_dish[row] >> nextCell) & 0x02;
+        bN += (uint8(_dish[row] >> prevCell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(_dish[row] >> nextCell) & 0x02) == 2 ? 1 : 0;
         // below
         aN += uint8(nextRow >> prevCell) & 0x01;
         aN += uint8(nextRow >> cell) & 0x01;
         aN += uint8(nextRow >> nextCell) & 0x01;
-        bN += uint8(nextRow >> prevCell) & 0x02;
-        bN += uint8(nextRow >> cell) & 0x02;
-        bN += uint8(nextRow >> nextCell) & 0x02;
+        bN += (uint8(nextRow >> prevCell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(nextRow >> cell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(nextRow >> nextCell) & 0x02) == 2 ? 1 : 0;
         if (color == 0) { // empty
           if (aN == 3) {
             if (bN == 3) {
               // random
+              prevRow = _dish[0];
+              nextRow = _dish[_dish.length / 2];
+              assembly {
+                mstore(0, prevRow)
+                mstore(0x20, nextRow)
+                prevCell := keccak256(0, 0x40)
+              }
+              _newGen[row] = _newGen[row] | bytes32((prevCell % 2 + 1) << cell);
             } else {
               _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
             }
@@ -53,6 +61,7 @@ contract Life {
             _newGen[row] = _newGen[row] | bytes32(0x02 << cell);
           }
         }
+        // difference between aliceNeighbours and bobNeighbours
         prevCell = (aN > bN) ? aN - bN : bN - aN;
         if (color == 1) { // alice  
           if (prevCell == 2 || prevCell == 3) {
