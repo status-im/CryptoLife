@@ -94,7 +94,7 @@ describe('Buy item', () => {
 
         const detsyMarketplaceWrapper = await deployer.deploy(DetsyMarketplace, {}, daiToken.address);
         detsyMarketplaceInstance = detsyMarketplaceWrapper.contract;
-
+        console.log(ipfsHash);
         await detsyMarketplaceInstance.listItem(ipfsHash, itemPrice, quantity);
         await detsyMarketplaceInstance.listItem(ipfsHashNew, itemPrice, quantity);
 

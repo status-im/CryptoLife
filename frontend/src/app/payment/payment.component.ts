@@ -22,7 +22,7 @@ export class PaymentComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	public async onLimePayProcess() {
+	public async onPayWithLimePay() {
 		let shopperId = this.shopperStoreService.getShopperId();
 		let wallet = ethers.Wallet.createRandom();
 
@@ -52,7 +52,11 @@ export class PaymentComponent implements OnInit {
 			}
 		};
 
-		limePayWeb.init(limeToken, limePayConfig).catch((err) => {
+		limePayWeb.init(limeToken, limePayConfig).then(result => {
+
+			// TODO Show payment FORM
+
+		}).catch((err) => {
 			console.log(err);
 			alert('Form initialization failed');
 			// Implement some logic
@@ -61,5 +65,18 @@ export class PaymentComponent implements OnInit {
 		});
 
 		console.log(limeToken);
+	}
+
+	onProcessPayment() {
+		// const cardHolderInformation = {
+		// 	name: "George Spasov",
+		// 	countryCode: "bg",
+		// 	zip: "1010",
+		// 	street: "Dragan Tsankov",
+		// 	isCompany: false
+		// };
+
+		// let signedTransactions = await signTransactions();
+		// limePayWeb.PaymentService.processPayment(cardHolderInformation, signedTransactions);
 	}
 }

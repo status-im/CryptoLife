@@ -1,12 +1,13 @@
-<div class="row items-holder">
+<div class="items-holder">
 	<div class="row">
-		<div class="col-xs-6 col-md-4" (click)="etsyDetails(item)" *ngFor="let item of etsyItems">
+		<div class="text-center" (click)="etsyDetails(item)" *ngFor="let item of etsyItems">
 			<div class="etsy-holder">
 				<div class="item-image" [ngStyle]="{'background-image': 'url(' + item.imagePath + ')'}">
 				</div>
 				<div class="item-info">
 					<div class="name">{{ item.name }}</div>
-					<span class="price">{{ item.price }} DAI</span>
+					<span class="price">${{ item.price }}</span>
+
 				</div>
 			</div>
 		</div>
