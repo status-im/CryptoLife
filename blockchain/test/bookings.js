@@ -43,13 +43,27 @@ contract('Bookings', function (accounts) {
 	})
 
 	it("should accept a valid booking", async function () {
-		const date = makeDateObject()
+		let date = makeDateObject()
+		await bookingsInstance.bookRoom(date.year, date.month, date.day, { value: price, from: guestAccount })
+
+		date = makeDateObject(new Date(Date.now() + 1000 * 60 * 60 * 24 * 2))
+		await bookingsInstance.bookRoom(date.year, date.month, date.day, { value: price, from: guestAccount })
+
+		date = makeDateObject(new Date(Date.now() + 1000 * 60 * 60 * 24 * 5))
 		await bookingsInstance.bookRoom(date.year, date.month, date.day, { value: price, from: guestAccount })
 	})
 
 	it("should show as unavailable when there are reservations", async function () {
-		const date = makeDateObject()
+		let date = makeDateObject()
 		let available = await bookingsInstance.isAvailable.call(date.year, date.month, date.day)
+		assert.isOk(!available)
+		
+		date = makeDateObject(new Date(Date.now() + 1000 * 60 * 60 * 24 * 2))
+		available = await bookingsInstance.isAvailable.call(date.year, date.month, date.day)
+		assert.isOk(!available)
+		
+		date = makeDateObject(new Date(Date.now() + 1000 * 60 * 60 * 24 * 5))
+		available = await bookingsInstance.isAvailable.call(date.year, date.month, date.day)
 		assert.isOk(!available)
 	})
 

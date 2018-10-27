@@ -1,12 +1,16 @@
 import React, { Component } from "react"
-import { withRouter } from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { connect } from "react-redux"
 import { isWeb3Injected, getInjectedWeb3 } from "./contracts/web3"
+import { Layout } from "antd"
+const { Header } = Layout
 
-import getBookingsInstance from "./contracts/bookings"
+import getBookingsInstance from "./contracts/bookings.js"
+import config from "./config.json"
 
 import LoadingView from "./views/loading"
 import MessageView from "./views/message"
+import HomeView from "./views/home"
 import Container from "./widgets/container"
 
 class App extends Component {
@@ -15,6 +19,7 @@ class App extends Component {
             this.Bookings = getBookingsInstance()
 
             this.checkWeb3Status()
+            this.statusInterval = setInterval(() => this.checkWeb3Status(), 5000)
         }
         else {
             this.props.dispatch({ type: "SET_UNSUPPORTED" })
@@ -22,8 +27,7 @@ class App extends Component {
     }
 
     componentWillUnmount() {
-        if (this.creationEvent) this.creationEvent.unsubscribe()
-        if (this.acceptedEvent) this.acceptedEvent.unsubscribe()
+        if (this.statusInterval) clearInterval(this.statusInterval)
     }
 
     checkWeb3Status() {
@@ -49,11 +53,21 @@ class App extends Component {
     render() {
         if (this.props.status.loading) return <Container><LoadingView /></Container>
         else if (this.props.status.unsupported) return <MessageView message="Your browser does not support Web3" />
-        else if (this.props.status.networkId != "ropsten") return <MessageView message={"Please, switch to the ropsten network"} />
+        // else if (this.props.status.networkId != config.WEB3_PROVIDER) return <MessageView message={`Please, switch to the ${config.WEB3_PROVIDER} network`} />
         else if (!this.props.status.connected) return <MessageView message="Your connection seems to be down" />
         else if (!this.props.accounts || !this.props.accounts.length) return <MessageView message="Please, unlock your wallet or create an account" />
 
-        return <p>Ready</p>
+        return <div>
+            <Header className="header">
+                <h2 className="text-center" style={{color: "white"}}>DHotel</h2>
+            </Header>
+            <Container>
+                <Switch>
+                    <Route path="/" exact component={HomeView} />
+                    {/* <Route path="/access" exact component={AccessView} /> */}
+                    <Redirect to="/" />
+                </Switch>
+            </Container></div>
     }
 }
 
