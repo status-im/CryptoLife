@@ -1,11 +1,17 @@
 'use strict';
 const express = require('express');
+const bodyParser = require('body-parser');
+const bloomService = require('./services/bloom-service');
 
-const app = express();
+var app = express();
+
+app.use(bodyParser.json());
 
 app.get('/payment', async (req, res, next) => {
     res.json("success");
 });
+
+bloomService.start(app);
 
 app.use((err, request, response, next) => {
     console.log(err);

@@ -22,8 +22,8 @@ export class BloomButtonComponent implements OnInit {
     const requestData: RequestData = {
       action: Action.attestation,
       token: this.itemId,
-      url: 'https://bloom.co/api/receiveData',
-      org_logo_url: 'https://cb253dd4.ngrok.io/favicon.ico',
+      url: 'https://9a5928b7.ngrok.io/api/receiveData',
+      org_logo_url: 'https://cdn.freebiesupply.com/logos/thumbs/2x/status-2-logo.png',
       org_name: 'Detsy',
       org_usage_policy_url: 'https://bloom.co/legal/terms',
       org_privacy_policy_url: 'https://bloom.co/legal/privacy',
