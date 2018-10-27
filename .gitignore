@@ -16,3 +16,4 @@ package-lock.json
 
 node_config.json
 .priv
+.cache
