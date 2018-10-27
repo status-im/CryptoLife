@@ -31,7 +31,7 @@ export default class P2life {
     for (let i = 0; i < half1Bufs.length; i++) {
         const buffer = [];
         // itterate over all arrays
-        for (let j = 0; j < half1Bufs[i].length; j++) {
+        for (let j = half1Bufs[i].length -1; j >= 0; j--) {
           // over all 8 bits 
           for (let k = 0; k < 8; k++) {
             buffer.push(readBit(half1Bufs[i], j, k));
@@ -43,7 +43,7 @@ export default class P2life {
     for (let i = 0; i < half2Bufs.length; i++) {
       const buffer = [];
       // itterate over all arrays
-      for (let j = 0; j < half2Bufs[i].length; j++) {
+      for (let j = half2Bufs[i].length-1; j >= 0; j--) {
         // over all 8 bits 
         for (let k = 0; k < 8; k++) {
           buffer.push((readBit(half2Bufs[i], j, k) === 1) ? 2 : 0);
@@ -74,34 +74,33 @@ export default class P2life {
           let bit = this.dish[row + (this.dish.length / 2) * half][ints * 8 + bits];
           setBit(intBuffer, ints, bits, (bit === 2) ? 1 : bit);
         }
-        buf.writeUInt8(intBuffer[ints], ints);
+        buf.writeUInt8(intBuffer[ints], buf.length - ints - 1);
       }
       rsp.push(`0x${buf.toString('hex')}`);
     }
     return rsp;
   }
 
-  countNeighours(col, row) {
-    const rowAbove = (row = 0) ? this.dish.length - 1 : row - 1;
-    const rowBelow = (row = this.dish.length - 1) ? 0 : row + 1;
-    const rows = [rowAbove,row,rowBelow];
-    const colPrev = (col = 0) ? this.dish.length - 1 : col - 1;
-    const colNext = (col = this.dish.length - 1) ? 0 : col + 1;
+  countNeighbours(row, col) {
+    const rowAbove = (row == 0) ? this.dish.length - 1 : row - 1;
+    const rowBelow = (row == this.dish.length - 1) ? 0 : row + 1;
+    const rows = [rowAbove, row, rowBelow];
+    const colPrev = (col == 0) ? this.dish.length - 1 : col - 1;
+    const colNext = (col == this.dish.length - 1) ? 0 : col + 1;
     const cols = [colPrev, col, colNext];
 
-    let numA;
-    let numB;
+    let numA = 0;
+    let numB = 0;
 
-    for (let i; i < 3; i++) {
-      for (let j; j < 3; j++) {
-        if (i != 2 && j != 2) {
+    for (let i = 0; i < rows.length; i++) {
+      for (let j = 0; j < cols.length; j++) {
+        if (!(i == 1 && j == 1)) {
           const cell = this.dish[rows[i]][cols[j]];
           if(cell == 1) numA ++;
           if(cell == 2) numB ++;
         }
       }
     }
+    return [numA, numB];
   }
-
-  return [numA, numB];
 }
