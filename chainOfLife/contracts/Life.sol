@@ -2,9 +2,11 @@ pragma solidity ^0.4.24;
 
 contract Life {
     
-    function life(bytes32[] _dish) public pure returns (bytes32[] _newGen) {
+    function life(bytes32[] _dish) public pure returns (bytes32[] _newGen, uint256[] _ret) {
+        _ret = new uint256[](32);
+        uint pos = 0;
         //_newGen = new bytes32[](_dish.length);
-        _newGen = new bytes32[](8);
+        _newGen = new bytes32[](4);
         bool isAlive;
         uint256 neighbors;
         //for (uint8 row = 0; row < _dish.length; row++) { //each row
@@ -12,9 +14,14 @@ contract Life {
           //for (uint8 cell = 0; row < _dish.length; cell++) { //each cell
           for (uint8 cell = 1; cell < 8; cell++) { //each cell
             isAlive = checkAlive(_dish[row], cell);
+            
             neighbors = getNeighbours(_dish[row - 1], _dish[row], _dish[row + 1], cell);
-            if (!isAlive && neighbors == 3) {
+            _ret[pos] = neighbors;
+            pos++;
+            if (!isAlive) {
+              if (neighbors == 3) {
                 _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
+              }
             } else {
                 if (neighbors > 1 && neighbors < 4) {
                   _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
@@ -24,11 +31,7 @@ contract Life {
         }
     }
     
-    function testOverflow(uint8 _pos) public pure returns (uint256 ret) {
-        ret = _pos -1;
-    }
-    
-    function checkAlive(bytes32 _same, uint256 _cell) public pure returns (bool isAlive) {
+    function checkAlive(bytes32 _same, uint256 _cell) internal pure returns (bool isAlive) {
         isAlive = (uint8(_same >> _cell) & 0x01 == 1);
     }
     
@@ -38,7 +41,7 @@ contract Life {
       }
     }
     
-    function getNeighbours(bytes32 _above, bytes32 _same,bytes32 _below, uint8 _pos) public pure returns (uint256 ancestors) {
+    function getNeighbours(bytes32 _above, bytes32 _same,bytes32 _below, uint8 _pos) internal pure returns (uint256 ancestors) {
         ancestors += countAncestors(_above, _pos - 1, 3);
         ancestors += countAncestors(_same, _pos - 1, 1);
         ancestors += countAncestors(_same, _pos + 1, 1);
