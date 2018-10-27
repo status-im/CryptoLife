@@ -3,16 +3,18 @@
        :documentation "Sends greeting to the chat"}
  
  views/preview
- [text "Preview"]
+ (let [{{{name :name} :params} :content} properties]
+  [text "Hello ${name}"])
 
  views/short-preview
- [text "Short Preview"]
+ (let [{{{name :name} :params} :content} properties]
+  [text "Hello ${name}"])
 
  hooks/commands.greet
  {:description   "Sends greeting"
   :scope         #{:personal-chats}
   :preview       [preview]
   :short-preview [short-preview]
-  :parameters    [{:id          :id
+  :parameters    [{:id          :name
                    :type        :text
-                   :placeholder "id"}]}}
+                   :placeholder "name"}]}}
