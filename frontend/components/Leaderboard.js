@@ -28,21 +28,25 @@ export default class Leaderboard extends PureComponent {
   }
 
   render() {
-    const TxsList = this.state.txs.map(tx => (
-      <TxWrapper key={tx.hash}>
-        <TxLink
-          href={`https://blockscout.com/eth/mainnet/tx/${tx.hash}`}
-          target="_blank"
-        >
-          {tx.hash}
-        </TxLink>
-      </TxWrapper>
-    ))
-    return (
-      <TxWrapper>
-        <TxWrapper>Txs:</TxWrapper>
-        {TxsList}
-      </TxWrapper>
-    )
+    if (this.state.txs) {
+      const TxsList = this.state.txs.map(tx => (
+        <TxWrapper key={tx.hash}>
+          <TxLink
+            href={`https://blockscout.com/eth/mainnet/tx/${tx.hash}`}
+            target="_blank"
+          >
+            {tx.hash}
+          </TxLink>
+        </TxWrapper>
+      ))
+      return (
+        <TxWrapper>
+          <TxWrapper>Txs:</TxWrapper>
+          {TxsList}
+        </TxWrapper>
+      )
+    } else {
+      return <div />
+    }
   }
 }
