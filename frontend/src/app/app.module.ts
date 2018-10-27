@@ -16,6 +16,7 @@ import { BloomButtonComponent } from './bloom-button/bloom-button.component';
 import { BloomListenService } from './bloom-listen-service.service';
 import { WaitingModeService } from './waiting-mode.service';
 import { WaitingComponent } from './waiting/waiting.component';
+import { ShopperStoreService } from './shopper-store.service';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { WaitingComponent } from './waiting/waiting.component';
 		InlineSVGModule,
 		HttpClientModule
 	],
-	providers: [InlineSVGService, DetsyStoreService, BloomListenService, WaitingModeService],
+	providers: [InlineSVGService, DetsyStoreService, BloomListenService, WaitingModeService, ShopperStoreService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
