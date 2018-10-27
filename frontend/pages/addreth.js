@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Web3 from 'web3'
 import parse from 'domain-name-parser'
 
+import Leaderboard from '../components/Leaderboard'
 import NotAnAddreth from '../components/NotAnAddreth'
 
 export default class Addreth extends Component {
@@ -24,6 +25,7 @@ export default class Addreth extends Component {
     return (
       <div>
         {this.props.addreth}
+        <Leaderboard address={this.props.addreth}/>
         {!isAddrethValid &&
           <NotAnAddreth/>
         }
