@@ -24,7 +24,7 @@ export default class Addreth extends Component {
     const isAddrethValid = this.validateAddreth(this.props.addreth);
     return (
       <div>
-        {this.props.addreth}
+        <a href={`https://blockscout.com/eth/mainnet/address/${this.props.addreth}`}>{this.props.addreth}</a>
         <Leaderboard address={this.props.addreth}/>
         {!isAddrethValid &&
           <NotAnAddreth/>
