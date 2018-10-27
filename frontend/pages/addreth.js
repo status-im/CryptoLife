@@ -4,6 +4,7 @@ import parse from 'domain-name-parser'
 import styled from 'styled-components'
 
 import Leaderboard from '../components/Leaderboard'
+import Leaderboard from '../components/DonationForm'
 import NotAnAddreth from '../components/NotAnAddreth'
 
 const Container = styled.div`
@@ -58,6 +59,7 @@ export default class Addreth extends Component {
           {this.props.addreth}
         </AddrethLink>
         <Leaderboard address={this.props.addreth} />
+        <DonationForm address={this.props.addreth} donationNetworkID={4}/>
         {!isAddrethValid && <NotAnAddreth />}
       </Container>
     )
