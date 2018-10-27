@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.5.2",
     "chart.js": "^2.7.3",
+    "chartjs-plugin-annotation": "^0.5.7",
     "nuxt": "^2.1.0",
     "vue-chartjs": "^3.4.0",
     "vuetify": "^1.2.6",

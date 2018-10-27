@@ -14,12 +14,11 @@
                 </v-toolbar>
 
                 <v-list subheader>
-                    <v-subheader>New Meetups</v-subheader>
                     <v-list-tile
-                            v-for="item in items"
-                            :key="item.title"
+                            v-for="meetup in meetups"
+                            :key="meetup.title"
                             avatar
-                            @click="$router.push(`meetups/${item.address}`)"
+                            @click="$router.push(`meetups/${meetup.address}`)"
                     >
                         <v-list-tile-avatar>
                             <!--<img :src="item.avatar">-->
@@ -27,56 +26,14 @@
                         </v-list-tile-avatar>
 
                         <v-list-tile-content>
-                            <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                            <v-list-tile-title v-html="meetup.title"></v-list-tile-title>
                         </v-list-tile-content>
 
                         <v-list-tile-action>
-                            <v-icon :color="item.active ? 'orange' : 'grey'">{{item.active ? 'star' : 'star_border'}}
-                            </v-icon>
+                            <v-icon color="orange">navigate_next</v-icon>
                         </v-list-tile-action>
                     </v-list-tile>
                 </v-list>
-
-                <v-divider></v-divider>
-
-                <v-list subheader>
-                    <v-subheader>My Meetups</v-subheader>
-
-                    <v-list-tile
-                            v-for="item in items2"
-                            :key="item.title"
-                            avatar
-                            @click="$router.push(`meetups/${item.address}`)"
-                    >
-                        <v-list-tile-avatar>
-                            <!--<img :src="item.avatar">-->
-                            <v-icon>people</v-icon>
-                        </v-list-tile-avatar>
-
-                        <v-list-tile-content>
-                            <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                        </v-list-tile-content>
-
-                        <v-list-tile-action>
-                            <v-icon :color="item.active ? 'orange' : 'grey'">create</v-icon>
-                        </v-list-tile-action>
-                    </v-list-tile>
-                </v-list>
-                <!--<v-card-text style="margin-top: 20px; height: 40px; position: relative">-->
-                <!--<v-fab-transition>-->
-                <!--<v-btn-->
-                <!--color="orange"-->
-                <!--dark-->
-                <!--absolute-->
-                <!--top-->
-                <!--right-->
-                <!--fab-->
-                <!--@click="$router.push(`create`)"-->
-                <!--&gt;-->
-                <!--<v-icon>add</v-icon>-->
-                <!--</v-btn>-->
-                <!--</v-fab-transition>-->
-                <!--</v-card-text>-->
             </v-card>
         </v-flex>
     </v-layout>
@@ -119,7 +76,7 @@
     },
     data () {
       return {
-        items: [
+        meetups: [
           {
             active: true,
             title: 'Cape Town Ethereum Meetup',
@@ -133,14 +90,6 @@
             address: '0x2'
           },
           {title: 'Status Hackathon', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', address: '0x3'}
-        ],
-        items2: [
-          {
-            creator: true,
-            title: 'Status Hackathon',
-            avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-            address: '0x4'
-          }
         ]
       }
     }

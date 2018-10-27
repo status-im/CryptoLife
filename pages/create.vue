@@ -9,8 +9,16 @@
                     <v-text-field
                             v-model="title"
                             :rules="titleRules"
-                            :counter="10"
-                            label="Meetup title"
+                            :counter="20"
+                            label="Title"
+                            required
+                    ></v-text-field>
+                    <v-text-field
+                            label="Date"
+                            required
+                    ></v-text-field>
+                    <v-text-field
+                            label="Location"
                             required
                     ></v-text-field>
                     <v-text-field
@@ -19,7 +27,15 @@
                             label="Participants Limit"
                             required
                     ></v-text-field>
+                    <v-text-field
+                            label="Stake"
+                            required
+                    ></v-text-field>
                 </v-form>
+
+                <v-card-actions>
+                    <v-btn color="orange">{{`Submit`}}</v-btn>
+                </v-card-actions>
             </v-card>
         </v-flex>
     </v-layout>
@@ -30,13 +46,13 @@
       valid: false,
       title: '',
       titleRules: [
-        v => !!v || 'Name is required',
-        v => v.length <= 10 || 'Name must be less than 10 characters'
+        v => !!v || 'Title is required',
+        v => v.length <= 10 || 'Title must be less than 20 characters'
       ],
       participant: '',
       participantRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid'
+        v => !!v || 'Participant limit is required',
+        v => v.valueOf() <= 50 || 'Partipant limit must be less than 50'
       ]
     })
   }

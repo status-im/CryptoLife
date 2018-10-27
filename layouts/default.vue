@@ -43,6 +43,7 @@
         items: [
           { icon: 'mood', title: 'Welcome', to: '/' },
           { icon: 'group', title: 'Meetups', to: '/meetups' },
+          { icon: 'money', title: 'Bondage', to: '/bonding' },
           { icon: 'add', title: 'New Meetup', to: '/create' }
         ],
         title: 'Protea v2.0'

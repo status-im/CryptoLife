@@ -2,7 +2,19 @@ import Web3 from 'web3'
 
 export const state = () => ({
   auth: true,
-  web3Instance: null
+  web3Instance: null,
+  userAddress: '0xA...',
+  userXP: 2000,
+  userBalance: 3000,
+  meetupTitle: 'Status Cryptolife',
+  meetupAddress: '0x2B...',
+  meetupDate: '28-10-18',
+  meetupLocation: 'Prague',
+  meetupStake: 200,
+  meetupParticipants: 3,
+  meetupParticipantLimit: 10,
+  curveParamA: 0,
+  curveParamB: 1.00016
 })
 
 export const getters = {
@@ -15,20 +27,20 @@ export const getters = {
           // Request account access if needed
           await window.ethereum.enable()
           // Acccounts now exposed
-          window.web3.eth.sendTransaction({/* ... */})
+          // window.web3.eth.sendTransaction({/* ... */})
         } catch (error) {
           // User denied account access...
         }
       }
       // Legacy dapp browsers...
       else if (window.web3) {
-        window.web3 = new Web3(window.web3.currentProvider);
+        window.web3 = new Web3(window.web3.currentProvider)
         // Acccounts always exposed
-        window.web3.eth.sendTransaction({/* ... */});
+        // window.web3.eth.sendTransaction({/* ... */})
       }
       // Non-dapp browsers...
       else {
-        console.log('Non-Ethereum browser detected.');
+        console.log('Non-Ethereum browser detected.')
       }
     })
 

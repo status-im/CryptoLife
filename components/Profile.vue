@@ -3,7 +3,7 @@
         <v-flex xs12 sm6 offset-sm3>
             <v-card>
                 <v-img
-                        src="cat.jpeg"
+                        src="/cat.jpeg"
                         height="200px"
                 >
                     <v-layout
@@ -17,7 +17,7 @@
                         <v-spacer></v-spacer>
 
                         <v-card-title class="white--text pl-5 pt-5">
-                            <div class="display-1">User name</div>
+                            <div class="display-1">Mr. Sniffles</div>
                         </v-card-title>
                     </v-layout>
                 </v-img>
@@ -34,7 +34,7 @@
 
                                     <v-list-tile-content>
                                         <v-list-tile-title>Address</v-list-tile-title>
-                                        <v-list-tile-sub-title>0x01B</v-list-tile-sub-title>
+                                        <v-list-tile-sub-title>{{$store.state.userAddress}}</v-list-tile-sub-title>
                                     </v-list-tile-content>
                                 </v-list-tile>
 
@@ -45,7 +45,7 @@
 
                                     <v-list-tile-content>
                                         <v-list-tile-title>XP</v-list-tile-title>
-                                        <v-list-tile-sub-title>2000</v-list-tile-sub-title>
+                                        <v-list-tile-sub-title>{{$store.state.userXP}}</v-list-tile-sub-title>
                                     </v-list-tile-content>
                                 </v-list-tile>
 
@@ -55,8 +55,8 @@
                                     </v-list-tile-action>
 
                                     <v-list-tile-content>
-                                        <v-list-tile-title>Balance</v-list-tile-title>
-                                        <v-list-tile-sub-title>1000</v-list-tile-sub-title>
+                                        <v-list-tile-title>Token Balance</v-list-tile-title>
+                                        <v-list-tile-sub-title>{{$store.state.userBalance}}</v-list-tile-sub-title>
                                     </v-list-tile-content>
                                 </v-list-tile>
 
