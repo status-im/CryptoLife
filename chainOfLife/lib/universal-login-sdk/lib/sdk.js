@@ -171,7 +171,7 @@ class EthereumIdentitySDK {
   subscribe(eventType, identityAddress, callback) {
     if (['AuthorisationsChanged'].includes(eventType)) {
       return this.relayerObserver.subscribe(eventType, identityAddress, callback);
-    } else if (['KeyAdded', 'KeyRemoved'].includes(eventType)) {
+    } else if (['KeyAdded', 'KeyRemoved', 'Executed', 'ExecutionFailed'].includes(eventType)) {
       return this.blockchainObserver.subscribe(eventType, identityAddress, callback);
     }
     throw `Unknown event type: ${eventType}`;
