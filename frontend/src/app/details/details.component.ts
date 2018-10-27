@@ -11,6 +11,7 @@ import { EtsyItem } from '../models/etsy-item';
 })
 export class DetailsComponent implements OnInit {
 	@Input() showPurchaseButton = true;
+	@Input() showBloomAuthentication = true;
 	public itemId;
 	public etsyItem: EtsyItem;
 

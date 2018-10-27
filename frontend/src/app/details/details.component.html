@@ -1,6 +1,5 @@
-<dapp-bloom-button [itemId]='itemId'></dapp-bloom-button>
-<div class="row details-holder">
-	<div class="col-xs-12">
+<div class="details-holder">
+	<div>
 		<div class="item-name">
 			{{ etsyItem.name }}
 		</div>
@@ -9,8 +8,8 @@
 		</div>
 		<div class="item-image" [ngStyle]="{'background-image': 'url(' + etsyItem.imagePath + ')'}">
 		</div>
-		<div class="button-holder" *ngIf="showPurchaseButton">
-			<button class="purchase" type="button" (click)="goToPayment()">Purchase</button>
+		<div class="button-holder" *ngIf="showBloomAuthentication">
+			<dapp-bloom-button [itemId]='itemId'></dapp-bloom-button>
 		</div>
 	</div>
 </div>

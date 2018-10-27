@@ -4,7 +4,7 @@ import * as ethers from 'ethers';
 import axios, { AxiosPromise } from 'axios';
 import { environment } from './../../environments/environment';
 import * as limePayWeb from 'limepay-web/dist/lime-pay.min.js';
-console.log(limePayWeb);
+
 @Component({
 	selector: 'dapp-payment',
 	templateUrl: './payment.component.html',
