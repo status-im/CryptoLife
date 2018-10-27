@@ -26,10 +26,6 @@ const AmountDonated = props => {
   return <div>Total amount collected: {props.amount}</div>
 }
 
-const AmountDonated = props => {
-  return <div>Total amount collected: {props.amount}</div>
-}
-
 export default class Leaderboard extends PureComponent {
   state = {
     txs: [],
@@ -122,7 +118,7 @@ export default class Leaderboard extends PureComponent {
             {tx.hash.map((hash, index) => (
               <TxLink
                 key={hash}
-                href={`https://blockscout.com/eth/mainnet/tx/${hash}`}
+                href={`https://blockscout.com/eth/ropsten/tx/${hash}`}
                 target="_blank"
               >
                 [{index + 1}]
