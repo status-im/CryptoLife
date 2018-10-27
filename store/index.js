@@ -14,7 +14,10 @@ export const state = () => ({
   meetupParticipants: 3,
   meetupParticipantLimit: 10,
   curveParamA: 0,
-  curveParamB: 1.00016
+  curveParamB: 1.00016,
+  showSnackbar: false,
+  snackbarMessage: 'Snacky bar',
+  communityTokenAddress: '0xae5eb03b0f89ff229735b1390ff49a79ec234feb'
 })
 
 export const getters = {
@@ -73,5 +76,14 @@ export const getters = {
 export const mutations = {
   SET_AUTH (state, auth) {
     state.auth = auth
+  },
+  openSnackbar(state) {
+    state.showSnackbar = true
+  },
+  hideSnackbar(state) {
+    state.showSnackbar = false
+  },
+  setSnackbarMessage(state, message) {
+    state.snackbarMessage = message
   }
 }

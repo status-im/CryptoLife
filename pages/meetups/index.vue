@@ -45,6 +45,8 @@
   export default {
     mounted () {
       console.log('Configuring Web3/Ethereum')
+      this.$store.commit('setSnackbarMessage', 'Configuring Web3/Ethereum')
+      this.$store.commit('openSnackbar')
       window.addEventListener('load', async () => {
         if (window.ethereum) {
           window.web3 = new Web3(window.ethereum)
@@ -52,20 +54,27 @@
             // Request account access if needed
             await window.ethereum.enable()
             // Acccounts now exposed
+            this.$store.commit('setSnackbarMessage', 'Accounts exposed')
+            this.$store.commit('openSnackbar')
             window.web3.eth.sendTransaction({/* ... */})
           } catch (error) {
             // User denied account access...
+            this.$store.commit('setSnackbarMessage', 'User denied account access')
+            this.$store.commit('openSnackbar')
           }
         }
         // Legacy dapp browsers...
         else if (window.web3) {
           window.web3 = new Web3(window.web3.currentProvider)
+          this.$store.commit('setSnackbarMessage', 'Legacy dapp browser')
+          this.$store.commit('openSnackbar')
           // Acccounts always exposed
           window.web3.eth.sendTransaction({/* ... */})
         }
         // Non-dapp browsers...
         else {
-          console.log('Non-Ethereum browser detected.')
+          this.$store.commit('setSnackbarMessage', 'Non-Ethereum browser detected')
+          this.$store.commit('openSnackbar')
         }
       })
     },

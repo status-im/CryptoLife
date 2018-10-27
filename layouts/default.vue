@@ -31,11 +31,13 @@
               <v-icon>{{item.icon}}</v-icon>
           </v-btn>
       </v-bottom-nav>
+      <snackbar></snackbar>
   </v-app>
 </template>
 
 <script>
   import Profile from '../components/Profile'
+  import Snackbar from '../components/Snackbar'
   export default {
     data () {
       return {
@@ -50,7 +52,8 @@
       }
     },
     components: {
-      Profile
+      Profile,
+      Snackbar
     }
   }
 </script>
