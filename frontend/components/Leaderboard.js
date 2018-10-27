@@ -47,7 +47,6 @@ export default class Leaderboard extends PureComponent {
   }
 
   processTxList = ethlist => {
-   //debugger;
     let myweb3 = new Web3(web3.currentProvider)
     let filteredEthList = ethlist
       .map(obj => {
