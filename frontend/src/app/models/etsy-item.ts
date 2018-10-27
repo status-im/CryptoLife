@@ -1,6 +1,7 @@
 export interface EtsyItem {
-	id: number;
+	id: string | number;
 	name: string;
+	qty: number;
 	description: string;
 	imagePath: string | null;
 	price: string | null;

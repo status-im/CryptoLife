@@ -1,11 +1,9 @@
 .items-holder {
   padding: 50px;
+  margin-right: 0;
   .etsy-holder {
     cursor: pointer;
-    width: calc(50% - 30px);
-    max-width: 400px;
     height: 280px;
-    margin-right: 30px;
     margin-bottom: 30px;
     box-shadow: 0 2px 10px #777;
     border-radius: 5px;
@@ -16,13 +14,18 @@
     .item-image {
       height: 200px;
       background-color: dimgrey;
+      background-size: 100% 100%;
+      border-bottom: 1px solid #f5f5f5;
     }
     .item-info {
       padding: 30px 15px;
       .name {
-        margin-right: 15px;
+        display: inline-block;
         padding-right: 15px;
-        border-right: 1px solid;
+        width: 65%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .description {
         color: gray;

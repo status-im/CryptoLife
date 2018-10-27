@@ -1,0 +1,58 @@
+.payment {
+  margin: 0;
+  .details-holder {
+    .description {
+      display: inline-block;
+      width: 50%;
+    }
+    .item-image {
+      display: inline-block;
+      width: 45%;
+      height: 230px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
+  .payment-type-holder {
+    min-height: 400px;
+    padding: 30px;
+    text-align: center;
+    border-right: 1px solid #f5f5f5;
+    &.dai {
+      .dai-logo {
+        height: 120px;
+        margin-top: 30px;
+        margin-bottom: 35px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("../../assets/images/dai.png");
+      }
+    }
+    &.lime-pay {
+      .lime-logo {
+        height: 120px;
+        margin-top: 30px;
+        margin-bottom: 35px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("../../assets/images/lime-pay.png");
+      }
+    }
+    button {
+      cursor: pointer;
+      margin-top: 30px;
+      border-radius: 5px;
+      min-width: 200px;
+      background-color: #90C048;
+      color: white;
+      border: 1px solid #90C048;
+      &:hover {
+        background-color: darken(#90C048, 10%);
+      }
+    }
+  }
+}
+
