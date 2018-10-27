@@ -5,7 +5,7 @@ import Emojify from 'react-emojione'
 
 const TxGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 3fr 3fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr 3fr 1fr;
   grid-gap: 1rem;
 `
 
@@ -29,7 +29,6 @@ export default class Leaderboard extends PureComponent {
   }
 
   processTxList = ethlist => {
-    // let totalAmount = new myweb3.utils.BN(0);
     let myweb3 = new Web3(web3.currentProvider);
     let filteredEthList = ethlist
       .map(obj => {
@@ -79,7 +78,11 @@ export default class Leaderboard extends PureComponent {
     const ethTotal = filteredEthList.reduce((acc, cur) => {
       return acc.add(cur.value);
     }, new myweb3.utils.BN(0));
-    console.log(filteredEthList);
+    filteredEthList = filteredEthList
+      .map((obj) => {
+        obj.value = parseFloat(myweb3.utils.fromWei(obj.value)).toFixed(2);
+        return obj;
+      });
     return this.setState({
       txs: filteredEthList,
       totalAmount: parseFloat(myweb3.utils.fromWei(ethTotal)).toFixed(2)
@@ -96,6 +99,7 @@ export default class Leaderboard extends PureComponent {
         <React.Fragment key={tx.from}>
           <span>{tx.rank}</span>
           <span>{tx.from}</span>
+          <span>{tx.value} ETH</span>
           <span><Emojify>{tx.input}</Emojify></span>
           <span>
             {tx.hash.map((hash, index) => (
@@ -109,6 +113,7 @@ export default class Leaderboard extends PureComponent {
         <TxGrid>
           <span>Rank</span>
           <span>From</span>
+          <span>Value</span>
           <span>Message</span>
           <span>Tx</span>
           {TxsList}
