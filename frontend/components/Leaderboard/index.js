@@ -20,7 +20,9 @@ export default class Leaderboard extends PureComponent {
   render() {
     const TxsList = this.state.txs.map((tx) =>
       <div key={tx.hash}>
-        <a href={`https://blockscout.com/eth/mainnet/tx/${tx.hash}`}>{tx.hash}</a>
+        <a href={`https://blockscout.com/eth/mainnet/tx/${tx.hash}`} target="_blank">
+          {tx.hash}
+        </a>
       </div>
     )
     return (
