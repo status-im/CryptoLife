@@ -1,0 +1,19 @@
+{meta {:name          "Contract Invoker"
+       :description   "Invokes contract on test network"
+       :documentation "Invokes contract on test network"}
+ 
+ views/preview
+ [view 
+  [text "Contract control panel"]
+  [button {}
+   "Call"]]
+  
+ views/short-preview
+ [text "Contract control panel"]
+ 
+ hooks/commands.getControl
+ {:description   "Opens contract control panel"
+  :scope         #{:personal-chats}
+  :preview       [preview]
+  :short-preview [short-preview]
+  :parameters    []}}
