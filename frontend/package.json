@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "@bloomprotocol/share-kit": "^2.0.1",
     "core-js": "^2.4.1",
     "ethers": "^4.0.7",
     "ng-inline-svg": "^8.1.0",

@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { HttpClientModule } from '@angular/common/http';
 import { InlineSVGService } from 'ng-inline-svg/lib/inline-svg.service';
+import { BloomButtonComponent } from './bloom-button/bloom-button.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { InlineSVGService } from 'ng-inline-svg/lib/inline-svg.service';
 		AppComponent,
 		DetailsComponent,
 		HeaderComponent,
-		HomeComponent
+		HomeComponent,
+		BloomButtonComponent
 	],
 	imports: [
 		BrowserModule,
