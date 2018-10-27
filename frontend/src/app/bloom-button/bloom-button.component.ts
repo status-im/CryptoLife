@@ -62,8 +62,8 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 		};
 
 		const options = {
-			size: 256,
-			fgColor: '#001AF5'
+			size: 350,
+			fgColor: '#6067f1'
 		};
 
 		const requestQRCodeId = createRequestQRCode(requestData, this.qrContainer.nativeElement, options);
