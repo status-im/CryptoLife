@@ -1,0 +1,31 @@
+.details-holder {
+  margin: 0;
+  .item-name {
+    padding: 30px 30px 0;
+    font-weight: bold;
+  }
+  .description {
+    padding: 30px;
+  }
+  .item-image {
+    display: inline-block;
+    width: 60%;
+    height: 600px;
+    background-size: cover;
+  }
+  .button-holder {
+    float: right;
+    margin-right: 30px;
+    .purchase {
+      cursor: pointer;
+      border-radius: 5px;
+      min-width: 200px;
+      background-color: #fd9729;
+      color: white;
+      border: 1px solid #fd9729;
+      &:hover {
+        background-color: darken(#fd9729, 10%);
+      }
+    }
+  }
+}

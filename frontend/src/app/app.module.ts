@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { HttpClientModule } from '@angular/common/http';
 import { InlineSVGService } from 'ng-inline-svg/lib/inline-svg.service';
+import { DetsyStoreService } from './detsy-store.service';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { InlineSVGService } from 'ng-inline-svg/lib/inline-svg.service';
 		InlineSVGModule,
 		HttpClientModule
 	],
-	providers: [InlineSVGService],
+	providers: [InlineSVGService, DetsyStoreService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -14,13 +14,17 @@
     .item-image {
       height: 200px;
       background-color: dimgrey;
+      background-size: cover;
     }
     .item-info {
       padding: 30px 15px;
       .name {
-        margin-right: 15px;
+        display: inline-block;
         padding-right: 15px;
-        border-right: 1px solid;
+        width: 65%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .description {
         color: gray;

@@ -1,3 +1,15 @@
-<p>
-  details works!
-</p>
+<div class="row details-holder">
+	<div class="col-xs-12">
+		<div class="item-name">
+			{{ etsyItem.name }}
+		</div>
+		<div class="description">
+			{{ etsyItem.description }}
+		</div>
+		<div class="item-image" [ngStyle]="{'background-image': 'url(' + etsyItem.imagePath + ')'}">
+		</div>
+		<div class="button-holder">
+			<button class="purchase" type="button">Purchase</button>
+		</div>
+	</div>
+</div>
