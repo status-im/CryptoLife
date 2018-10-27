@@ -1,5 +1,5 @@
-var SimpleStorage = artifacts.require("./SimpleStorage.sol");
+var Salaries = artifacts.require("./Salaries.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage);
+	deployer.deploy(Salaries);
 };
