@@ -1,3 +1,5 @@
+import getWeb3 from './getWeb3';
+
 const binToHex = {
   '0000' : '0',
   '0001' : '1',
@@ -17,4 +19,31 @@ const binToHex = {
   '1111' : 'f'
 }
 
-export default binToHex;
+function getConfigHash(boolArray) {
+  return getWeb3().utils.soliditySha3(encodeConfig(boolArray));
+}
+
+function encodeConfig(boolArray) {
+  let bin = boolArray.reduce((acc, curr) => {
+      return acc + (curr ? '1' : '0');
+    }, "");
+  let hex = splitIntoSubArray(bin, 4).map(bin => {
+    return binToHex[bin];
+  }).reduce((acc, curr) => {
+    return acc + curr;
+  }, "");
+  return '0x' + hex;
+}
+
+function splitIntoSubArray(arr, count) {
+    let newArray = [];
+    const numIter = Math.floor(arr.length/count);
+    let offset = 0;
+    for (var i = 0; i < numIter; i++) {
+      newArray.push(arr.slice(offset, offset + count));
+      offset += count;
+    }
+    return newArray;
+}
+
+export { encodeConfig, splitIntoSubArray, getConfigHash };

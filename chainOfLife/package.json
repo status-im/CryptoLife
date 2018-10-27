@@ -36,7 +36,7 @@
     "react-dom": "^16.4.1",
     "react-native-public-ip": "^1.0.0",
     "universal-login-contracts": "file:lib/universal-login-contracts",
-    "universal-login-relayer": "file:lib/universal-login-contrelayerracts",
+    "universal-login-relayer": "file:lib/universal-login-relayer",
     "universal-login-sdk": "file:lib/universal-login-sdk"
   },
   "devDependencies": {

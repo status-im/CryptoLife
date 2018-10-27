@@ -1,30 +1,18 @@
 import React, { Component } from 'react';
 
-import binToHex from '../util/hex';
+import { splitIntoSubArray, getConfigHash }  from '../util/hex';
 
 class Input extends Component {
 
   constructor(props) {
     super(props);
 
-    let config = new Array(props.size);
-    config.fill(false);
+    this.registerGame = this.registerGame.bind(this);
 
+    let config = (new Array(props.size)).fill(false);
     this.state = {
       config: config
     };
-  }
-
-  encodeConfig() {
-    let bin = this.state.config.reduce((acc, curr) => {
-        return acc + (curr ? '1' : '0');
-      }, "");
-    let hex = this.splitIntoSubArray(bin, 4).map(bin => {
-      return binToHex[bin];
-    }).reduce((acc, curr) => {
-      return acc + curr;
-    }, "");
-    return '0x' + hex;
   }
 
   renderButton(alive, i) {
@@ -45,24 +33,11 @@ class Input extends Component {
     );
   }
 
-  splitIntoSubArray(arr, count) {
-    let newArray = [];
-    const numIter = Math.floor(arr.length/count);
-    let offset = 0;
-    for (var i = 0; i < numIter; i++) {
-      newArray.push(arr.slice(offset, offset + count));
-      offset += count;
-    }
-    return newArray;
-  }
-
   renderButtonGrid() {
-
     let buttonArray = this.state.config.map((alive, i) => {
       return this.renderButton(alive, i);
     });
-
-    return this.splitIntoSubArray(buttonArray, 64).map(row => {
+    return splitIntoSubArray(buttonArray, 64).map(row => {
       return (
         <div>
          {row}
@@ -71,11 +46,24 @@ class Input extends Component {
     });
   }
 
+  async registerGame() {
+    const boolConfig = this.state.config;
+    const account = (await this.props.eth.web3.eth.getAccounts())[0];
+    await this.props.eth.contract.methods.register(getConfigHash(boolConfig)).send({
+      from: account
+    });
+  }
+
+  async joinGame() {
+    
+  }
+
   render() {
-    console.log(this.encodeConfig(this.state.config));
+    console.log(this.props.gameId);
     return (
       <div>
         {this.renderButtonGrid()}
+        <button onClick={this.registerGame}>Host</button>
       </div>
     );
   }
