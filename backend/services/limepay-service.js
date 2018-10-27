@@ -14,7 +14,7 @@ const GAS_LIMIT = "4700000";
 const TOTAL_GAS_REQUIRED = ethers.utils.bigNumberify("230000");
 
 const DAI_TOKEN = "0xe5ffE51Cdc233702fD09810B467293161f83562b";
-const DETSY_ADDRESS = "0xe5ffE51Cdc233702fD09810B467293161f83562b";
+const DETSY_ADDRESS = "0x13bDc9708a3680c4Ae2C220a945e3C5f30e06c36";
 
 const GAS_STATION_URL = "https://ethgasstation.info/json/ethgasAPI.json";
 

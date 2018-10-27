@@ -2,7 +2,11 @@
 yarn-error.log
 /.vscode
 */node_modules
+*/package.lock
+*/yarn.lock
 /node_modules
+/package.lock
+/yarn.lock
 sdk/*
 .DS_Store
 dapp/build/

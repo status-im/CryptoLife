@@ -1,5 +1,5 @@
 let mongoose = require("mongoose");
-let DB_CONNECTION = "mongodb://localhost:27017/detsy";
+let DB_CONNECTION = "mongodb://limepaytest1:cc8-YBc-KEJ-GCR@ds143593.mlab.com:43593/detsy";
 
 class DBConfig {
 

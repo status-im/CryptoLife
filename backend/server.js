@@ -21,18 +21,19 @@ let io = require('socket.io')(http);
 /**
  *  {shopperId, walletAddress, itemName, price} 
  */
-app.get('/api/payment', async (req, res, next) => {
+app.post('/api/payment', async (req, res, next) => {
     try {
         let bodyData = req.body;
         let shopperData = await Shopper.findById(bodyData.shopperId);
 
         // Hack for same emails
-        let shopperEmail = shopperData.email + (new Date().getTime());
+        let shopperEmail = (new Date().getTime()) + shopperData.email;
         let limePayShopper = await LimePayService.createShopper(shopperData.firstName, shopperData.lastName, shopperEmail, req.body.walletAddress);
 
         let token = await LimePayService.createPayment(limePayShopper._id, bodyData.itemName, bodyData.price);
         res.json(token);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 });

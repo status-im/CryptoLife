@@ -1,6 +1,6 @@
 .content {
-  // min-height: calc(100% + 400px);
-  min-height: 100%;
+  height: calc(100% + 350px);
+  min-height: 1100px;
   margin: 0 auto -360px;
 }
 
@@ -10,7 +10,7 @@
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center bottom;
-  // background-image: url("../assets/images/prague.png");
+  background-image: url("../assets/images/prague.png");
 }
 
 .billboard {
