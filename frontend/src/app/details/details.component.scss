@@ -9,14 +9,15 @@
   }
   .item-image {
     display: inline-block;
-    width: 400px;
+    width: 460px;
     height: 400px;
-    background-size: cover;
+    margin-left: 30px;
+    background-size: 100% 100%;
   }
   .button-holder {
     float: right;
     text-align: center;
-    width: calc(100% - 420px);
+    width: calc(100% - 500px);
     .purchase {
       cursor: pointer;
       border-radius: 5px;

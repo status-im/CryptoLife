@@ -2,8 +2,8 @@
     <title>Bloom</title>
     <desc>Bloom Logo</desc>
     <defs></defs>
-    <g id="Full-Logo" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd">
-        <g id="Logo" transform="translate(-43.000000, -24.000000)" fill="currentColor">
+    <g id="Full-Logo" stroke="none" stroke-width="1" fill="#6067f1" fill-rule="evenodd">
+        <g id="Logo" transform="translate(-43.000000, -24.000000)" fill="#6067f1">
             <g id="Leaf" transform="translate(260.000000, -27.000000)">
                 <path d="M194.415739,215.192523 C194.258317,268.684765
                   150.797287,312 97.2080838,312 C43.6188804,312
@@ -85,6 +85,6 @@
             L1847.30845,363.73251 C1847.30845,324.677641 1868.76448,311.475995
             1891.87098,311.475995 C1913.87716,311.475995 1933.68273,328.528121
             1934.23288,360.982167 L1934.23288,499.599451 L2010.70438,499.599451
-            L2010.70438,363.73251 C2010.70438,326.327846 2030.50995,311.475995 2054.71675,311.475995 Z" id="Bloom" fill="currentColor"></path>
+            L2010.70438,363.73251 C2010.70438,326.327846 2030.50995,311.475995 2054.71675,311.475995 Z" id="Bloom" fill="#6067f1"></path>
     </g>
 </svg>

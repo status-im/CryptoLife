@@ -1,4 +1,15 @@
 .bloom-btn {
   cursor: pointer;
   color: #6067f1;
+  background: none;
+  border: none;
+  .bloom-logo {
+    height: 40px;
+    width: 200px;
+    color: #6067f1;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../assets/images/bloom.svg");
+  }
 }
