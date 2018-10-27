@@ -10,7 +10,8 @@ app.use(bodyParser.json());
 
 app.get('/api/payment', async (req, res, next) => {
     try {
-        let token = await LimePayService.createPayment("5bd445a3474600056cb35e07", "chorap", "1", "1");
+        let shopper = await LimePayService.createShopper("George", "Spasov", "test@test.com", "0x78ef4f3e6a88ca21ac0524a44570cf141a165094");
+        let token = await LimePayService.createPayment(shopper._id, "chorap", "1", "1");
         res.json(token);
     } catch (error) {
         next(error);
