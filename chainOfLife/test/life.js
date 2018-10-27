@@ -10,15 +10,15 @@ const should = chai
 contract('Life', (accounts) => {
   let life;
   const z = '0x0000000000000000000000000000000000000000000000000000000000000000';
-  const initField = [z, '0x0000000000000000000000000000000000000000000000000000000000000070', z,
+  const initField = [z, '0x0000000000000000000000000000000000000000000000000000000000000015', z,
                         z, z, z, z, z, 
                         z, z, z, z, z, z, z, z, 
                         z, z, z, z, z, z, z, z, 
                         z, z, z, z, z, z, z, z, ];
 
-  const expectedField = ['0x0000000000000000000000000000000000000000000000000000000000000020',
-                        '0x0000000000000000000000000000000000000000000000000000000000000020',
-                        '0x0000000000000000000000000000000000000000000000000000000000000020',
+  const expectedField = ['0x0000000000000000000000000000000000000000000000000000000000000004',
+                        '0x0000000000000000000000000000000000000000000000000000000000000004',
+                        '0x0000000000000000000000000000000000000000000000000000000000000004',
                         z, z, z, z, z, 
                         z, z, z, z, z, z, z, z, 
                         z, z, z, z, z, z, z, z, 
@@ -30,9 +30,10 @@ contract('Life', (accounts) => {
   });
 
   it('should oscilate', async () => {
-    const resultField = await life.life(initField).should.be.fulfilled;
-    console.log(resultField);
-    assert.deepEqual(resultField, expectedField);
+    const state = await life.life(initField).should.be.fulfilled;
+    assert(state[0] !== initField[0]);
+    const resultField = await life.life(state).should.be.fulfilled;
+    assert.deepEqual(resultField, initField);
     
   });
 });
