@@ -44,8 +44,8 @@
       return {
         drawer: false,
         items: [
-          { icon: 'apps', title: 'Welcome', to: '/' },
-          { icon: 'apps', title: 'Bonding', to: '/bonding' }
+          { icon: 'mood', title: 'Welcome', to: '/' },
+          { icon: 'group', title: 'Meetups', to: '/meetups' }
         ],
         title: 'Protea v2.0'
       }
