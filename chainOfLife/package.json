@@ -20,12 +20,12 @@
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "ethereumjs-utils": "^5.2.5",
     "components": "^0.1.0",
     "date-fns": "^1.29.0",
     "detect-browser": "^3.0.1",
     "dotenv": "^6.1.0",
     "ethereum-waffle": "^0.2.3",
+    "ethereumjs-utils": "^5.2.5",
     "ethers": "^3.0.27",
     "fbemitter": "^2.1.1",
     "iplocation": "^5.0.1",
@@ -37,8 +37,9 @@
     "react-dom": "^16.4.1",
     "react-native-public-ip": "^1.0.0",
     "universal-login-contracts": "file:lib/universal-login-contracts",
-    "universal-login-relayer": "file:lib/universal-login-contrelayerracts",
-    "universal-login-sdk": "file:lib/universal-login-sdk"
+    "universal-login-relayer": "file:lib/universal-login-relayer",
+    "universal-login-sdk": "file:lib/universal-login-sdk",
+    "web3-eth-abi": "^1.0.0-beta.36"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

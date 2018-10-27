@@ -5,6 +5,9 @@ import EthereumIdentitySDK from 'universal-login-sdk';
 import {providers, Wallet, Contract} from 'ethers';
 import getLabel from '../utils';
 import Clicker from '../../build/Clicker';
+import ChainOfLifeController from '../chainoflife-controller';
+const web3Abi = require('web3-eth-abi')
+
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +22,7 @@ class App extends Component {
       Clicker.interface,
       this.provider
     );
+
   }
 
   async update(event) {
@@ -32,24 +36,50 @@ class App extends Component {
   }
 
   async onTransferClick() {
-    console.log('onTransferClick', message)
-    const message = {
-      to: this.clickerContractAddress,
-      from: this.identityAddress,
-      value: 0,
-      data: this.clickerContract.interface.functions.press().data,
-      gasToken: this.tokenContractAddress,
-      gasPrice: 110000000000000,
-      gasLimit: 1000000
 
-    };
-    console.log('onTransferClick message=', message)
-    const r = await this.sdk.execute(this.identityAddress, message, this.privateKey);
-    console.log('receipt', r)
+    this.chainoflifeController = new ChainOfLifeController({
+      identityAddress: this.identityAddress,
+      privateKey: this.privateKey
+    });
+
+    await this.chainoflifeController.register('0x00')
+    console.log('registered!')
+    
+    // const abi = this.clickerContract.interface.abi.find(n => n.name == 'setPress');
+    // const params = [12345]
+
+    // const message = {
+    //   to: this.clickerContractAddress,
+    //   from: this.identityAddress,
+    //   value: 0,
+    //   // data: this.clickerContract.interface.functions.press().data,
+    //   data: web3Abi.encodeFunctionCall(abi, params),
+    //   gasToken: this.tokenContractAddress,
+    //   gasPrice: 110000000000000,
+    //   gasLimit: 1000000
+
+    // };
+    // console.log('this.clickerContract.interface', this.clickerContract.interface.abi.find(n => n.name == 'setPress'))
+    // console.log('this.clickerContract.interface.functions.press()', this.clickerContract.interface.functions.press())
+    // console.log('this.clickerContract.interface.functions.press().data', this.clickerContract.interface.functions.press().data)
+    // console.log('this.clickerContract.interface.functions.setPress(uint256)', this.clickerContract.interface.functions['setPress(uint256)'])
+    // console.log('this.clickerContract.interface.functions.setPress(uint256).data', this.clickerContract.interface.functions['setPress(uint256)'].data)
+    // console.log('onTransferClick message=', message)
+    // const r = await this.sdk.execute(this.identityAddress, message, this.privateKey);
+    // console.log('receipt', r)
+
+    // this.subscription = this.sdk.subscribe('Executed', this.identityAddress, (event) => {
+    //   console.log('EXECUTED', event)
+    // });
+
+    // this.sdk.blockchainObserver.subscribe('Executed', this.identityAddress, (event) => {
+    //   console.log('EXECUTED!', event)
+    // });
+    // this.sdk.blockchainObserver.start()
   }
 
   async onNextClick() {
-    const name = `${this.state.value}.mylogin.eth`;
+    const name = `${this.state.value}.chainoflife.eth`;
     const identityAddress = await this.sdk.identityExist(name);
     this.identityAddress = identityAddress;
     if (identityAddress) {
@@ -57,7 +87,7 @@ class App extends Component {
       this.privateKey = privateKey;
       // this.state.view == 'transfer';
       const {address} = new Wallet(privateKey);
-      this.subscription = this.sdk.subscribe('KeyAdded', identityAddress, (event) => {
+      this.subscription = this.sdk.subscribe('KeyAdded', identityAddress, async (event) => {
         if (event.address === address) {
           this.setState({view: 'transfer'})
         };

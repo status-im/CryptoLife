@@ -61,7 +61,7 @@ contract('ChainOfLife', (accounts) => {
   //console.log("gameId: " + gameId);
 
   before(async() => {
-  	game = await ChainOfLife.new();
+  	game = await ChainOfLife.new(1);
   });
 
   it('alice should be able to register a new game', async () => {
@@ -86,6 +86,14 @@ contract('ChainOfLife', (accounts) => {
     assert.equal(rsp[3],1);
   });
 
+  it("bob should not be able to submit solution", async () => {
+    const isWinner = true;
+    await game.resolve(gameId, aliceField, isWinner, {from: bob}).should.be.rejectedWith('revert');
+
+  	const rsp = await game.games(gameId);
+  	assert.equal(rsp[3], 1);
+  });
+
   it("alice should be able to submit solution", async () => {
     const isWinner = true;
     const tx = await game.resolve(gameId, aliceField, isWinner, {from: alice}).should.be.fulfilled;
@@ -96,11 +104,96 @@ contract('ChainOfLife', (accounts) => {
   	assert.equal(rsp[3], 2);
   });
 
-  it("anyone should be able to finalize game after timeout", async () => {
-  	assert(false);
-  });
+  describe('Finilizing game', () => {
+    describe('Before timeout', () => {
+      beforeEach(async() => {
+        game = await ChainOfLife.new(100);
+        await game.register(gameId, {from: alice}).should.be.fulfilled;
+      })
+      it("should prevent finalization before resolution and before timeout", async () => {
+        await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
 
-  it("should prevent finalization before timeout", async () => {
-  	assert(false);
-  });
+        await game.finalize(gameId,{from: alice}).should.be.rejectedWith('revert');
+        await game.finalize(gameId,{from: bob}).should.be.rejectedWith('revert');
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[3], 1);
+      });
+      it("should prevent finalization after resolution before timeout", async () => {
+        await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
+        await game.resolve(gameId, aliceField, true, {from: alice}).should.be.fulfilled;
+
+        await game.finalize(gameId,{from: alice}).should.be.rejectedWith('revert');
+        await game.finalize(gameId,{from: bob}).should.be.rejectedWith('revert');
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[3], 2);
+      });
+      it("should allow finalization  by Alice before Bob joined, cancelling the game", async () => {
+        const tx = await game.finalize(gameId,{from: alice}).should.be.fulfilled;
+        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[0], 0);
+      });
+      it("should not allow finalization by Bob before Bob joined, cancelling the game", async () => {
+        await game.finalize(gameId,{from: bob}).should.be.rejectedWith('revert');
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[3], 0);
+        assert.equal(rsp[0], alice);
+      });
+    })
+    describe('After timeout', () => {
+      beforeEach(async() => {
+        game = await ChainOfLife.new(0);
+        await game.register(gameId, {from: alice}).should.be.fulfilled;
+      })
+      it("should allow Alice finalization afte timeout", async () => {
+        await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
+        await game.resolve(gameId, aliceField, true, {from: alice}).should.be.fulfilled;
+
+        const tx = await game.finalize(gameId,{from: alice}).should.be.fulfilled;
+        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        assert.equal(parseInt(tx.receipt.logs[0].topics[2]), parseInt(alice));
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[0], 0);
+      });
+      it("should allow Bob finalization before after timeout", async () => {
+        await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
+        await game.resolve(gameId, aliceField, true, {from: alice}).should.be.fulfilled;
+
+        const tx = await game.finalize(gameId,{from: bob}).should.be.fulfilled;
+        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        assert.equal(parseInt(tx.receipt.logs[0].topics[2]), parseInt(alice));
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[0], 0);
+      });
+      it("should prevent finalization anyone else", async () => {
+        await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
+        await game.resolve(gameId, aliceField, true, {from: alice}).should.be.fulfilled;
+
+        await game.finalize(gameId,{from: accounts[2]}).should.be.rejectedWith('revert');
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[3], 2);
+      });
+      it("should allow Bob finalization before resolution but after timeout", async () => {
+        await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
+
+        const tx = await game.finalize(gameId,{from: bob}).should.be.fulfilled;
+        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        assert.equal(parseInt(tx.receipt.logs[0].topics[2]), parseInt(bob));
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[0], 0);
+      });
+      it("should allow finalization  by Alice before Bob joined, cancelling the game", async () => {
+        const tx = await game.finalize(gameId,{from: alice}).should.be.fulfilled;
+        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[0], 0);
+      });
+      it("should not allow finalization by Bob before Bob joined, cancelling the game", async () => {
+        await game.finalize(gameId,{from: bob}).should.be.rejectedWith('revert');
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[3], 0);
+        assert.equal(rsp[0], alice);
+      });
+    })
+  })
 });

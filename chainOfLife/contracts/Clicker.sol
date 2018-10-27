@@ -16,4 +16,9 @@ contract Clicker {
         emit ButtonPress(msg.sender, now, now - lastPressed);
         lastPressed = now;
     }
+
+    function setPress(uint256 _time) public {
+        emit ButtonPress(msg.sender, _time, _time);
+        lastPressed = _time;
+    }
 }
