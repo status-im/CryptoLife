@@ -25,6 +25,7 @@ export class BloomButtonComponent implements OnInit {
     // Todo listen to a service for `${uuidToken}${this.itemId}`
     this.bloomListenService.subscribeToLogin({
       next: (data) => {
+        console.log(this);
         console.log(data);
       }
     });

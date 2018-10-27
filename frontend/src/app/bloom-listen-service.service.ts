@@ -25,9 +25,10 @@ export class BloomListenService {
   public startListening(): any {
     this.socket = io(environment.backendUrl);
 
-    console.log(this.socket);
+    console.log('listening');
 
     this.socket.on('message', (data) => {
+      console.log(data);
       this.pushLogin(data);
     });
   }

@@ -1,4 +1,5 @@
-const start = (app) => {
+const start = (app, io) => {
+
 	app.post('/api/receiveData', async (req, res, next) => {
 		try {
 			if (typeof req.body.bloom_id !== 'number') {
@@ -22,13 +23,26 @@ const start = (app) => {
 
 			// Recover address of wallet that signed the payload
 			const qrToken = (req.body.token).trim()
-			const bloomData = req.body.data
+			const bloomData = req.body.data;
 
+			const personData = {};
+
+			for (let data of bloomData) {
+				if (data.target.type == 'email') {
+					personData.email = data.target.data;
+				}
+
+				if (data.target.type == 'full-name') {
+					personData.fullName = data.target.data;
+				}
+			}
 
 			const data = {
 				qrToken,
-				parsedData
+				personData
 			}
+
+			io.emit('message', data);
 
 			return res.status(200).json({
 				success: true,
