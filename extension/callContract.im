@@ -2,10 +2,14 @@
        :description   "Invokes contract on test network"
        :documentation "Invokes contract on test network"}
  
+ events/call-contract
+ (let [{message :message} properties]
+   [alert {:value message}])
+ 
  views/preview
  [view 
   [text "Contract control panel"]
-  [button {:on-click [alert {:value "Alert!!!"}]}
+  [button {:on-click [call-contract {:message "message"}]}             
    "Call"]]
 
  views/short-preview
