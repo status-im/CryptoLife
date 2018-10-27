@@ -17,6 +17,9 @@ export const getters = {
         try {
           // Request full provider if needed
           await window.ethereum.enable()
+          window.web3.eth.getAccounts().then(accounts => {
+            window.web3.eth.defaultAccount = accounts[0]
+          })
           // Full provider exposed
           return state.web3Instance ? state.web3Instance : null
         } catch (error) {
