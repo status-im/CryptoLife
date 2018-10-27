@@ -32,13 +32,18 @@ class LimePayService {
         let itemData = { name: itemName, price: itemPrice };
         let data = buildRequestData(shopperID, itemData, tokenAmount, gasPrice);
 
-        let result = await axios({
-            method: "POST",
-            url: PAYMENT_URL,
-            headers: buildHeaders(),
-            data: data
-        });
-        return result.headers["x-lime-token"];
+        try {
+            let result = await axios({
+                method: "POST",
+                url: PAYMENT_URL,
+                headers: buildHeaders(),
+                data: data
+            });
+            return result.headers["x-lime-token"];
+        } catch (error) {
+            console.log(`An error occured while creating payment.Details:\n ${JSON.stringify(error.response.data)}`);
+            throw error;
+        }
     }
 
 }

@@ -8,17 +8,13 @@ var app = express();
 
 app.use(bodyParser.json());
 
-app.get('/payment', async (req, res, next) => {
+app.get('/api/payment', async (req, res, next) => {
     try {
         let token = await LimePayService.createPayment("5bd445a3474600056cb35e07", "chorap", "1", "1");
         res.json(token);
     } catch (error) {
-        if (error.response && error.response.data) {
-            console.log(`Could not create payment. Details:\n${JSON.stringify(error.response.data)}`);
-        }
         next(error);
     }
-
 });
 
 bloomService.start(app);
