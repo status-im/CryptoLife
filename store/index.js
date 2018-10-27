@@ -77,13 +77,13 @@ export const mutations = {
   SET_AUTH (state, auth) {
     state.auth = auth
   },
-  openSnackbar(state) {
+  openSnackbar (state) {
     state.showSnackbar = true
   },
-  hideSnackbar(state) {
+  hideSnackbar (state) {
     state.showSnackbar = false
   },
-  setSnackbarMessage(state, message) {
+  setSnackbarMessage (state, message) {
     state.snackbarMessage = message
   }
 }

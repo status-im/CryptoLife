@@ -9,6 +9,7 @@
         <Profile v-if="$nuxt.$route.name !== ''"/>
         <nuxt />
       </v-container>
+        <Snackbar></Snackbar>
     </v-content>
       <v-bottom-nav
               :active.sync="bottomNav"
@@ -31,7 +32,6 @@
               <v-icon>{{item.icon}}</v-icon>
           </v-btn>
       </v-bottom-nav>
-      <snackbar></snackbar>
   </v-app>
 </template>
 
