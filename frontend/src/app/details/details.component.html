@@ -8,8 +8,8 @@
 		</div>
 		<div class="item-image" [ngStyle]="{'background-image': 'url(' + etsyItem.imagePath + ')'}">
 		</div>
-		<div class="button-holder">
-			<button class="purchase" type="button">Purchase</button>
+		<div class="button-holder" *ngIf="showPurchaseButton">
+			<button class="purchase" type="button" (click)="goToPayment()">Purchase</button>
 		</div>
 	</div>
 </div>

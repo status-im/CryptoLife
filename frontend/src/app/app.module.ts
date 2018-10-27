@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DetailsComponent } from './details/details.component';
-import { AppRoutingModule } from './contract_interfaces/app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { HttpClientModule } from '@angular/common/http';
 import { InlineSVGService } from 'ng-inline-svg/lib/inline-svg.service';
 import { DetsyStoreService } from './detsy-store.service';
+import { AppRoutingModule } from './app-routing.module';
+import { PaymentComponent } from './payment/payment.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DetsyStoreService } from './detsy-store.service';
 		AppComponent,
 		DetailsComponent,
 		HeaderComponent,
-		HomeComponent
+		HomeComponent,
+		PaymentComponent
 	],
 	imports: [
 		BrowserModule,
