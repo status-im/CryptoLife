@@ -31,8 +31,8 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 	}
 
 	public showQrCode() {
-		// const uuidToken = UUID.UUID();
-		const uuidToken = '';
+		const uuidToken = UUID.UUID().split('-').join('');
+		console.log(uuidToken);
 		this.subscription = this.bloomListenService.subscribeToLogin({
 			next: (data) => {
 				if (data.qrToken !== `${uuidToken}${this.itemId}`) {
