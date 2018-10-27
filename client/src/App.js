@@ -33,16 +33,16 @@ class App extends Component {
                 return this.props.dispatch({ type: "SET_DISCONNECTED" })
             }
 
-            return web3.eth.net.getNetworkType().then(id => {
-                this.props.dispatch({ type: "SET_NETWORK_ID", networkId: id })
+            return web3.eth.net.getNetworkType()
+        }).then(id => {
+            this.props.dispatch({ type: "SET_NETWORK_ID", networkId: id })
 
-                return web3.eth.getAccounts().then(accounts => {
-                    if (accounts.length != this.props.accounts.length || accounts[0] != this.props.accounts[0]) {
-                        this.props.dispatch({ type: "SET", accounts })
-                    }
-                    this.props.dispatch({ type: "SET_CONNECTED" })
-                })
-            })
+            return web3.eth.getAccounts()
+        }).then(accounts => {
+            if (accounts.length != this.props.accounts.length || accounts[0] != this.props.accounts[0]) {
+                this.props.dispatch({ type: "SET", accounts })
+            }
+            this.props.dispatch({ type: "SET_CONNECTED" })
         })
     }
 

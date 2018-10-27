@@ -75,25 +75,27 @@ class RoomView extends Component {
 	}
 
 	onOpen() {
-
+		alert("Sound goes here")
 	}
 
 	renderCheckIn() {
 		return <div>
 			<Card>
-				You are able to check in
+				You may check in now
 			</Card>
 			<Button type="primary" className="width-100 margin-top" onClick={() => this.onCheckIn()}>Check in</Button>
+			<Button className="width-100 margin-top" onClick={() => this.props.history.goBack()}>Go back</Button>
 		</div>
 	}
 
 	renderAccessCheckout() {
 		return <div>
 			<Card>
-				You currently the guest of the room
+				You are checked in to the room
 			</Card>
 			<Button type="primary" className="width-100 margin-top" onClick={() => this.onOpen()}>Unlock the door</Button>
 			<Button type="danger" className="width-100 margin-top" onClick={() => this.onCheckOut()}>Check Out</Button>
+			<Button className="width-100 margin-top" onClick={() => this.props.history.goBack()}>Go back</Button>
 		</div>
 	}
 

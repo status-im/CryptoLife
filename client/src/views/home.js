@@ -128,15 +128,6 @@ alert(err.message);
 	}
 
 	renderCurrentReservation() {
-		// let canCheckIn = false
-		// let now = new Date()
-		// if (this.state.myBookingDate) {
-		// 	if (this.state.myBookingDate.year == now.getFullYear() &&
-		// 		this.state.myBookingDate.month == (now.getMonth() + 1) &&
-		// 		this.state.myBookingDate.day == now.getDate()) {
-		// 		canCheckIn = true
-		// 	}
-		// }
 		return <div>
 			<Card className="margin-bottom">
 				<p>You currently have a reservation</p>

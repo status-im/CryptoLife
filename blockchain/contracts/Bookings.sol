@@ -121,7 +121,7 @@ contract Bookings {
         emit CheckedIn(msg.sender);
     }
 
-    function checkOut(/*uint spentAmount, bytes32 signedSettlement*/) public payable {
+    function checkOut() public payable {
         uint16 year = DateTime.getYear(now);
         uint8 month = DateTime.getMonth(now);
         uint8 day = DateTime.getDay(now);
@@ -152,6 +152,14 @@ contract Bookings {
         else {
             revert();
         }
+
+        bookings[year][month][day].guest = 0x0;
+        bookings[year][month][day].checkInFrom = 0;
+        bookings[year][month][day].checkOutUntil = 0;
+
+        guestDates[msg.sender].year = 0;
+        guestDates[msg.sender].month = 0;
+        guestDates[msg.sender].day = 0;
 
         emit CheckedOut(msg.sender);
     }
