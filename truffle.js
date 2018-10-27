@@ -12,6 +12,12 @@
  *   },
  */
 
+// npm install truffle-hdwallet-provider@0.0.3
+const HDWalletProvider = require("truffle-hdwallet-provider");
+
+// https://ethereum.stackexchange.com/questions/44349/truffle-infura-on-mainnet-nonce-too-low-error
+const NonceTrackerSubprovider = require("web3-provider-engine/subproviders/nonce-tracker");
+
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
   // to customize your Truffle configuration!
