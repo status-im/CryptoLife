@@ -11,10 +11,10 @@ const API_KEY = LIME_PAY_CONFIG.API_KEY;
 const API_SECRET = LIME_PAY_CONFIG.SECRET;
 
 const GAS_LIMIT = "4700000";
-const TOTAL_GAS_REQUIRED = ethers.utils.bigNumberify("60000000000000000"); // TODO Required gas for approve + buy
+const TOTAL_GAS_REQUIRED = ethers.utils.bigNumberify("230000");
 
 const DAI_TOKEN = "0xe5ffE51Cdc233702fD09810B467293161f83562b";
-const DETSY_ADDRESS = "0xe5ffE51Cdc233702fD09810B467293161f83562b";  // TODO Contract from Kris
+const DETSY_ADDRESS = "0xe5ffE51Cdc233702fD09810B467293161f83562b";
 
 const GAS_STATION_URL = "https://ethgasstation.info/json/ethgasAPI.json";
 
@@ -67,7 +67,7 @@ let buildRequestData = function (shopperID, item, gasPrice) {
 
     data.items = [{ description: item.name, lineAmount: item.price, quantity: 1 }];
 
-    let weiAmount = TOTAL_GAS_REQUIRED.mul(gasPrice).toString(); // TODO 
+    let weiAmount = TOTAL_GAS_REQUIRED.mul(gasPrice).toString();
     data.fundTxData = { tokenAmount: item.price, weiAmount }; // TODO item.price? what about the commission
 
     data.genericTransactions = [];
