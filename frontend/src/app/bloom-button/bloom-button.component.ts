@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { createRequestQRCode, removeRequestQRCode, RequestData, Action } from '@bloomprotocol/share-kit';
+import { UUID } from 'angular2-uuid';
+import { BloomListenService } from '../bloom-listen-service.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'dapp-bloom-button',
@@ -12,17 +15,25 @@ export class BloomButtonComponent implements OnInit {
   @ViewChild('qrContainer') qrContainer: ElementRef;
   @Input() itemId: string;
 
-  constructor() { }
+  constructor(private bloomListenService: BloomListenService) { }
 
   ngOnInit() {
   }
 
   public showQrCode() {
+    const uuidToken = UUID.UUID();
+    // Todo listen to a service for `${uuidToken}${this.itemId}`
+    this.bloomListenService.subscribeToLogin({
+      next: (data) => {
+        console.log(data);
+      }
+    });
     this.qrShown = true;
     const requestData: RequestData = {
       action: Action.attestation,
-      token: this.itemId,
-      url: 'https://9a5928b7.ngrok.io/api/receiveData',
+      // token: `${uuidToken}${this.itemId}`, TODO use this
+      token: `${this.itemId}`,
+      url: `${environment.backendUrl}/api/receiveData`,
       org_logo_url: 'https://cdn.freebiesupply.com/logos/thumbs/2x/status-2-logo.png',
       org_name: 'Detsy',
       org_usage_policy_url: 'https://bloom.co/legal/terms',

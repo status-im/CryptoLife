@@ -22,7 +22,9 @@ const start = (app) => {
 
 			// Recover address of wallet that signed the payload
 			const qrToken = (req.body.token).trim()
-			const parsedData = req.body.data
+			const bloomData = req.body.data
+
+
 			const data = {
 				qrToken,
 				parsedData

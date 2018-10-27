@@ -11,6 +11,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { HttpClientModule } from '@angular/common/http';
 import { InlineSVGService } from 'ng-inline-svg/lib/inline-svg.service';
 import { BloomButtonComponent } from './bloom-button/bloom-button.component';
+import { BloomListenService } from './bloom-listen-service.service';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { BloomButtonComponent } from './bloom-button/bloom-button.component';
 		InlineSVGModule,
 		HttpClientModule
 	],
-	providers: [InlineSVGService],
+	providers: [InlineSVGService, BloomListenService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

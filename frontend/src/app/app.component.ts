@@ -1,6 +1,6 @@
+import { BloomListenService } from './bloom-listen-service.service';
 declare let require: any;
-declare var web3: any;
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as ethers from 'ethers';
 const Billboard = require('./contract_interfaces/Billboard.json');
 
@@ -9,7 +9,7 @@ const Billboard = require('./contract_interfaces/Billboard.json');
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   public billboardContent: string = null;
   public address: string;
@@ -26,12 +26,16 @@ export class AppComponent {
   public encryptPassword: string;
 
 
-  constructor() {
+  constructor(private bloomListenService: BloomListenService) {
     this.infuraProvider = new ethers.providers.InfuraProvider('rinkeby', this.infuraApiKey);
     this.infuraProvider.on('block', blockNumber => {
       this.currentBlock = blockNumber;
     });
     this.deployedContract = new ethers.Contract(this.contractAddress, Billboard.abi, this.infuraProvider);
+  }
+
+  ngOnInit() {
+    this.bloomListenService.startListening();
   }
 
   public async getCurrentBlock() {
