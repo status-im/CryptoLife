@@ -22,8 +22,12 @@ contract Bookings {
 
     constructor(address _hotelAccount, uint _price, uint _deposit) public {
         hotelAccount = _hotelAccount;
-        price = _price;
-        deposit = _deposit;
+        
+        if(_price > 0) price = _price;
+        else price = 0.3 ether;
+
+        if(_deposit > 0) deposit = _deposit;
+        else deposit = 0.3 ether;
     }
 
     function isAvailable(uint16 year, uint8 month, uint8 day) public view returns(bool) {

@@ -22,12 +22,25 @@ async function deployDapp() {
 	console.log(`The account used to deploy is ${accounts[0]}`)
 	console.log("Current balance: ", await web3.eth.getBalance(accounts[0]), "\n")
 
+	const datetimeAbi = fs.readFileSync(path.resolve(__dirname, "..", "build", "__contracts_DateTime_sol_DateTime.abi")).toString()
+	const datetimeBytecode = fs.readFileSync(path.resolve(__dirname, "..", "build", "__contracts_DateTime_sol_DateTime.bin")).toString()
+
 	const bookingsAbi = fs.readFileSync(path.resolve(__dirname, "..", "build", "__contracts_Bookings_sol_Bookings.abi")).toString()
 	const bookingsBytecode = fs.readFileSync(path.resolve(__dirname, "..", "build", "__contracts_Bookings_sol_Bookings.bin")).toString()
 
 	try {
+		console.log("Deploying DateTime...")
+		const dateTimeAddress = await deploy(web3, accounts[0], datetimeAbi, datetimeBytecode)
+		console.log(`- DateTime deployed at ${dateTimeAddress}\n`)
+
+		const libPattern = /__.\/contracts\/DateTime.sol:DateTime[_]+/g
+		const linkedBookingsBytecode = bookingsBytecode.replace(libPattern, dateTimeAddress.substr(2))
+		if (linkedBookingsBytecode.length != bookingsBytecode.length) {
+				throw new Error("The linked contract size does not match the original")
+		}
+
 		console.log("Deploying Bookings...")
-		const bookingsAddress = await deploy(web3, accounts[0], bookingsAbi, bookingsBytecode, accounts[0], 300000000000000000, 300000000000000000)
+		const bookingsAddress = await deploy(web3, accounts[0], bookingsAbi, linkedBookingsBytecode, accounts[0], 0, 0)
 		console.log(`- Bookings deployed at ${bookingsAddress}`)
 	}
 	catch (err) {
