@@ -7,29 +7,54 @@ export const state = () => ({
 
 export const getters = {
   web3 (state) {
-    if (typeof window.ethereum !== 'undefined') {
-      if (!state.web3Instance) {
-        state.web3Instance = new Web3(window.ethereum)
-      }
-      window.addEventListener('load', async () => {
-        // Read-only provider is exposed by default
-        console.log(await window.ethereum.send('net_version'))
+    console.log('Configuring Web3/Ethereum')
+    window.addEventListener('load', async () => {
+      if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum)
         try {
-          // Request full provider if needed
+          // Request account access if needed
           await window.ethereum.enable()
-          window.web3.eth.getAccounts().then(accounts => {
-            window.web3.eth.defaultAccount = accounts[0]
-          })
-          // Full provider exposed
-          return state.web3Instance ? state.web3Instance : null
+          // Acccounts now exposed
+          window.web3.eth.sendTransaction({/* ... */})
         } catch (error) {
-          // User denied full provider access
-          return null
+          // User denied account access...
         }
-      })
-    } else {
-      return null
-    }
+      }
+      // Legacy dapp browsers...
+      else if (window.web3) {
+        window.web3 = new Web3(window.web3.currentProvider);
+        // Acccounts always exposed
+        window.web3.eth.sendTransaction({/* ... */});
+      }
+      // Non-dapp browsers...
+      else {
+        console.log('Non-Ethereum browser detected.');
+      }
+    })
+
+    // if (typeof window.ethereum !== 'undefined') {
+    //   if (!state.web3Instance) {
+    //     state.web3Instance = new Web3(window.ethereum)
+    //   }
+    //   window.addEventListener('load', async () => {
+    //     // Read-only provider is exposed by default
+    //     console.log(await window.ethereum.send('net_version'))
+    //     try {
+    //       // Request full provider if needed
+    //       await window.ethereum.enable()
+    //       window.web3.eth.getAccounts().then(accounts => {
+    //         window.web3.eth.defaultAccount = accounts[0]
+    //       })
+    //       // Full provider exposed
+    //       return state.web3Instance ? state.web3Instance : null
+    //     } catch (error) {
+    //       // User denied full provider access
+    //       return null
+    //     }
+    //   })
+    // } else {
+    //   return null
+    // }
   }
 }
 
