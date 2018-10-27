@@ -1,50 +1,86 @@
 pragma solidity ^0.4.24;
 
 contract Life {
+
+  // 0x01 == 00000001 = white
+  // 0x02 == 00000010 = black
     
-    function life(bytes32[] _dish) public pure returns (bytes32[] _newGen, uint256[] _ret) {
-        _ret = new uint256[](32);
-        uint pos = 0;
-        //_newGen = new bytes32[](_dish.length);
-        _newGen = new bytes32[](4);
-        bool isAlive;
-        uint256 neighbors;
-        //for (uint8 row = 0; row < _dish.length; row++) { //each row
-        for (uint8 row = 1; row < 4; row++) { //each row
-          //for (uint8 cell = 0; row < _dish.length; cell++) { //each cell
-          for (uint8 cell = 1; cell < 8; cell++) { //each cell
-            isAlive = checkAlive(_dish[row], cell);
-            
-            neighbors = getNeighbours(_dish[row - 1], _dish[row], _dish[row + 1], cell);
-            _ret[pos] = neighbors;
-            pos++;
-            if (!isAlive) {
-              if (neighbors == 3) {
-                _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
+  function life(bytes32[] _dish) public pure returns (bytes32[] _newGen) {
+    _newGen = new bytes32[](_dish.length);
+    uint256 color;
+    uint256 aN; // neighbours of alice
+    uint256 bN; // neighbours of bob
+    bytes32 prevRow;
+    bytes32 nextRow;
+    uint256 prevCell;
+    uint256 nextCell;
+    for (uint256 row = 0; row < _dish.length; row++) { //each row
+      for (uint256 cell = 0; cell < _dish.length * 2; cell+=2) { //each cell
+        color = (uint8(_dish[row] >> cell) & 0x03);
+        prevRow = (row > 0) ? _dish[row - 1] : _dish[_dish.length-1];
+        nextRow = (row < _dish.length - 1) ? _dish[row + 1] : _dish[0];
+        prevCell = (cell > 0) ? cell - 2 : 255;
+        nextCell = (cell < _dish.length - 2) ? cell + 2 : 0;
+        aN = 0;
+        bN = 0;
+        // above
+        aN += uint8(prevRow >> prevCell) & 0x01;
+        aN += uint8(prevRow >> cell) & 0x01;
+        aN += uint8(prevRow >> nextCell) & 0x01;
+        bN += (uint8(prevRow >> prevCell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(prevRow >> cell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(prevRow >> nextCell) & 0x02) == 2 ? 1 : 0;
+        // same
+        aN += uint8(_dish[row] >> prevCell) & 0x01;
+        aN += uint8(_dish[row] >> nextCell) & 0x01;
+        bN += (uint8(_dish[row] >> prevCell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(_dish[row] >> nextCell) & 0x02) == 2 ? 1 : 0;
+        // below
+        aN += uint8(nextRow >> prevCell) & 0x01;
+        aN += uint8(nextRow >> cell) & 0x01;
+        aN += uint8(nextRow >> nextCell) & 0x01;
+        bN += (uint8(nextRow >> prevCell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(nextRow >> cell) & 0x02) == 2 ? 1 : 0;
+        bN += (uint8(nextRow >> nextCell) & 0x02) == 2 ? 1 : 0;
+        if (color == 0) { // empty
+          if (aN == 3) {
+            if (bN == 3) {
+              // random
+              prevRow = _dish[0];
+              nextRow = _dish[_dish.length / 2];
+              assembly {
+                mstore(0, prevRow)
+                mstore(0x20, nextRow)
+                prevCell := keccak256(0, 0x40)
               }
+              _newGen[row] = _newGen[row] | bytes32((prevCell % 2 + 1) << cell);
             } else {
-                if (neighbors > 1 && neighbors < 4) {
-                  _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
-                }
+              _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
             }
+          } else if (bN == 3) {
+            _newGen[row] = _newGen[row] | bytes32(0x02 << cell);
           }
         }
-    }
-    
-    function checkAlive(bytes32 _same, uint256 _cell) internal pure returns (bool isAlive) {
-        isAlive = (uint8(_same >> _cell) & 0x01 == 1);
-    }
-    
-    function countAncestors(bytes32 _field, uint256 _start, uint256 _count) internal pure returns (uint256 count) {
-      for (uint256 i = _start; i < _start + _count; i++) {
-        count += uint8(_field >> i) & 0x01;
+        // difference between aliceNeighbours and bobNeighbours
+        prevCell = (aN > bN) ? aN - bN : bN - aN;
+        if (color == 1) { // alice  
+          if (prevCell == 2 || prevCell == 3) {
+            _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
+          }
+          if (prevCell == 1 && aN >= 2) {
+            _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
+          }
+        }
+        if (color == 2) { // bob
+          if (prevCell == 2 || prevCell == 3) {
+            _newGen[row] = _newGen[row] | bytes32(0x02 << cell);
+          }
+          if (prevCell == 1 && bN >= 2) {
+            _newGen[row] = _newGen[row] | bytes32(0x02 << cell);
+          }
+        }
       }
     }
-    
-    function getNeighbours(bytes32 _above, bytes32 _same,bytes32 _below, uint8 _pos) internal pure returns (uint256 ancestors) {
-        ancestors += countAncestors(_above, _pos - 1, 3);
-        ancestors += countAncestors(_same, _pos - 1, 1);
-        ancestors += countAncestors(_same, _pos + 1, 1);
-        ancestors += countAncestors(_below, _pos - 1, 3);
-    }
+  }
+
 }

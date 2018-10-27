@@ -9,18 +9,15 @@ const should = chai
 
 contract('Life', (accounts) => {
   let life;
-  const initField = ['0x00','0x0000000000000000000000000000000000000000000000000000000000000070','0x00','0x00','0x00','0x00','0x00','0x00',
-                     '0x00','0x00','0x00','0x00','0x00','0x00','0x00','0x00',
-                     '0x00','0x00','0x00','0x00','0x00','0x00','0x00','0x00',
-                     '0x00','0x00','0x00','0x00','0x00','0x00','0x00','0x00'];
-
-  const expectedField = ['0x0000000000000000000000000000000000000000000000000000000000000020',
-                        '0x0000000000000000000000000000000000000000000000000000000000000020',
-                        '0x0000000000000000000000000000000000000000000000000000000000000020',
-                        '0x00','0x00','0x00','0x00','0x00',
-                        '0x00','0x00','0x00','0x00','0x00','0x00','0x00','0x00',
-                        '0x00','0x00','0x00','0x00','0x00','0x00','0x00','0x00',
-                        '0x00','0x00','0x00','0x00','0x00','0x00','0x00','0x00'];
+  const z = '0x0000000000000000000000000000000000000000000000000000000000000000';
+  const initField = [z, '0x0000000000000000000000000000000000000000000000000000000000000015', z, z,
+                        z,
+                        '0x000000000000000000000000000000000000000000000000000000000000002a',
+                        z,
+                        z, 
+                        z, z, z, z, z, z, z, z, 
+                        z, z, z, z, z, z, z, z, 
+                        z, z, z, z, z, z, z, z, ];
 
 
   before(async() => {
@@ -28,7 +25,10 @@ contract('Life', (accounts) => {
   });
 
   it('should oscilate', async () => {
-    const resultField = await life.life(initField).should.be.fulfilled;
-    console.log(resultField);
+    const state = await life.life(initField).should.be.fulfilled;
+    assert(state[0] !== initField[0]);
+    const resultField = await life.life(state).should.be.fulfilled;
+    assert.deepEqual(resultField, initField);
+    
   });
 });

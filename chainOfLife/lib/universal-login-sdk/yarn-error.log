@@ -1,0 +1,71 @@
+Arguments: 
+  /Users/ovdbigge/.nvm/versions/node/v11.0.0/bin/node /usr/local/Cellar/yarn/1.10.1/libexec/bin/yarn.js
+
+PATH: 
+  /Users/ovdbigge/.nvm/versions/node/v11.0.0/bin:/usr/local/opt/node@8/bin:/Users/ovdbigge/bin:/usr/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/opt/node@8/bin:/Users/ovdbigge/bin
+
+Yarn version: 
+  1.10.1
+
+Node version: 
+  11.0.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/universal-login-contracts: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:61073:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:120166:22)
+      at Request.emit (events.js:182:13)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:121138:10)
+      at Request.emit (events.js:182:13)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.10.1/libexec/lib/cli.js:121060:12)
+      at Object.onceWrapper (events.js:273:13)
+      at IncomingMessage.emit (events.js:187:15)
+      at endReadableNT (_stream_readable.js:1094:12)
+      at process.internalTickCallback (internal/process/next_tick.js:72:19)
+
+npm manifest: 
+  {
+    "name": "universal-login-sdk",
+    "version": "0.1.0",
+    "main": "dist/sdk.js",
+    "license": "MIT",
+    "dependencies": {
+      "deep-equal": "^1.0.1",
+      "ethers": "^3.0.27",
+      "universal-login-contracts": "0.1.0"
+  
+    },
+    "scripts": {
+      "build": "babel lib --out-dir dist",
+      "lint": "eslint lib test",
+      "test": "mocha --recursive --require babel-register test -t 10000",
+      "clean": "rm -fr ./node_modules && rm -fr ./dist"
+    },
+    "devDependencies": {
+      "babel-cli": "^6.26.0",
+      "babel-eslint": "^9.0.0",
+      "babel-plugin-transform-runtime": "^6.23.0",
+      "babel-preset-env": "^1.7.0",
+      "babel-preset-stage-0": "^6.24.1",
+      "babel-register": "^6.26.0",
+      "chai": "^4.1.2",
+      "eslint": "^5.5.0",
+      "eslint-plugin-import": "^2.14.0",
+      "fbemitter": "^2.1.1",
+      "ganache-core": "^2.2.1",
+      "mocha": "^5.2.0",
+      "node-fetch": "^2.2.0",
+      "sinon": "^6.3.1",
+      "sinon-chai": "^3.2.0",
+      "universal-login-relayer": "file:../universal-login-relayer"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
