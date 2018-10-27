@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "axios": "^0.18.0",
+    "ethers": "^4.0.7",
     "express": "^4.16.4"
   }
 }
