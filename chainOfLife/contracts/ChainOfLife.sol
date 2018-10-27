@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 contract ChainOfLife {
 
   event StartGame(bytes32 indexed gameId, address indexed alice);
-  event Join(bytes32 indexed gameId, address indexed bob, bytes32[] field);
+  event JoinGame(bytes32 indexed gameId, address indexed bob, bytes32[] field);
 
   struct Game{
     address alice;
@@ -24,7 +24,8 @@ contract ChainOfLife {
   mapping (bytes32 => Game) public games;
 
   function register(bytes32 _hash) public {
-    games[_hash] = Game(msg.sender, 0, 0, 0, 0);
+    games[_hash] = Game(msg.sender, 0, 0, 0, block.timestamp);
+    
     emit StartGame(_hash, msg.sender);
   }
 
@@ -32,14 +33,11 @@ contract ChainOfLife {
     Game storage game = games[_gameId];
     require(game.alice != address(0));
     require(game.state == 0);
-    emit Join(_gameId, msg.sender, _field);
     game.state = 1;
     game.bob = msg.sender;
-  }
+    game.bobHash = keccak256(abi.encodePacked(_field));
+    game.time = block.timestamp;
 
-  function hashField(bytes32[] _field) pure returns (bytes32 hash) {
-    // TODO: 
-    return _field[0];
+    emit JoinGame(_gameId, msg.sender, _field);
   }
-
 }
