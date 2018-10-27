@@ -31,24 +31,32 @@ contract Marketplace {
     /// @dev Initially zero
     uint64 amountAgreed;
 
-    /// @dev Date the contract is signed, unix timestamp
+    /// @dev Deadline for the contract to be signed by parties
     /// @dev Cannot be zero
+    uint64 signDueDate;
+
+    /// @dev Date the contract is signed, unix timestamp
+    /// @dev Cannot be zero, must be less or equal to `dueDate`
     uint64 dateSigned;
+
+    /// @dev Time for the client to pay according to the contract
+    ///      after the contract has been signed
+    /// @dev Cannot be zero
+    uint32 validityPeriod;
+
+    /// @dev Time for the supplier to agree/disagree on the amount
+    ///      paid by client if it differs from initial amount agreed
+    /// @dev Cannot be zero
+    uint32 disputePeriod;
 
     /// @dev Date the parties finished their interaction through the contract
     /// @dev Initially zero
     uint64 dateFinished;
 
-    /// @dev Deadline for the client to pay according to the contract
-    /// @dev Cannot be zero
-    uint64 dueDate;
-
-    /// @dev Contract type classifier, used to improve search
-    uint32 contractType;
-
     /// @dev Arbitrary description of the terms and conditions,
     ///      not used in smart contract logic, may be helpful for disputes, etc.
     /// @dev May include chat history of the parties, related to agreement
+    /// @dev May be empty
     string description;
   }
 
@@ -61,5 +69,162 @@ contract Marketplace {
    * @dev Track of record for each participant: list of contract IDs (index in `contractsRepository`)
    */
   mapping(address => uint256[]) contractsHistory;
+
+
+  mapping(address => mapping(address => uint256)) nonces;
+
+  /**
+   * @dev Constructs a message to be signed by the parties
+   * @dev Requires `signDueDate` to be in the future or now
+   * @param client the client
+   * @param supplier the supplier
+   * @param initialAmount amount to pay to supplier by client
+   * @param signDueDate deadline for the contract to be signed by parties
+   * @param validityPeriod time for the client to pay according to the contract
+   *      after the contract has been signed
+   * @param disputePeriod time for the supplier to agree/disagree on the amount
+   *      paid by client if it differs from initial amount agreed
+   * param description terms and conditions as a plain human readable text
+   * @return keccak256 hash of the input parameters - a message to sign
+   */
+  function constructContract(
+    address client,
+    address supplier,
+    uint64 initialAmount,
+    uint64 signDueDate,
+    uint32 validityPeriod,
+    uint32 disputePeriod
+  ) public constant returns(bytes32) {
+    // validate the input
+    require(client != address(0));
+    require(supplier != address(0));
+    require(client != supplier);
+    require(initialAmount != 0);
+    require(signDueDate >= now);
+    require(validityPeriod != 0);
+    require(disputePeriod != 0);
+
+    // calculate sha3 of the tightly packed variables including nonce
+    return keccak256(
+      client,
+      supplier,
+      initialAmount,
+      signDueDate,
+      validityPeriod,
+      disputePeriod,
+      nonces[client][supplier]
+    );
+  }
+
+  /**
+   * @dev Submits signed contract into the system
+   * @dev Requires the message to be sent by one of the parties
+   *      and be signed by another one
+   * @param client the client
+   * @param supplier the supplier
+   * @param initialAmount amount to pay to supplier by client
+   * @param signDueDate deadline for the contract to be signed by parties
+   * @param validityPeriod time for the client to pay according to the contract
+   *      after the contract has been signed
+   * @param disputePeriod time for the supplier to agree/disagree on the amount
+   *      paid by client if it differs from initial amount agreed
+   * param description terms and conditions as a plain human readable text
+   * @param v part of the ECDSA signature - signature[128:130]
+   * @param r part of the ECDSA signature - signature[0:64]
+   * @param s part of the ECDSA signature - signature[64:128]
+   */
+  function submitSignedContract(
+    address client,
+    address supplier,
+    uint64 initialAmount,
+    uint64 signDueDate,
+    uint32 validityPeriod,
+    uint32 disputePeriod,
+    uint8 v,
+    bytes32 r,
+    bytes32 s
+  ) public {
+    // extract message signature using eth_sign and EIP712 algorithms
+    address ethSign = recoverEthSign(client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod, v, r, s);
+    address eip712 = recoverEIP712(client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod, v, r, s);
+
+    // validate the input and signatures
+    require(msg.sender == client && (ethSign == supplier || eip712 == supplier) || msg.sender == supplier && (ethSign == client || eip712 == client));
+
+    // update nonce to prevent "double spend"
+    nonces[client][supplier]++;
+  }
+
+  /**
+   * @dev Used to verify a transfer order signature according to eth_sign
+   * @dev Returns the address which signed the order
+   * @dev See https://github.com/paritytech/parity-ethereum/issues/8127
+   * @dev See https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign
+   * @param client the client
+   * @param supplier the supplier
+   * @param initialAmount amount to pay to supplier by client
+   * @param signDueDate deadline for the contract to be signed by parties
+   * @param validityPeriod time for the client to pay according to the contract
+   *      after the contract has been signed
+   * @param disputePeriod time for the supplier to agree/disagree on the amount
+   *      paid by client if it differs from initial amount agreed
+   * param description terms and conditions as a plain human readable text
+   * @param v part of the ECDSA signature - signature[128:130]
+   * @param r part of the ECDSA signature - signature[0:64]
+   * @param s part of the ECDSA signature - signature[64:128]
+   * @return recovered address of the message signer
+   */
+  function recoverEthSign(
+    address client,
+    address supplier,
+    uint64 initialAmount,
+    uint64 signDueDate,
+    uint32 validityPeriod,
+    uint32 disputePeriod,
+    uint8 v,
+    bytes32 r,
+    bytes32 s
+  ) public constant returns (address _signer) {
+    // valid values are 27 and 28, some implementations may return 0 and 1 instead
+    v = v < 27 ? v + 27 : v;
+
+    // eth_sign, https://github.com/ethereum/wiki/wiki/JSON-RPC#eth_sign
+    return ecrecover(keccak256("\x19Ethereum Signed Message:\n32", constructContract(client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod)), v, r, s);
+  }
+
+  /**
+   * @dev Used to verify a transfer order signature according to EIP712
+   * @dev Returns the address which signed the message
+   * @param client the client
+   * @param supplier the supplier
+   * @param initialAmount amount to pay to supplier by client
+   * @param signDueDate deadline for the contract to be signed by parties
+   * @param validityPeriod time for the client to pay according to the contract
+   *      after the contract has been signed
+   * @param disputePeriod time for the supplier to agree/disagree on the amount
+   *      paid by client if it differs from initial amount agreed
+   * param description terms and conditions as a plain human readable text
+   * @param v part of the ECDSA signature - signature[128:130]
+   * @param r part of the ECDSA signature - signature[0:64]
+   * @param s part of the ECDSA signature - signature[64:128]
+   * @return recovered address of the message signer
+   */
+  function recoverEIP712(
+    address client,
+    address supplier,
+    uint64 initialAmount,
+    uint64 signDueDate,
+    uint32 validityPeriod,
+    uint32 disputePeriod,
+    uint8 v,
+    bytes32 r,
+    bytes32 s
+  ) public constant returns (address _signer) {
+    // valid values are 27 and 28, some implementations may return 0 and 1 instead
+    v = v < 27 ? v + 27 : v;
+
+    // EIP712, https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md
+    return ecrecover(constructContract(client, supplier, initialAmount, signDueDate, validityPeriod, disputePeriod), v, r, s);
+  }
 
 }
