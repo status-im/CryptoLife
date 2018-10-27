@@ -16,7 +16,6 @@ injectGlobal`
   ${styledNormalize}
   body {
     line-height: 1.5;
-    background-color: black;
   }
   html {
     box-sizing: border-box;
@@ -39,7 +38,9 @@ const Container = styled.div`
   height: 150vh;
   max-width: 100vw;
   display: grid;
-  grid-template-column: (auto-fit, 1fr);
+  grid-template-columns: (auto-fit, 1fr);
+
+  background-color: black;
 
   @media (max-width: 640px) {
     height: 100vh;
@@ -117,7 +118,8 @@ const Teaser = styled.p`
 `
 
 const TeaserText = styled.img`
-width = 300px;`
+  width: 300px;
+`
 
 const validateInput = input =>
   web3.utils.isAddress(input) || parseDomain(input).tld === 'eth'
