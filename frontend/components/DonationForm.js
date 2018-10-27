@@ -23,7 +23,7 @@ const TransactionForm = styled.form`
 
 export default class DonationForm extends PureComponent {
   state = {
-    netId: 0,
+    netId: 3,
   }
 
   handleDonate = event => {
@@ -141,8 +141,8 @@ export default class DonationForm extends PureComponent {
             <TransactionForm onSubmit={this.handleDonate}>
               <input type="text" placeholder="ETH to send" name="amount" />
               <input type="text" placeholder="message" name="message" />
+              <Button primary>Send</Button>
             </TransactionForm>
-            <Button primary>Send</Button>
           </TransactionContainer>
         ) : (
           <br />

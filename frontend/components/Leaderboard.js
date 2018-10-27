@@ -18,6 +18,13 @@ const TxLink = styled.a`
   color: #ff9a62;
   text-decoration: none;
 `
+const TxLinkContainer = styled.div`
+  max-width: 200px;
+`
+
+const AmountDonated = props => {
+  return <div>Total amount collected: {props.amount}</div>
+}
 
 const AmountDonated = props => {
   return <div>Total amount collected: {props.amount}</div>
@@ -31,7 +38,7 @@ export default class Leaderboard extends PureComponent {
 
   fetchTxs = async address => {
     // FIXME: avoid using http://cors-anywhere.herokuapp.com
-    const url = `https://api.etherscan.io/api?module=account&action=txlist&address=${address}`
+    const url = `https://blockscout.com/eth/ropsten/api?module=account&action=txlist&address=${address}`
     const response = await fetch(url)
     const json = await response.json()
     return this.processTxList(json.result)
@@ -111,7 +118,7 @@ export default class Leaderboard extends PureComponent {
           <span>
             <Emojify>{tx.input}</Emojify>
           </span>
-          <span>
+          <TxLinkContainer>
             {tx.hash.map((hash, index) => (
               <TxLink
                 key={hash}
@@ -121,7 +128,7 @@ export default class Leaderboard extends PureComponent {
                 [{index + 1}]
               </TxLink>
             ))}
-          </span>
+          </TxLinkContainer>
         </React.Fragment>
       ))
       return (

@@ -343,7 +343,11 @@ export default class Addreth extends Component {
       return <NotAnAddreth/>
     } else {
       return (
-        <Container>
+          <Container>
+          <AddrethLink href={`https://blockscout.com/eth/mainnet/address/${this.props.addreth}`}
+                       target="_blank">
+            {this.props.addreth}
+          </AddrethLink>
           <DonationForm address={this.props.addreth} donationNetworkID={4} />
           <LeaderboardContainer>
             <Leaderboard address={this.props.addreth} />
