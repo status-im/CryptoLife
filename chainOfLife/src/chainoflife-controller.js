@@ -41,6 +41,10 @@ class ChainOfLifeController {
     async register(_hash) {
         await this.executeMessage('register', [_hash])
     }
+
+    // async join(_hash) {
+    //     await this.executeMessage('register', [_hash])
+    // }
 }
 
 export default ChainOfLifeController
