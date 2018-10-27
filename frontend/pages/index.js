@@ -1,10 +1,16 @@
-import React, { Component } from "react";
-import styled, { injectGlobal } from "styled-components";
-import styledNormalize from "styled-normalize";
-import Head from "next/head";
+import React, { Component } from 'react'
+import styled, { injectGlobal } from 'styled-components'
+import styledNormalize from 'styled-normalize'
+import Head from 'next/head'
+import Web3 from 'web3'
+import parseDomain from 'domain-name-parser'
 
-import SearchBar from "../components/SearchBar";
-import Button from "../components/button";
+import { Router, Link } from '../routes'
+
+import SearchBar from '../components/SearchBar'
+import Button from '../components/button'
+
+const web3 = new Web3()
 
 injectGlobal`
   ${styledNormalize}
@@ -25,10 +31,10 @@ injectGlobal`
     margin: 0;
     font-family: 'Roboto Mono', monospace;
   }
-`;
+`
 
 const Container = styled.div`
-  background: url("static/images/bg.jpeg") no-repeat;
+  background: url('static/images/bg.jpeg') no-repeat;
   background-size: cover;
   height: 150vh;
   max-width: 100vw;
@@ -39,19 +45,19 @@ const Container = styled.div`
     height: 100vh;
     width: 100vw;
   }
-`;
+`
 
 const Content = styled.nav`
   margin: 0 auto;
   max-width: 920px;
-`;
+`
 
 const Navigation = styled.nav`
   display: grid;
   grid-template-columns: repeat(3, auto);
   justify-content: center;
   height: 4rem;
-`;
+`
 
 const NavLink = styled.a`
   text-transform: uppercase;
@@ -60,26 +66,26 @@ const NavLink = styled.a`
   opacity: 0.7;
   padding: 2rem;
   justify-self: center;
-`;
+`
 
 const Brand = styled.img`
   padding-top: 3rem;
   width: 100%;
-`;
+`
 
 const Version = styled.div`
   font-size: 48px;
   opacity: 0.3;
   float: right;
   margin-top: -2rem;
-`;
+`
 
 const SearchWrapper = styled.div`
   display: grid;
   justify-content: center;
   width: 100%;
   grid-gap: 1rem;
-`;
+`
 
 const MainSection = styled.div`
   display: grid;
@@ -93,14 +99,14 @@ const MainSection = styled.div`
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
   }
-`;
+`
 
 const SubHeadline = styled.h1`
   padding: 1rem;
   color: white;
   font-size: 3rem;
   font-weight: 300;
-`;
+`
 
 const Teaser = styled.p`
   padding: 3rem;
@@ -108,16 +114,36 @@ const Teaser = styled.p`
   color: white;
   justify-self: end;
   transform: skew(0deg, 10deg);
-`;
+`
 
 const Purple = styled.strong`
   color: #6200ee;
-`;
+`
 
 const TeaserText = styled.img`
-width = 300px;`;
+width = 300px;`
+
+// HELP! I NEED PRETTY STYLES
+const SubmitButton = styled.button`
+  background-color: white;
+`
 
 class App extends Component {
+  state = {
+    inputValue: '',
+  }
+
+  searchHandler = e => {
+    const value = e.target.value
+
+    if (web3.utils.isAddress(value) || parseDomain(value).tld === 'eth') {
+      if (e.keyCode === 13) {
+        Router.push(`/address/${value}`)
+      }
+      this.setState({ inputValue: value })
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -133,8 +159,14 @@ class App extends Component {
           <Brand src="static/images/brand.svg" />
           <Version>v0.1</Version>
           <SearchWrapper>
-            <SearchBar id="search" />
-            <Button primary>Resolve</Button>
+            <SearchBar
+              id="search"
+              onChange={this.searchHandler}
+              onKeyDown={this.searchHandler}
+            />
+            <Link route={`/address/${this.state.inputValue}`}>
+              <Button primary>Resolve</Button>
+            </Link>
           </SearchWrapper>
         </Content>
         <MainSection>
@@ -145,8 +177,8 @@ class App extends Component {
           </Teaser>
         </MainSection>
       </Container>
-    );
+    )
   }
 }
 
-export default App;
+export default App

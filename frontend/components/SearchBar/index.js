@@ -56,6 +56,7 @@ export default class SearchBar extends PureComponent {
         <SearchIcon style={{ width: '20px', height: '20px' }} />
         <Input
           onChange={this.props.onChange}
+          onKeyDown={this.props.onKeyDown}
           placeholder="address.eth or 0x01010101010..."
         />
       </Wrapper>
