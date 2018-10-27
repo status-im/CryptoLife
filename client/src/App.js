@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { connect } from "react-redux"
-import { isWeb3Injected, getInjectedWeb3 } from "./contracts/web3"
+import { getWeb3 } from "./contracts/web3"
 import { Layout } from "antd"
 const { Header } = Layout
 
@@ -16,15 +16,10 @@ import Container from "./widgets/container"
 
 class App extends Component {
     componentDidMount() {
-        if (isWeb3Injected()) {
-            this.Bookings = getBookingsInstance()
+        this.Bookings = getBookingsInstance()
 
-            this.checkWeb3Status()
-            this.statusInterval = setInterval(() => this.checkWeb3Status(), 5000)
-        }
-        else {
-            this.props.dispatch({ type: "SET_UNSUPPORTED" })
-        }
+        this.checkWeb3Status()
+        this.statusInterval = setInterval(() => this.checkWeb3Status(), 5000)
     }
 
     componentWillUnmount() {
@@ -32,7 +27,7 @@ class App extends Component {
     }
 
     checkWeb3Status() {
-        let web3 = getInjectedWeb3()
+        let web3 = getWeb3()
         return web3.eth.net.isListening().then(listening => {
             if (!listening) {
                 return this.props.dispatch({ type: "SET_DISCONNECTED" })
@@ -54,7 +49,7 @@ class App extends Component {
     render() {
         if (this.props.status.loading) return <Container><LoadingView /></Container>
         else if (this.props.status.unsupported) return <MessageView message="Your browser does not support Web3" />
-        // else if (this.props.status.networkId != config.WEB3_PROVIDER) return <MessageView message={`Please, switch to the ${config.WEB3_PROVIDER} network`} />
+        else if (this.props.status.networkId != config.NETWORK_ID) return <MessageView message={`Please, switch to the ${config.NETWORK_ID} network`} />
         else if (!this.props.status.connected) return <MessageView message="Your connection seems to be down" />
         else if (!this.props.accounts || !this.props.accounts.length) return <MessageView message="Please, unlock your wallet or create an account" />
 

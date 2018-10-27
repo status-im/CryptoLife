@@ -1,5 +1,5 @@
 {
-	"BOOKINGS_CONTRACT_ADDRESS": "0xe25540d8ba67fb0a7b14324c8b224dfb2d60b7a0",
-	"WEB3_PROVIDER": "http://localhost:8545",
+	"BOOKINGS_CONTRACT_ADDRESS": "0xaa15fc5ed09d4b79f41b62e3797bfcad0518989f",
+	"WEB3_PROVIDER": "https://ropsten.infura.io/v3/e6386827cc5e4139a946a32060fc2c54",
 	"NETWORK_ID": "ropsten"
 }

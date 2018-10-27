@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Row, Col, Card, DatePicker, Button, Spin, message, notification } from "antd"
-import { getInjectedWeb3 } from "../contracts/web3"
 
 import getBookingsInstance from "../contracts/bookings.js"
 
