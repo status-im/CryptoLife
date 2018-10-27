@@ -5,6 +5,8 @@ const ethers = require('ethers');
 const LIME_PAY_CONFIG = require("./../config/limepay");
 
 const PAYMENT_URL = LIME_PAY_CONFIG.BASE_URL + "v1/payments";
+const SHOPPER_URL = LIME_PAY_CONFIG.BASE_URL + "v1/shoppers";
+
 const API_KEY = LIME_PAY_CONFIG.API_KEY;
 const API_SECRET = LIME_PAY_CONFIG.SECRET;
 
@@ -33,15 +35,22 @@ class LimePayService {
         let data = buildRequestData(shopperID, itemData, tokenAmount, gasPrice);
 
         try {
-            let result = await axios({
-                method: "POST",
-                url: PAYMENT_URL,
-                headers: buildHeaders(),
-                data: data
-            });
+            let result = await executePOST(PAYMENT_URL, data);
             return result.headers["x-lime-token"];
         } catch (error) {
             console.log(`An error occured while creating payment.Details:\n ${JSON.stringify(error.response.data)}`);
+            throw error;
+        }
+    }
+
+    async createShopper(firstName, lastName, email, walletAddress) {
+        try {
+            let shopperData = { firstName, lastName, email, walletAddress };
+            shopperData.vendor = LIME_PAY_CONFIG.VENDOR;
+            let createdShopper = await executePOST(SHOPPER_URL, shopperData);
+            return createdShopper.data;
+        } catch (error) {
+            console.log(`And error occured whilte creating shopper. Details: \n ${JSON.stringify(error.response.data)}`);
             throw error;
         }
     }
@@ -81,5 +90,14 @@ let getGasPrice = async function () {
     var parsedPrice = ethers.utils.parseUnits((price.data.fast / 10).toString(10), 'gwei');
 
     return parsedPrice;
+}
+
+let executePOST = async function (url, data) {
+    return axios({
+        method: "POST",
+        url: url,
+        headers: buildHeaders(),
+        data: data
+    });
 }
 
