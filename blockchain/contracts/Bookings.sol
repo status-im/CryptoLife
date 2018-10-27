@@ -1,110 +1,116 @@
 pragma solidity ^0.4.24;
 
+import "./DateTime.sol";
+
 contract Bookings {
-	struct Booking {
-		address guest;
-		uint checkInAfter;
-		uint checkOutUntil;
-	}
-	address checkedInGuest;
-	address hotelAccount;
-	uint deposit;         // check in deposit
-	uint price;           // room price
+    struct Booking {
+        address guest;
+        uint checkInFrom;
+        uint checkOutUntil;
+    }
+    address checkedInGuest;
+    address hotelAccount;
+    uint deposit;         // check-in deposit
+    uint price;           // room price
 
-	// day timestamp start => Booking {}
-	mapping (uint => Booking) bookings;
+    // year / month / day => Booking {}
+    mapping (uint16 => mapping(uint8 => mapping(uint8 => Booking))) bookings;
 
-	event Booked(address guest);
-	event CheckedIn(address guest);
-	event CheckedOut(address guest);
+    event Booked(address guest);
+    event CheckedIn(address guest);
+    event CheckedOut(address guest);
 
-	constructor(address _hotelAccount, uint _price, uint _deposit) public {
-		hotelAccount = _hotelAccount;
-		price = _price;
-		deposit = _deposit;
-	}
+    constructor(address _hotelAccount, uint _price, uint _deposit) public {
+        hotelAccount = _hotelAccount;
+        price = _price;
+        deposit = _deposit;
+    }
 
-	function isAvailable(uint timestamp) public view returns(bool) {
-		// The date's timestamp at 00:00 UTC
-		uint dayStart = timestamp - (timestamp % 86400);
-		return bookings[dayStart].guest != 0x0;
-	}
+    function isAvailable(uint16 year, uint8 month, uint8 day) public view returns(bool) {
+        return bookings[year][month][day].guest == 0x0;
+    }
 
-	function bookRoom(uint timestamp) public payable {
-		// The date's timestamp at 00:00 UTC
-		uint dayStart = timestamp - (timestamp % 86400);
+    function hasGuestCheckedIn() public view returns(bool) {
+        return checkedInGuest != 0x0;
+    }
 
-		require(bookings[dayStart].guest == 0x0, "Already reserved");
-		require(msg.value == price, "Invalid amount");
+    function bookRoom(uint16 year, uint8 month, uint8 day) public payable {
+        require(isAvailable(year, month, day), "Already reserved");
+        require(msg.value == price, "Invalid amount");
 
-		bookings[dayStart].guest = msg.sender;
-		bookings[dayStart].checkInAfter = dayStart + 46800; // 13:00h
-		bookings[dayStart].checkOutUntil = dayStart + 126000;  // 11:00h +1 day
-	}
+        bookings[year][month][day].guest = msg.sender;
+        // bookings[year][month][day].checkInFrom = DateTime.toTimestamp(year, month, day, "CURRENT HOUR HERE IF NEEDED TO TEST");
+        bookings[year][month][day].checkInFrom = DateTime.toTimestamp(year, month, day, 13);
+        bookings[year][month][day].checkOutUntil = bookings[year][month][day].checkInFrom + 60 * 60 * 22; // +22h
 
-	function cancelBooking(uint timestamp) public {
-		// The date's timestamp at 00:00 UTC
-		uint dayStart = timestamp - (timestamp % 86400);
+        emit Booked(msg.sender);
+    }
 
-		require(bookings[dayStart].guest == msg.sender, "Invalid guest");
+    function cancelBooking(uint16 year, uint8 month, uint8 day) public {
+        require(bookings[year][month][day].guest == msg.sender, "Invalid guest");
 
-		bookings[dayStart].guest = 0x0;
-		bookings[dayStart].checkInAfter = 0;
-		bookings[dayStart].checkOutUntil = 0;
+        bookings[year][month][day].guest = 0x0;
+        bookings[year][month][day].checkInFrom = 0;
+        bookings[year][month][day].checkOutUntil = 0;
 
-		// total refund
-		if(now < (bookings[dayStart].checkInAfter - 172800)) { // more than 48h left
-			msg.sender.transfer(price);
-		}
-		else if(now < (bookings[dayStart].checkInAfter - 86400)) { // between 24-48h left
-			msg.sender.transfer(price/2);
-		}
-	}
+        // total refund
+        if(now < (bookings[year][month][day].checkInFrom - 172800)) { // more than 48h left
+            msg.sender.transfer(price);
+        }
+        else if(now < (bookings[year][month][day].checkInFrom - 86400)) { // 24h left
+            msg.sender.transfer(price/2);
+        }
+    }
 
-	function checkIn() public payable {
-		// The date's timestamp at 00:00 UTC
-		uint dayStart = now - (now % 86400);
+    function checkIn() public payable {
+        uint16 year = DateTime.getYear(now);
+        uint8 month = DateTime.getMonth(now);
+        uint8 day = DateTime.getDay(now);
 
-		require(checkedInGuest == 0x0, "A guest is already checked in");
-		require(bookings[dayStart].guest == msg.sender, "Invalid guest");
-		require(bookings[dayStart].checkInAfter < now, "Check in not yet available");
-		require(deposit == msg.value, "Invalid deposit");
+        require(checkedInGuest == 0x0, "A guest is already checked in");
+        require(bookings[year][month][day].guest == msg.sender, "Invalid guest");
+        require(bookings[year][month][day].checkInFrom < now, "Check in not yet available");
+        require(bookings[year][month][day].checkInFrom != 0, "Invalid timestamp");
+        require(deposit == msg.value, "Invalid deposit");
 
-		hotelAccount.transfer(price);
-		checkedInGuest = msg.sender;
-	}
+        hotelAccount.transfer(price);
+        checkedInGuest = msg.sender;
 
-	function checkOut(uint spentAmount, bytes32 signedSettlement) public payable {
-		// The date's timestamp at 00:00 UTC
-		uint dayStart = now - (now % 86400);
+        emit CheckedIn(msg.sender);
+    }
 
-		require(checkedInGuest != 0x0, "Nobody is checked in");
-		require(spentAmount < deposit, "Invalid spentAmount");
+    function checkOut(/*uint spentAmount, bytes32 signedSettlement*/) public payable {
+        uint16 year = DateTime.getYear(now);
+        uint8 month = DateTime.getMonth(now);
+        uint8 day = DateTime.getDay(now);
 
-		// guest checks himself out
-		if(msg.sender == bookings[dayStart].guest){
-			if(bookings[dayStart].checkOutUntil > now){
-				// OK
+        require(checkedInGuest != 0x0, "Nobody is checked in");
+        // require(spentAmount < deposit, "Invalid spentAmount");
 
+        // the guest checks himself out
+        if(msg.sender == bookings[year][month][day].guest){
+            if(bookings[year][month][day].checkOutUntil > now){
 
-				// TODO: check settlement
+                // TODO: check state channel settlement
 
+                checkedInGuest = 0x0;
+                msg.sender.transfer(deposit);
+                // msg.sender.transfer(deposit - spentAmount);
+            }
+            else {
+                // penalty, no deposit refund
+                checkedInGuest = 0x0;
+            }
+        }
+        // the hotel forces a check out when out of time
+        else if(msg.sender == hotelAccount) {
+            require(bookings[year][month][day].checkOutUntil < now, "Too early to check out");
+            checkedInGuest = 0x0;
+        }
+        else {
+            revert();
+        }
 
-				checkedInGuest = 0x0;
-				msg.sender.transfer(deposit - spentAmount);
-			}
-			else {
-				// penalty, no deposit refund
-				checkedInGuest = 0x0;
-			}
-		}
-		// the hotel forces a check out when out of time
-		else if(msg.sender == hotelAccount) {
-			require(bookings[dayStart].checkOutUntil < now, "Too early to check out");
-			checkedInGuest = 0x0;
-		}
-		else {
-			revert();
-		}
-	}
+        emit CheckedOut(msg.sender);
+    }
 }
