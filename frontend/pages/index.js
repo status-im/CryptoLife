@@ -116,17 +116,14 @@ const Teaser = styled.p`
   transform: skew(0deg, 10deg);
 `
 
-const Purple = styled.strong`
-  color: #6200ee;
-`
-
 const TeaserText = styled.img`
 width = 300px;`
 
-// HELP! I NEED PRETTY STYLES
-const SubmitButton = styled.button`
-  background-color: white;
-`
+const validateInput = input =>
+  web3.utils.isAddress(input) || parseDomain(input).tld === 'eth'
+
+const alerting = () =>
+  alert('Please enter a valid ENS name or Ethereum address')
 
 class App extends Component {
   state = {
@@ -136,15 +133,18 @@ class App extends Component {
   searchHandler = e => {
     const value = e.target.value
 
-    if (web3.utils.isAddress(value) || parseDomain(value).tld === 'eth') {
+    if (validateInput(value)) {
       if (e.keyCode === 13) {
         Router.push(`/address/${value}`)
       }
       this.setState({ inputValue: value })
+    } else if (e.keyCode === 13) {
+      alerting()
     }
   }
 
   render() {
+    const { inputValue } = this.state
     return (
       <Container>
         <Head>
@@ -164,9 +164,16 @@ class App extends Component {
               onChange={this.searchHandler}
               onKeyDown={this.searchHandler}
             />
-            <Link route={`/address/${this.state.inputValue}`}>
-              <Button primary>Resolve</Button>
-            </Link>
+            <Button
+              primary
+              onClick={() =>
+                validateInput(inputValue)
+                  ? Router.push(`/address/${inputValue}`)
+                  : alerting()
+              }
+            >
+              Resolve
+            </Button>
           </SearchWrapper>
         </Content>
         <MainSection>

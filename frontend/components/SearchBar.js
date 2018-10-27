@@ -1,5 +1,5 @@
-import React, { PureComponent } from "react";
-import styled from "styled-components";
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 
 const SearchIcon = props => (
   <svg
@@ -25,11 +25,11 @@ const SearchIcon = props => (
       fill="black"
     />
   </svg>
-);
+)
 
 const Input = styled.input`
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   border: 1px solid white;
   border-radius: 3px;
   padding-left: 0.25rem;
@@ -42,7 +42,7 @@ const Input = styled.input`
   @media (max-width: 640px) {
     max-width: 120px;
   }
-`;
+`
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,18 +52,19 @@ const Wrapper = styled.div`
   border-radius: 6px;
   min-width: 300px;
   max-width: 900px;
-`;
+`
 
 export default class SearchBar extends PureComponent {
   render() {
     return (
       <Wrapper>
-        <SearchIcon style={{ width: "20px", height: "20px" }} />
+        <SearchIcon style={{ width: '20px', height: '20px' }} />
         <Input
           onChange={this.props.onChange}
+          onKeyDown={this.props.onKeyDown}
           placeholder="address.eth or 0x01010101010..."
         />
       </Wrapper>
-    );
+    )
   }
 }
