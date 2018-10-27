@@ -1,5 +1,5 @@
 import Document, { Head, Main, NextScript } from 'next/document'
-import styled, {injectGlobal}, { ServerStyleSheet } from 'styled-components'
+import {styledNormalize, injectGlobal,  ServerStyleSheet } from 'styled-components'
 
 
 injectGlobal`
