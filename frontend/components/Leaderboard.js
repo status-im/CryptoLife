@@ -43,17 +43,10 @@ export default class Leaderboard extends PureComponent {
           'Target-URL': 'https://blockscout.com/eth/ropsten/api',
         },
       })
-//debugger;
-
-    // // FIXME: avoid using http://cors-anywhere.herokuapp.com
-    // const url = `https://blockscout.com/eth/ropsten/api?module=account&action=txlist&address=${address}`
-    // const response = await fetch(url)
-    // const json = await response.json()
     return this.processTxList(json.data.result);
   }
 
   processTxList = ethlist => {
-   //debugger;
     let myweb3 = new Web3(web3.currentProvider)
     let filteredEthList = ethlist
       .map(obj => {
