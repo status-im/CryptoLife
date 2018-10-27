@@ -21,10 +21,14 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "@bloomprotocol/share-kit": "^2.0.1",
+    "@types/socket.io-client": "^1.4.32",
+    "angular2-uuid": "^1.1.1",
     "core-js": "^2.4.1",
     "ethers": "^4.0.7",
     "ng-inline-svg": "^8.1.0",
     "rxjs": "^5.5.6",
+    "socket.io-client": "^2.1.1",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
@@ -45,6 +49,6 @@
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "^3.1.3"
   }
 }

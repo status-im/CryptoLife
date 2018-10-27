@@ -12,6 +12,8 @@ import { InlineSVGService } from 'ng-inline-svg/lib/inline-svg.service';
 import { DetsyStoreService } from './detsy-store.service';
 import { AppRoutingModule } from './app-routing.module';
 import { PaymentComponent } from './payment/payment.component';
+import { BloomButtonComponent } from './bloom-button/bloom-button.component';
+import { BloomListenService } from './bloom-listen-service.service';
 
 
 @NgModule({
@@ -20,7 +22,8 @@ import { PaymentComponent } from './payment/payment.component';
 		DetailsComponent,
 		HeaderComponent,
 		HomeComponent,
-		PaymentComponent
+		PaymentComponent,
+		BloomButtonComponent
 	],
 	imports: [
 		BrowserModule,
@@ -29,7 +32,7 @@ import { PaymentComponent } from './payment/payment.component';
 		InlineSVGModule,
 		HttpClientModule
 	],
-	providers: [InlineSVGService, DetsyStoreService],
+	providers: [InlineSVGService, DetsyStoreService, BloomListenService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

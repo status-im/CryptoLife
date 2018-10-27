@@ -4,11 +4,13 @@
   "description": "This is the default package.json generated for your project",
   "main": "index.js",
   "scripts": {
+    "start": "node ./backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "etherlime": "^0.9.10"
+    "etherlime": "^0.9.11",
+    "openzeppelin-solidity": "1.12.0"
   }
 }
