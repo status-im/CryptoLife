@@ -1,11 +1,14 @@
 'use strict';
 const express = require('express');
 
+require('./config/mongo').config();
+
 const bodyParser = require('body-parser');
 var cors = require('cors')
 
 const bloomService = require('./services/bloom-service');
 const LimePayService = require('./services/limepay-service');
+const Shopper = require('./models/shopper');
 
 var app = express();
 
@@ -15,10 +18,19 @@ app.use(cors({ credentials: true, origin: 'http://localhost:4200' }))
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
+/**
+ *  {shopperId, walletAddress, itemName, price} 
+ */
 app.get('/api/payment', async (req, res, next) => {
     try {
-        let shopper = await LimePayService.createShopper("George", "Spasov", "test@test.com", "0x78ef4f3e6a88ca21ac0524a44570cf141a165094");
-        let token = await LimePayService.createPayment(shopper._id, "chorap", "1", "1");
+        let bodyData = req.body;
+        let shopperData = await Shopper.findById(bodyData.shopperId);
+
+        // Hack for same emails
+        let shopperEmail = shopperData.email + (new Date().getTime());
+        let limePayShopper = await LimePayService.createShopper(shopperData.firstName, shopperData.lastName, shopperEmail, req.body.walletAddress);
+
+        let token = await LimePayService.createPayment(limePayShopper._id, bodyData.itemName, bodyData.price);
         res.json(token);
     } catch (error) {
         next(error);

@@ -1,3 +1,5 @@
+const Shopper = require('./../models/shopper');
+
 const start = (app, io) => {
 
 	app.post('/api/receiveData', async (req, res, next) => {
@@ -41,6 +43,10 @@ const start = (app, io) => {
 				qrToken,
 				personData
 			}
+
+			//Add Shopper in DB;
+			let createdShopper = await Shopper.create({ firstName: "George", lastName: "Spasov", email: personData.email });
+			data.personData.shopperId = createdShopper._id;
 
 			io.emit('message', data);
 
