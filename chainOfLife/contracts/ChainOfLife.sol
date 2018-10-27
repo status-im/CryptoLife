@@ -9,6 +9,7 @@ contract ChainOfLife {
   event JoinGame(bytes32 indexed gameId, address indexed playerTwo, bytes32[] PlayerTwoField);
   event ResolveGame(bytes32 indexed gameId, address indexed winner, bytes32[] PLayerOneField);
   event FinalizeGame(bytes32 indexed gameId, address indexed winner, string message);
+  event CancelGame(bytes32 indexed gameId);
 
   uint timeout;
 
@@ -81,6 +82,12 @@ contract ChainOfLife {
 
   function finalize(bytes32 _gameId) public {
     Game storage game = games[_gameId];
+    if(game.state == 0 && msg.sender == game.alice) {
+      games[_gameId] = Game(0,0,0,0,0);
+      emit CancelGame(_gameId);
+      return;      
+    }
+
     require(block.number > game.time + timeout * 12, "Timeout has not been reached");
     require(game.state == 1 || game.state == 2 || game.state == 3, "Wrong game state");
     require(msg.sender == game.alice || msg.sender == game.bob, "Finalize message not send sent by player");

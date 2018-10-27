@@ -105,7 +105,7 @@ contract('ChainOfLife', (accounts) => {
   });
 
   describe('Finilizing game', () => {
-    describe('Before timeout (negative)', () => {
+    describe('Before timeout', () => {
       beforeEach(async() => {
         game = await ChainOfLife.new(100);
         await game.register(gameId, {from: alice}).should.be.fulfilled;
@@ -127,8 +127,13 @@ contract('ChainOfLife', (accounts) => {
         const rsp = await game.games(gameId);
         assert.equal(rsp[3], 2);
       });
-      it("should prevent finalization before Bob joined", async () => {
-        await game.finalize(gameId,{from: alice}).should.be.rejectedWith('revert');
+      it("should allow finalization  by Alice before Bob joined, cancelling the game", async () => {
+        const tx = await game.finalize(gameId,{from: alice}).should.be.fulfilled;
+        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[0], 0);
+      });
+      it("should not allow finalization by Bob before Bob joined, cancelling the game", async () => {
         await game.finalize(gameId,{from: bob}).should.be.rejectedWith('revert');
         const rsp = await game.games(gameId);
         assert.equal(rsp[3], 0);
@@ -177,8 +182,13 @@ contract('ChainOfLife', (accounts) => {
         const rsp = await game.games(gameId);
         assert.equal(rsp[0], 0);
       });
-      it("should prevent finalization before Bob joined", async () => {
-        await game.finalize(gameId,{from: alice}).should.be.rejectedWith('revert');
+      it("should allow finalization  by Alice before Bob joined, cancelling the game", async () => {
+        const tx = await game.finalize(gameId,{from: alice}).should.be.fulfilled;
+        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        const rsp = await game.games(gameId);
+        assert.equal(rsp[0], 0);
+      });
+      it("should not allow finalization by Bob before Bob joined, cancelling the game", async () => {
         await game.finalize(gameId,{from: bob}).should.be.rejectedWith('revert');
         const rsp = await game.games(gameId);
         assert.equal(rsp[3], 0);
