@@ -20,7 +20,7 @@
                             v-for="item in items"
                             :key="item.title"
                             avatar
-                            @click=""
+                            @click="$router.push(`meetups/${item.address}`)"
                     >
                         <v-list-tile-avatar>
                             <img :src="item.avatar">
@@ -45,7 +45,7 @@
                             v-for="item in items2"
                             :key="item.title"
                             avatar
-                            @click=""
+                            @click="$router.push(`meetups/${item.address}`)"
                     >
                         <v-list-tile-avatar>
                             <img :src="item.avatar">
@@ -60,35 +60,48 @@
                         </v-list-tile-action>
                     </v-list-tile>
                 </v-list>
-                <v-card-text style="margin-top: 20px; height: 40px; position: relative">
-                    <v-fab-transition>
-                        <v-btn
-                                color="orange"
-                                dark
-                                absolute
-                                top
-                                right
-                                fab
-                        >
-                            <v-icon>add</v-icon>
-                        </v-btn>
-                    </v-fab-transition>
-                </v-card-text>
+                <!--<v-card-text style="margin-top: 20px; height: 40px; position: relative">-->
+                    <!--<v-fab-transition>-->
+                        <!--<v-btn-->
+                                <!--color="orange"-->
+                                <!--dark-->
+                                <!--absolute-->
+                                <!--top-->
+                                <!--right-->
+                                <!--fab-->
+                                <!--@click="$router.push(`create`)"-->
+                        <!--&gt;-->
+                            <!--<v-icon>add</v-icon>-->
+                        <!--</v-btn>-->
+                    <!--</v-fab-transition>-->
+                <!--</v-card-text>-->
             </v-card>
         </v-flex>
     </v-layout>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
+  import Web3 from 'web3'
+
   export default {
+    mounted () {
+      let web3 = new Web3(window.web3.currentProvider)
+      console.log(web3)
+    },
+    computed: {
+      ...mapGetters([
+        'web3'
+      ])
+    },
     data () {
       return {
         items: [
-          { active: true, title: 'Cape Town Ethereum Meetup', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
-          { active: true, title: 'Developer Meetup', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
-          { title: 'Status Hackathon', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' }
+          { active: true, title: 'Cape Town Ethereum Meetup', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', address: '0x1' },
+          { active: true, title: 'Developer Meetup', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', address: '0x2' },
+          { title: 'Status Hackathon', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', address: '0x3' }
         ],
         items2: [
-          { creator: true, title: 'Status Hackathon', avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg' }
+          { creator: true, title: 'Status Hackathon', avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg', address: '0x4' }
         ]
       }
     }

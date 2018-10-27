@@ -15,7 +15,8 @@ export default {
     ]
   },
   plugins: [
-    '~/plugins/vuetify.js',
+    '~/plugins/vuetify.js'
+    // { src: '~/plugins/web3-plugin.js', ssr: false }
     // { src: '~/plugins/chartjs', ssr: false }
   ],
   css: [
@@ -43,5 +44,8 @@ export default {
         })
       }
     }
+  },
+  router: {
+    middleware: 'auth'
   }
 }

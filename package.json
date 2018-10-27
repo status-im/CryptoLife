@@ -11,10 +11,12 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/auth": "^4.5.2",
     "chart.js": "^2.7.3",
     "nuxt": "^2.1.0",
     "vue-chartjs": "^3.4.0",
-    "vuetify": "^1.2.6"
+    "vuetify": "^1.2.6",
+    "web3": "^1.0.0-beta.36"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
