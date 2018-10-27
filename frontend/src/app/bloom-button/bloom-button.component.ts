@@ -40,7 +40,7 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 				}
 				console.log(data);
 				this.subscription.unsubscribe();
-				// Navigate
+				// TODO Navigate
 			}
 		});
 		this.qrShown = true;
