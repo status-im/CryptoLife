@@ -20,7 +20,7 @@ const TxLink = styled.a`
 `
 
 const AmountDonated = props => {
-  return <div>Total amount donated: {props.amount}</div>
+  return <div>Total amount collected: {props.amount}</div>
 }
 
 export default class Leaderboard extends PureComponent {
