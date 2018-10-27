@@ -5,12 +5,12 @@
  views/preview
  [view 
   [text "Contract control panel"]
-  [button {}
+  [button {:on-click [alert {:value "Alert!!!"}]}
    "Call"]]
-  
+
  views/short-preview
  [text "Contract control panel"]
- 
+
  hooks/commands.getControl
  {:description   "Opens contract control panel"
   :scope         #{:personal-chats}
