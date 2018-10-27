@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Web3 from 'web3'
 import IPFS from 'ipfs-mini'
 import styled from 'styled-components'
-import Button from '../components/button'
+import Button from '../components/Button'
 
 const Container = styled.div`
   max-width: 100vw;
