@@ -1,5 +1,26 @@
 import Document, { Head, Main, NextScript } from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
+import styled, {injectGlobal}, { ServerStyleSheet } from 'styled-components'
+
+
+injectGlobal`
+  ${styledNormalize}
+  body {
+    line-height: 1.5;
+  }
+  html {
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    margin: 0;
+  }
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+    overflow-wrap: break-word;
+    margin: 0;
+    font-family: 'Roboto Mono', monospace;
+  }
+`
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {

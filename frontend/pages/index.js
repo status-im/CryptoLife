@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled, { injectGlobal } from 'styled-components'
+import styled from 'styled-components'
 import styledNormalize from 'styled-normalize'
 import Head from 'next/head'
 import Web3 from 'web3'
@@ -11,26 +11,6 @@ import SearchBar from '../components/SearchBar'
 import Button from '../components/Button'
 
 const web3 = new Web3()
-
-injectGlobal`
-  ${styledNormalize}
-  body {
-    line-height: 1.5;
-  }
-  html {
-    box-sizing: border-box;
-    overflow-wrap: break-word;
-    margin: 0;
-  }
-  *,
-  *::before,
-  *::after {
-    box-sizing: inherit;
-    overflow-wrap: break-word;
-    margin: 0;
-    font-family: 'Roboto Mono', monospace;
-  }
-`
 
 const Container = styled.div`
   background: url('static/images/bg.jpeg') no-repeat;

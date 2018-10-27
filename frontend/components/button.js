@@ -19,7 +19,7 @@ const Button = styled.button`
     color: white;
   }
   :hover {
-    background-color: #e01c6b;
+    background-color: #ff9a62;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
     transform: translateY(-3px);
   }

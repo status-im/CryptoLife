@@ -10,7 +10,7 @@ import NotAnAddreth from '../components/NotAnAddreth'
 const Container = styled.div`
   max-width: 100vw;
   display: grid;
-  grid-template-columns: (auto-fit, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   align-content: center;
   padding: 2rem;
@@ -21,6 +21,7 @@ const Container = styled.div`
 
   @media (max-width: 640px) {
     width: 100vw;
+    grid-template-columns: (auto-fit, 1fr);
   }
 `
 const AddrethLink = styled.a`
@@ -58,8 +59,8 @@ export default class Addreth extends Component {
         >
           {this.props.addreth}
         </AddrethLink>
+        <DonationForm address={this.props.addreth} donationNetworkID={4} />
         <Leaderboard address={this.props.addreth} />
-        <DonationForm address={this.props.addreth} donationNetworkID={4}/>
         {!isAddrethValid && <NotAnAddreth />}
       </Container>
     )
