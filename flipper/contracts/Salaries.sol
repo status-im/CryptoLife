@@ -12,10 +12,9 @@ contract Salaries is Ownable {
      */
     event EmployeeAdded(address employee, string name, string role);
     event EmployeeRemoved(address employee, string name, string role);
-    event SalaryStarted(address business, address employee);
+    event SalaryStarted(address business, address employee, uint256 deposit);
     event SalaryCheckpointed(address business, address employee, uint256 amount);
-    event SalaryClosed(address business, address employee);
-    event SalaryRedeemed(address business, address employee);
+    event SalaryClosed(address business, address employee, uint256 businessFunds, uint256 employeeFunds);
 
     /**
      * Structs
@@ -44,6 +43,10 @@ contract Salaries is Ownable {
         Rate rate;
     }
 
+    constructor() public {
+        employees[0xe7D6a2a1cbEd37EE7446d78Fd5E6B38AAAe3f3B2] = Employee("Alicia Drake", "Lead Engineer");
+    }
+
     /**
      * Enums
      */
@@ -59,20 +62,18 @@ contract Salaries is Ownable {
     /**
      * Modifiers
      */
-    modifier isNonNilEmployee(address _address)
+    modifier isNonNilEmployee(address addr)
     {
-        require(bytes(employees[_address].name).length > 0, "Employee does not exist in the storage");
+        require(bytes(employees[addr].name).length > 0, "Employee does not exist in the storage");
         _;
     }
 
     modifier isPaying(address employee)
     {
-        // make sure that the state is indeed `.Salarying` when it should be
+        // make sure that the state is indeed `.Paying` when it should be
         Salary memory salary = salaries[employee];
-        if (salary.state != SalaryState.Paying && block.number >= salary.timeframe.start && block.number <= salary.timeframe.stop) {
-            salaries[employee].state = SalaryState.Paying;
-        }
-        require(salary.state == SalaryState.Paying, "Continuous payment is not active");
+        salaries[employee].state = (block.number >= salary.timeframe.start && block.number <= salary.timeframe.stop) ? SalaryState.Paying : SalaryState.NonPaying;
+        require(salaries[employee].state == SalaryState.Paying, "Salary is not being paid");
         _;
     }
 
@@ -80,16 +81,14 @@ contract Salaries is Ownable {
     {
         // make sure that the state is indeed `.NonSalarying` when it should be
         Salary memory salary = salaries[employee];
-        if (salary.state != SalaryState.NonPaying && block.number >= salary.timeframe.stop) {
-            salaries[employee].state = SalaryState.NonPaying;
-        }
-        require(salary.state == SalaryState.NonPaying, "Continuous payment is already active");
+        salaries[employee].state = (block.number >= salary.timeframe.start && block.number <= salary.timeframe.stop) ? SalaryState.Paying : SalaryState.NonPaying;
+        require(salaries[employee].state == SalaryState.NonPaying, "Salary is already being paid");
         _;
     }
 
     modifier isNonNilSalary(address employee)
     {
-        require(bytes(employees[employee].name).length > 0, "Salary object does not exist in the storage");
+        require(salaries[employee].state != SalaryState.NonExistent, "Salary object does not exist in the storage");
         _;
     }
 
@@ -101,23 +100,49 @@ contract Salaries is Ownable {
     /**
      * Helpers
      */
-
     // blockDelta returns the difference between the current block height
     // and the latest checkpointed state (by default this is the start time).
     //
     // @param employee      The address of the employee receiving the salary
     function blockDelta(address employee)
-    public
+    private
     view
     returns (uint256)
     {
         Salary memory salary = salaries[employee];
-        uint256 start = salary.timeframe.start;
-        if (checkpointBlock > 0) {
-            start = checkpointBlock;
+        uint256 startBlock = salary.timeframe.start;
+        // Called before the streaming period ended
+        if (block.number < startBlock) {
+            return 0;
         }
-        uint256 delta = salary.timeframe.stop - start;
+        if (checkpointBlock > 0) {
+            startBlock = checkpointBlock;
+        }
+        // Called after the streaming period ended
+        uint256 latestBlock = block.number;
+        if (latestBlock > salary.timeframe.stop) {
+            latestBlock = salary.timeframe.stop;
+        }
+        uint256 delta = latestBlock - startBlock;
         return delta;
+    }
+
+    // @param employee        The address of the employee receiving the salary
+    function balanceOf(address employee)
+    isNonNilSalary(employee)
+    public
+    view
+    returns (uint256 balance)
+    {
+        Salary memory salary = salaries[employee];
+        if (block.number < salary.timeframe.start) {
+            return 0;
+        }
+        if (block.number > salary.timeframe.stop) {
+            return salary.balance;
+        }
+        uint256 delta = blockDelta(employee);
+        return (delta / salary.rate.interval) * salary.rate.price;
     }
 
     /**
@@ -149,19 +174,6 @@ contract Salaries is Ownable {
     }
 
     // @param employee        The address of the employee receiving the salary
-    function currentBilling(address employee)
-    isNonNilSalary(employee)
-    public
-    view
-    returns (uint256 billing)
-    {
-        require(block.number >= salary.timeframe.start, "Continous payment not started yet");
-        Salary memory salary = salaries[employee];
-        uint256 delta = blockDelta(employee);
-        return (delta / salary.rate.interval) * salary.rate.price;
-    }
-
-    // @param employee        The address of the employee receiving the salary
     function stateOf(address employee)
     isNonNilSalary(employee)
     public
@@ -181,6 +193,7 @@ contract Salaries is Ownable {
     function startSalary(address employee, uint256 startBlock, uint256 closeBlock, uint256 price, uint256 interval)
     onlyOwner
     isNonNilEmployee(employee)
+    isNonPaying(employee)
     public
     payable
     {
@@ -203,10 +216,10 @@ contract Salaries is Ownable {
             Timeframe(startBlock, closeBlock),
             Rate(price, interval)
         );
-        emit SalaryStarted(business, employee);
+        emit SalaryStarted(business, employee, msg.value);
     }
 
-    // Withdrawing or checkpointing menas that the employee wishes to move the funds into their
+    // checkpoint lets the employee move the current blaa the funds into their
     // actual wallet account
     //
     // @param employee        The address of the employee receiving the salary
@@ -225,37 +238,27 @@ contract Salaries is Ownable {
         emit SalaryCheckpointed(salary.business, salary.employee, funds);
     }
 
-    // Employees cannot currently close the salary while it is active,
-    // but this may be amended in the future.
+    // closeSalary stops a continuous salary. Both the business and the employee can do this.
+    // This can be triggered while the salary is being paid, or afterwards, but
+    // never before.
     //
     // @param employee        The address of the employee receiving the salary
-    function redeem(address employee)
-    onlyEmployee(employee)
-    isNonNilSalary(employee)
-    isNonPaying(employee)
-    public
-    {
-        Salary memory salary = salaries[employee];
-        msg.sender.transfer(salary.balance);
-
-        salaries[employee].balance = 0;
-        salaries[employee].state = SalaryState.Finalized;
-        emit SalaryRedeemed(salary.business, salary.employee);
-    }
-
-    // Stops a continuous salary. Both the business and the employee can do this.
-    //
-    // @param employee        The address of the employee receiving the salary
-    function stopSalary(address employee)
+    function closeSalary(address employee)
     isNonNilSalary(employee)
     public
     {
         Salary memory salary = salaries[employee];
+        if (block.number <= salary.timeframe.start) {
+            delete salaries[employee];
+            emit SalaryClosed(salary.business, salary.employee, 0, 0);
+        }
+
         uint256 delta = blockDelta(employee);
-        uint256 remainder = (delta / salary.rate.interval) * salary.rate.price;
-        salary.business.transfer(remainder);
+        uint256 funds = (delta / salary.rate.interval) * salary.rate.price;
+        salary.employee.transfer(funds);
+        salary.business.transfer(salary.balance - funds);
 
-        salaries[employee].state = SalaryState.NonPaying;
-        emit SalaryClosed(salary.business, salary.employee);
+        delete salaries[employee];
+        emit SalaryClosed(salary.business, salary.employee, funds, salary.balance - funds);
     }
 }

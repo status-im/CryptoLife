@@ -1,0 +1,32 @@
+{
+  "name": "contractz",
+  "version": "0.1.0",
+  "description": "Paul Berg's Ethereum contracts",
+  "keywords": [
+    "ethereum",
+    "contracts",
+    "smart contracts",
+    "tokens",
+    "dapp"
+  ],
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "openzeppelin-solidity": "^2.0.0",
+    "truffle-hdwallet-provider": "0.0.6",
+    "web3": "^1.0.0-beta.36"
+  },
+  "scripts": {
+    "lint": "eslint ./src",
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PaulRBerg/cryptolife.git"
+  },
+  "author": "Paul Berg <hello@paulrberg.com> (https://paulrberg.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PaulRBerg/cryptolife/issues"
+  },
+  "homepage": "https://github.com/PaulRBerg/cryptolife#readme"
+}

@@ -24,7 +24,7 @@ contract("Salaries", accounts => {
 		assert.equal(employee[1], "Lead Engineer", "The employee's role Lead Engineer was not stored.");
 	});
 
-	it("...should successfully start a continuous salary", async() => {
+	it("...should successfully start a streamed salary", async() => {
 		const interval = "1";
 		await salariesInstance.startSalary(
 			accounts[1],
@@ -38,14 +38,14 @@ contract("Salaries", accounts => {
 			}
 		);
 
-		const currentBilling = await salariesInstance.currentBilling(accounts[1]);
-		assert.equal(currentBilling.toString(), web3.toWei("0.1", "ether"), "First billing cycle should be Ξ0.1");
+		const balance = await salariesInstance.balanceOf(accounts[1]);
+		assert.equal(balance.toString(), web3.toWei("0.1", "ether"), "Balance right after salary creation is not Ξ0.1");
 	});
 
-	it("...should yield a correct current billing" , async() => {
-		increaseBlockHeight(4);
-		let currentBilling = await salariesInstance.currentBilling(accounts[1]);
-		assert.equal(currentBilling.toString(), web3.toWei("0.5", "ether"), "Billing cycle should be Ξ0.5");
+	it("...should yield a correct balance" , async() => {
+		await increaseBlockHeight(4);
+		let balance = await salariesInstance.balanceOf(accounts[1]);
+		assert.equal(balance.toString(), web3.toWei("0.5", "ether"), "Balance is not Ξ0.5");
 	});
 
 	it("...should successfully checkpoint funds", async() => {
