@@ -1,14 +1,30 @@
 .dapp-header {
   height: 100px;
-  background-color: #0000FF;
+  background-color: white;
   padding: 30px;
   line-height: 40px;
+  border-bottom: 1px solid darkgray;
+  .d-letter {
+    position: absolute;
+    left: 30px;
+    height: 40px;
+    width: 40px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../assets/images/d-letter.png");
+  }
   .status-logo {
+    display: inline-block;
     cursor: pointer;
+    margin-left: 50px;
+    width: 60px;
+    color: #f45800;
+    fill: #f45800;
   }
   .slogan {
     position: absolute;
     right: 30px;
-    color: white;
+    color: black;
   }
 }
