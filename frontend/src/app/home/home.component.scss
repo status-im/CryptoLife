@@ -1,0 +1,37 @@
+.items-holder {
+  padding: 50px;
+  .etsy-holder {
+    cursor: pointer;
+    width: calc(50% - 30px);
+    max-width: 400px;
+    height: 280px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px #777;
+    border-radius: 5px;
+    border: 1px solid dimgrey;
+    &:hover {
+      box-shadow: 0 0 30px #0000FF;
+    }
+    .item-image {
+      height: 200px;
+      background-color: dimgrey;
+    }
+    .item-info {
+      padding: 30px 15px;
+      .name {
+        margin-right: 15px;
+        padding-right: 15px;
+        border-right: 1px solid;
+      }
+      .description {
+        color: gray;
+        font-size: 14px;
+      }
+      .price {
+        float: right;
+        font-weight: bold;
+      }
+    }
+  }
+}

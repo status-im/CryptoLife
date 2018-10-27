@@ -1,0 +1,11 @@
+<div class="row items-holder">
+	<div class="etsy-holder" (click)="etsyDetails(item)" *ngFor="let item of etsyItems">
+		<div class="item-image">
+		</div>
+		<div class="item-info">
+			<span class="name">{{ item.name }}</span>
+			<span class="description">{{ item.description }}</span>
+			<span class="price">{{ item.price }}</span>
+		</div>
+	</div>
+</div>

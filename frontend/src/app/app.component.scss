@@ -1,0 +1,19 @@
+.content {
+  min-height: 100%;
+  margin: 0 auto -360px;
+}
+
+.footer {
+  height: 360px;
+  width: 100%;
+}
+
+.billboard {
+  margin-top: 20px;
+  background-color: cyan;
+  background-color: rgba($color: cyan, $alpha: 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 32px;
+
+}
