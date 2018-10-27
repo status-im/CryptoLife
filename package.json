@@ -1,0 +1,27 @@
+{
+  "name": "iscream",
+  "version": "0.0.1-poc",
+  "description": "peer-to-peer decentralized marketplace",
+  "main": "./test.sh",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CMLTeam/CryptoLife.git"
+  },
+  "keywords": [
+    "decentralized marketplace",
+    "p2p marketplace",
+    "ethereum marketplace"
+  ],
+  "author": "CML Team",
+  "license": "MPL",
+  "bugs": {
+    "url": "https://github.com/CMLTeam/CryptoLife/issues"
+  },
+  "homepage": "https://github.com/CMLTeam/CryptoLife#readme"
+}

@@ -1,0 +1,6 @@
+syntax:glob
+
+node_modules/
+build/
+package-lock.json
+*.iml
