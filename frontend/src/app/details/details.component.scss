@@ -7,15 +7,10 @@
   .description {
     padding: 15px 0px 30px 0px;
   }
-  .item-image {
-    display: inline-block;
-    width: 460px;
-    height: 400px;
-    background-size: 100% 100%;
+  img.details-image {
+    width: 100%;
   }
   .button-holder {
-    float: right;
-    text-align: center;
     .purchase {
       cursor: pointer;
       border-radius: 5px;
