@@ -14,6 +14,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { PaymentComponent } from './payment/payment.component';
 import { BloomButtonComponent } from './bloom-button/bloom-button.component';
 import { BloomListenService } from './bloom-listen-service.service';
+import { WaitingModeService } from './waiting-mode.service';
+import { WaitingComponent } from './waiting/waiting.component';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { BloomListenService } from './bloom-listen-service.service';
 		HeaderComponent,
 		HomeComponent,
 		PaymentComponent,
-		BloomButtonComponent
+		BloomButtonComponent,
+		WaitingComponent
 	],
 	imports: [
 		BrowserModule,
@@ -32,7 +35,7 @@ import { BloomListenService } from './bloom-listen-service.service';
 		InlineSVGModule,
 		HttpClientModule
 	],
-	providers: [InlineSVGService, DetsyStoreService, BloomListenService],
+	providers: [InlineSVGService, DetsyStoreService, BloomListenService, WaitingModeService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
