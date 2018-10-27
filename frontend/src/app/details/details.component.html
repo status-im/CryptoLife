@@ -3,7 +3,7 @@
 		<div class="item-name">
 			{{ etsyItem.name }}
 		</div>
-		<div class="description">
+		<div class="description" *ngIf="showDescription">
 			{{ etsyItem.description }}
 		</div>
 		<div class="item-image" [ngStyle]="{'background-image': 'url(' + etsyItem.imagePath + ')'}">

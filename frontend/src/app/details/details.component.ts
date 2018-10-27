@@ -10,7 +10,7 @@ import { EtsyItem } from '../models/etsy-item';
 	encapsulation: ViewEncapsulation.None
 })
 export class DetailsComponent implements OnInit {
-	@Input() showPurchaseButton = true;
+	@Input() showDescription = true;
 	@Input() showBloomAuthentication = true;
 	public itemId;
 	public etsyItem: EtsyItem;

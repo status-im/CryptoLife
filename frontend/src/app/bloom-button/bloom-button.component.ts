@@ -4,6 +4,8 @@ import { UUID } from 'angular2-uuid';
 import { BloomListenService } from '../bloom-listen-service.service';
 import { environment } from '../../environments/environment';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { ShopperStoreService } from '../shopper-store.service';
 
 @Component({
 	selector: 'dapp-bloom-button',
@@ -18,7 +20,9 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 
 	public subscription: Subscription;
 
-	constructor(private bloomListenService: BloomListenService) {
+	constructor(private bloomListenService: BloomListenService,
+		private router: Router,
+		private shopperStoreService: ShopperStoreService) {
 	}
 
 	ngOnInit() {
@@ -31,7 +35,8 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 	}
 
 	public showQrCode() {
-		const uuidToken = UUID.UUID().split('-').join('');
+		// const uuidToken = UUID.UUID().split('-').join('');
+		const uuidToken = '';
 		console.log(uuidToken);
 		this.subscription = this.bloomListenService.subscribeToLogin({
 			next: (data) => {
@@ -39,8 +44,9 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 					return;
 				}
 				console.log(data);
+				this.shopperStoreService.setShopperId(data.personData.shopperId);
 				this.subscription.unsubscribe();
-				// TODO Navigate
+				this.router.navigate(['/payment', this.itemId]);
 			}
 		});
 		this.qrShown = true;
