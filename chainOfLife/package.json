@@ -17,7 +17,8 @@
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "dotenv": "^6.1.0"
+    "dotenv": "^6.1.0",
+    "ethereumjs-utils": "^5.2.5"
   },
   "devDependencies": {
     "openzeppelin-solidity": "^1.12.0"
