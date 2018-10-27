@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { createRequestQRCode, removeRequestQRCode, RequestData, Action } from '@bloomprotocol/share-kit';
 
 @Component({
@@ -10,6 +10,7 @@ export class BloomButtonComponent implements OnInit {
 
   public qrShown: boolean;
   @ViewChild('qrContainer') qrContainer: ElementRef;
+  @Input() itemId: string;
 
   constructor() { }
 
@@ -20,7 +21,7 @@ export class BloomButtonComponent implements OnInit {
     this.qrShown = true;
     const requestData: RequestData = {
       action: Action.attestation,
-      token: '0x8f31e48a585fd12ba58e70e03292cac712cbae39bc7eb980ec189aa88e24d043',
+      token: this.itemId,
       url: 'https://bloom.co/api/receiveData',
       org_logo_url: 'https://cb253dd4.ngrok.io/favicon.ico',
       org_name: 'Detsy',
@@ -30,9 +31,8 @@ export class BloomButtonComponent implements OnInit {
     };
 
     const options = {
-      size: 512,
-      ecLevel: 'H',
-      fgColor: '#eb144c'
+      size: 256,
+      fgColor: '#001AF5'
     };
 
     const requestQRCodeId = createRequestQRCode(requestData, this.qrContainer.nativeElement, options);
