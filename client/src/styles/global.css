@@ -1,0 +1,15 @@
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.light {
+	font-weight: 300;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.width-100 {
+	width: 100%;
+}

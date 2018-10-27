@@ -17,6 +17,7 @@ contract Bookings {
     mapping (uint16 => mapping(uint8 => mapping(uint8 => Booking))) bookings;
 
     event Booked(address guest);
+    event Canceled(address guest);
     event CheckedIn(address guest);
     event CheckedOut(address guest);
 
@@ -64,6 +65,8 @@ contract Bookings {
         else if(now < (bookings[year][month][day].checkInFrom - 86400)) { // 24h left
             msg.sender.transfer(price/2);
         }
+
+        emit Canceled(msg.sender);
     }
 
     function checkIn() public payable {
