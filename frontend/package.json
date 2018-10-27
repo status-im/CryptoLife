@@ -26,6 +26,7 @@
     "angular2-uuid": "^1.1.1",
     "core-js": "^2.4.1",
     "ethers": "^4.0.7",
+    "limepay-web": "^0.1.5",
     "ng-inline-svg": "^8.1.0",
     "rxjs": "^5.5.6",
     "socket.io-client": "^2.1.1",
