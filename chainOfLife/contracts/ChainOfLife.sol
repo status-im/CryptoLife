@@ -1,9 +1,17 @@
 pragma solidity ^0.4.24;
 
-contract ChainOfLife {
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
-  event StartGame(bytes32 indexed gameId, address indexed alice);
-  event Join(bytes32 indexed gameId, address indexed bob, bytes32[] field);
+contract ChainOfLife {
+  using SafeMath for uint256;
+
+  event StartGame(bytes32 indexed gameId, address indexed playerOne);
+  event JoinGame(bytes32 indexed gameId, address indexed playerTwo, bytes32[] PlayerTwoField);
+  event ResolveGame(bytes32 indexed gameId, address indexed winner, bytes32[] PLayerOneField);
+  event FinalizeGame(bytes32 indexed gameId, address indexed winner, string message);
+  event CancelGame(bytes32 indexed gameId);
+
+  uint timeout;
 
   struct Game{
     address alice;
@@ -21,25 +29,93 @@ contract ChainOfLife {
     uint256 time;
   }
 
-  mapping (bytes32 => Game) public games;
+  struct PlayerStats{
+    uint games;
+    uint wins;
+  }
 
+  mapping (bytes32 => Game) public games;
+  mapping (address => PlayerStats) public players;
+
+  constructor (uint _timeout) public {
+    timeout = _timeout;
+  }
+  
   function register(bytes32 _hash) public {
-    games[_hash] = Game(msg.sender, 0, 0, 0, 0);
+    require(games[_hash].alice == address(0), "Game with the same initial field already exists");
+    games[_hash] = Game(msg.sender, 0, 0, 0, block.number);
+    
     emit StartGame(_hash, msg.sender);
   }
 
   function join(bytes32 _gameId, bytes32[] _field) public {
     Game storage game = games[_gameId];
-    require(game.alice != address(0));
+    require(game.alice != address(0), "Game doesn't exist");
     require(game.state == 0);
-    emit Join(_gameId, msg.sender, _field);
     game.state = 1;
     game.bob = msg.sender;
+    game.bobHash = keccak256(abi.encodePacked(_field));
+    game.time = block.number;
+
+    emit JoinGame(_gameId, msg.sender, _field);
   }
 
-  function hashField(bytes32[] _field) pure returns (bytes32 hash) {
-    // TODO: 
-    return _field[0];
+  function resolve(bytes32 _gameId, bytes32[] _field, bool _isWinner) public {
+    bytes32 fieldHash = keccak256(abi.encodePacked(_field));
+    require(_gameId == fieldHash, "Alice hashes do not match");
+    Game storage game = games[_gameId];
+    require(msg.sender == game.alice, "Resolve message is not sent by player 1 or game doesn't exist");
+    require(game.state == 1, "Wrong game state");
+
+    address winner;
+    if (_isWinner){
+      winner = game.alice;
+      game.state = 2;      
+    } else {
+      winner = game.bob;
+      game.state = 3;
+    }
+    game.time = block.number;
+
+    emit ResolveGame(_gameId, winner, _field);
   }
 
+  function finalize(bytes32 _gameId) public {
+    Game storage game = games[_gameId];
+    if(game.state == 0 && msg.sender == game.alice) {
+      games[_gameId] = Game(0,0,0,0,0);
+      emit CancelGame(_gameId);
+      return;      
+    }
+
+    require(block.number > game.time + timeout * 12, "Timeout has not been reached");
+    require(game.state == 1 || game.state == 2 || game.state == 3, "Wrong game state");
+    require(msg.sender == game.alice || msg.sender == game.bob, "Finalize message not send sent by player");
+
+    address winner;
+    string memory message;
+    if(game.state == 1) {
+      winner = game.bob;
+      players[game.alice].games.add(1);
+      players[game.bob].games.add(1);
+      players[game.bob].wins.add(1);
+      message = "Player 2 wins due to PLayer 1 inactivity";
+    }
+    if(game.state == 2) {
+      winner = game.alice;
+      players[game.alice].games.add(1);
+      players[game.bob].games.add(1);
+      players[game.alice].wins.add(1);
+      message = "Player 1 wins";
+    }
+    if(game.state == 3) {
+      winner = game.bob;
+      players[game.alice].games.add(1);
+      players[game.bob].games.add(1);
+      players[game.bob].wins.add(1);
+      message = "Player 2 wins";
+    }
+    games[_gameId] = Game(0,0,0,0,0);
+    emit FinalizeGame(_gameId, winner,message);    
+  }
 }
