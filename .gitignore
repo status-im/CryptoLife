@@ -7,3 +7,4 @@ sdk/*
 .DS_Store
 dapp/build/
 dapp/.etherlime-store
+backend/config/
