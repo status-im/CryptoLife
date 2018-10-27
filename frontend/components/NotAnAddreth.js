@@ -38,7 +38,7 @@ export default class NotAnAddreth extends PureComponent {
           <ErrorImage src="../static/images/living-ghost.svg" />
           <Headline>Wait a sec...</Headline>
           <ContentText>
-            This doesn't smell like an Ethereum address nor ENS domain!
+            This doesn't smell like an Ethereum address nor a registered ENS domain!
           </ContentText>
         </Content>
       </Container>
