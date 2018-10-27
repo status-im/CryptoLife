@@ -13,7 +13,7 @@ class App extends Component {
     this.provider = new providers.JsonRpcProvider('http://localhost:18545');
     this.sdk = new EthereumIdentitySDK('http://localhost:3311', this.provider);
     this.clickerContractAddress = '0x87bB498DA0C18af128180b761680fb47D6FB365d';
-    this.tokenContractAddress = '';
+    this.tokenContractAddress = '0x850437540FE07d02045f88cAe122Bc66B1BdE957';
     this.clickerContract = new Contract(
       this.clickerContractAddress,
       Clicker.interface,
@@ -32,6 +32,7 @@ class App extends Component {
   }
 
   async onTransferClick() {
+    console.log('onTransferClick', message)
     const message = {
       to: this.clickerContractAddress,
       from: this.identityAddress,
@@ -42,7 +43,9 @@ class App extends Component {
       gasLimit: 1000000
 
     };
-    await this.sdk.execute(this.identityAddress, message, this.privateKey);
+    console.log('onTransferClick message=', message)
+    const r = await this.sdk.execute(this.identityAddress, message, this.privateKey);
+    console.log('receipt', r)
   }
 
   async onNextClick() {
