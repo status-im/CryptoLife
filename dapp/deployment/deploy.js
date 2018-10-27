@@ -1,12 +1,11 @@
 const etherlime = require('etherlime');
-const LimeFactory = require('../build/LimeFactory.json');
-
+const Token = require('../build/Token.json');
+const EscrowContract = require('../build/Escrow.json');
 
 const deploy = async (network, secret) => {
 
-	const deployer = new etherlime.EtherlimeGanacheDeployer();
-	const result = await deployer.deploy(LimeFactory);
-
+	const deployer = new etherlime.InfuraPrivateKeyDeployer(secret, network);
+	const tokenContractDeployed = await deployer.deploy(Token, {});
 };
 
 module.exports = {
