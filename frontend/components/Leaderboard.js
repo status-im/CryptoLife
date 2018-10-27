@@ -23,9 +23,9 @@ const TxLinkContainer = styled.div`
   max-width: 200px;
 `
 
-// const AmountDonated = props => {
-//   return <div>Total amount collected: {props.amount}</div>
-// }
+const AmountDonated = props => {
+  return <div>Total amount collected: {props.amount}</div>
+}
 
 export default class Leaderboard extends PureComponent {
   state = {
