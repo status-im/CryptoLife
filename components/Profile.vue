@@ -17,7 +17,7 @@
                         <v-spacer></v-spacer>
 
                         <v-card-title class="white--text pl-5 pt-5">
-                            <div class="display-1 pl-5 pt-5">User name</div>
+                            <div class="display-1">User name</div>
                         </v-card-title>
                     </v-layout>
                 </v-img>

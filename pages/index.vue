@@ -9,9 +9,6 @@
                         <v-card-text>
                             Protea is a meetup management and community building application.
                         </v-card-text>
-                        <v-card-actions>
-                            <v-btn color="orange">View Meetups</v-btn>
-                        </v-card-actions>
                     </v-card>
                 </v-flex>
             </v-layout>

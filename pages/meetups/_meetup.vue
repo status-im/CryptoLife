@@ -27,13 +27,13 @@
     },
     data () {
       return {
-        meetupAddress: '',
-        curveParamA: 0.05,
-        curveParamB: 2
+        meetupAddress: ''
       }
     },
     async asyncData ({ env }) {
       return {
+        curveParamA: 0,
+        curveParamB: 1.00016,
         chartData: {
           labels: [...Array(11).keys()].map(n => n * 1000),
           datasets: [
