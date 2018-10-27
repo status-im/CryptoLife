@@ -72,7 +72,7 @@ contract Marketplace {
   /**
    * @dev Track of record for each participant: list of contract IDs (index in `contractsRepository`)
    */
-  mapping(address => uint256[]) contractsHistory;
+  mapping(address => uint256[]) public contractsHistory;
 
   /// @dev Fired in submitSignedContract()
   event ContractSubmitted(
@@ -242,7 +242,7 @@ contract Marketplace {
 
     // if the amount paid is what was previously agreed
     // we're done with this contract
-    if(c.amountPaid == c.amountAgreed) {
+    if(c.amountPaid == amount) {
       // save it into the client history
       contractsHistory[c.client].push(contractId);
 
