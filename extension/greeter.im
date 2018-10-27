@@ -1,0 +1,18 @@
+{meta {:name          "Greeter"
+       :description   "Greeting extension"
+       :documentation "Sends greeting to the chat"}
+ 
+ views/preview
+ [text "Preview"]
+
+ views/short-preview
+ [text "Short Preview"]
+
+ hooks/commands.greet
+ {:description   "Sends greeting"
+  :scope         #{:personal-chats}
+  :preview       [preview]
+  :short-preview [short-preview]
+  :parameters    [{:id          :id
+                   :type        :text
+                   :placeholder "id"}]}}
