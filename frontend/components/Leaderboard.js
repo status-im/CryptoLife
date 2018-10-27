@@ -1,10 +1,14 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
+import Web3 from 'web3'
+import Emojify from 'react-emojione'
 
-const TxWrapper = styled.div`
+const TxGrid = styled.div`
   display: grid;
+  grid-template-columns: 1fr 3fr 3fr 1fr;
   grid-gap: 1rem;
 `
+
 const TxLink = styled.a`
   color: #ff9a62;
   text-decoration: none;
@@ -13,37 +17,102 @@ const TxLink = styled.a`
 export default class Leaderboard extends PureComponent {
   state = {
     txs: [],
+    totalAmount: 0,
   }
 
   fetchTxs = async address => {
     // FIXME: avoid using http://cors-anywhere.herokuapp.com
-    const url = `http://cors-anywhere.herokuapp.com/https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address=${address}`
+    const url = `https://api.etherscan.io/api?module=account&action=txlist&address=${address}`
     const response = await fetch(url)
     const json = await response.json()
-    this.setState({ txs: json.result })
+    return this.processTxList(json.result);
   }
 
-  async componentDidMount() {
+  processTxList = ethlist => {
+    // let totalAmount = new myweb3.utils.BN(0);
+    let myweb3 = new Web3(web3.currentProvider);
+    let filteredEthList = ethlist
+      .map(obj => {
+        obj.value = new myweb3.utils.BN(obj.value); // convert string to BigNumber
+        return obj;
+      })
+      .filter(obj => {
+        return obj.value.cmp(new myweb3.utils.BN(0));
+      }) // filter out zero-value transactions
+      .reduce((acc, cur) => {
+        // group by address and sum tx value
+        if (cur.isError !== "0") {
+          // tx was not successful - skip it.
+          return acc;
+        }
+        if (cur.from == this.props.address) {
+          // tx was outgoing - don't add it in
+          return acc;
+        }
+        if (typeof acc[cur.from] === "undefined") {
+          acc[cur.from] = {
+            from: cur.from,
+            value: new myweb3.utils.BN(0),
+            input: cur.input,
+            hash: []
+          };
+        }
+        acc[cur.from].value = cur.value.add(acc[cur.from].value);
+        acc[cur.from].input =
+          cur.input !== "0x" && cur.input !== "0x00"
+            ? myweb3.utils.hexToAscii(cur.input)
+            : acc[cur.from].input;
+        acc[cur.from].hash.push(cur.hash);
+        return acc;
+      }, {});
+    filteredEthList = Object.keys(filteredEthList)
+      .map(val => filteredEthList[val])
+      .sort((a, b) => {
+        // sort greatest to least
+        return b.value.cmp(a.value);
+      })
+      .map((obj, index) => {
+        // add rank
+        obj.rank = index + 1;
+        return obj;
+      });
+    const ethTotal = filteredEthList.reduce((acc, cur) => {
+      return acc.add(cur.value);
+    }, new myweb3.utils.BN(0));
+    console.log(filteredEthList);
+    return this.setState({
+      txs: filteredEthList,
+      totalAmount: parseFloat(myweb3.utils.fromWei(ethTotal)).toFixed(2)
+    });
+  };
+
+  componentDidMount = async () => {
     this.fetchTxs(this.props.address)
   }
 
   render() {
     if (this.state.txs) {
       const TxsList = this.state.txs.map(tx => (
-        <TxWrapper key={tx.hash}>
-          <TxLink
-            href={`https://blockscout.com/eth/mainnet/tx/${tx.hash}`}
-            target="_blank"
-          >
-            {tx.hash}
-          </TxLink>
-        </TxWrapper>
-      ))
+        <React.Fragment key={tx.from}>
+          <span>{tx.rank}</span>
+          <span>{tx.from}</span>
+          <span><Emojify>{tx.input}</Emojify></span>
+          <span>
+            {tx.hash.map((hash, index) => (
+              <TxLink key={hash} href={`https://blockscout.com/eth/mainnet/tx/${hash}`} target="_blank">
+                [{index+1}]
+              </TxLink>))}
+          </span>
+        </React.Fragment>
+      ));
       return (
-        <TxWrapper>
-          <TxWrapper>Txs:</TxWrapper>
+        <TxGrid>
+          <span>Rank</span>
+          <span>From</span>
+          <span>Message</span>
+          <span>Tx</span>
           {TxsList}
-        </TxWrapper>
+        </TxGrid>
       )
     } else {
       return <div />
