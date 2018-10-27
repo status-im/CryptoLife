@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import styledNormalize from 'styled-normalize'
 import Head from 'next/head'
 import Web3 from 'web3'
 import parseDomain from 'domain-name-parser'
