@@ -34,9 +34,13 @@ build:
 	@echo "Cleaning the build folder"
 	rm ./build/*
 	@echo "Bundling the web site"
+	@mkdir -p build
+	@cp src/lib/quiet* build
 	NODE_ENV=production parcel build -d ./build --log-level 2 --no-source-maps --public-url ./ src/index.html
 
 www: build
+	@mkdir -p build
+	@cp src/lib/quiet* build
 	serve build -p 1234
 
 dev:

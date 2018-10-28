@@ -1,0 +1,36 @@
+// Code refactored from https://quiet.github.io/quiet-js/
+
+function setupAudio() {
+  Quiet.init({
+    profilesPrefix: "scripts/",
+    memoryInitializerPrefix: "scripts/",
+    libfecPrefix: "scripts/"
+  });
+
+  Quiet.addReadyCallback(() => {
+    // RECEIVER
+    Quiet.receiver({
+      // profile: "audible",
+      profile: "ultrasonic-experimental",
+      onReceive: payload => console.log("PAYLOAD", Quiet.ab2str(payload)),
+      onCreateFail: reason => console.log("failed to create quiet receiver: " + reason),
+      onReceiveFail: () => console.error("RCV FAIL")
+    });
+
+    // SENDER
+    const transmit = Quiet.transmitter({
+      // profile: "audible",
+      profile: "ultrasonic-experimental",
+      onFinish: () => console.log("sent"),
+      clampFrame: false
+    });
+
+    setTimeout(() => {
+      const text = "Hi havia una vegada la caputxeta vermella"
+      transmit.transmit(Quiet.str2ab(text));
+    }, 500)
+
+  }, err => alert("ERR:" + err.message));
+};
+
+document.addEventListener("DOMContentLoaded", setupAudio);

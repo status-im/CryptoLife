@@ -1,6 +1,7 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require('cors')
+const serveStatic = require('serve-static')
 const fs = require("fs")
 const path = require("path")
 const Web3 = require("web3")
@@ -26,6 +27,7 @@ const server = express()
 
 server.use(bodyParser.json({ limit: "50kb" }))
 server.use(cors())
+server.use(serveStatic(path.join(__dirname, '..', 'client', 'build')))
 
 server.post("/access/request", async (req, res) => {
 	const result = { ok: false }
