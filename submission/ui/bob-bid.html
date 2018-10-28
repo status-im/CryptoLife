@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+		<head>
+				<title></title>
+				<meta charset="utf-8"/>
+				<script src="./dist/crypto.bundle.js?312"></script>
+				<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+ 				<script src="https://unpkg.com/ipfs/dist/index.min.js"></script>
+				<link rel="stylesheet" type="text/css" href="./styles.css">
+		</head>
+		<body>
+			<h1><img id="logo" src="./img/logo.svg"></h1>
+			<form id="send-bid">
+				<p><img src="http://placehold.it/200x200" alt="{ipfs_hash}" id="bob_decrypted_data"></p>
+				<label>
+					<h3>Bid Amount</h3>
+					<p><input type="text" id="bid_price" value="{bid_price}" required disabled></p>
+				</label>
+
+				<p><input type="submit" value="Send Bid"></p>
+				<hr>
+				<p class="center"><small>{bob_address}</small></p>
+				<p class="center"><small>{bob_balance}</small></p>
+			</form>
+			<script>
+				const ABI = [
+					{
+						"constant": false,
+						"inputs": [
+							{
+								"name": "uid",
+								"type": "uint256"
+							}
+						],
+						"name": "acceptBid",
+						"outputs": [],
+						"payable": false,
+						"stateMutability": "nonpayable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [
+							{
+								"name": "uid",
+								"type": "uint256"
+							}
+						],
+						"name": "bid",
+						"outputs": [],
+						"payable": true,
+						"stateMutability": "payable",
+						"type": "function"
+					},
+					{
+						"anonymous": false,
+						"inputs": [
+							{
+								"indexed": true,
+								"name": "_from",
+								"type": "address"
+							},
+							{
+								"indexed": true,
+								"name": "_uid",
+								"type": "uint256"
+							},
+							{
+								"indexed": false,
+								"name": "_value",
+								"type": "uint256"
+							}
+						],
+						"name": "Bid",
+						"type": "event"
+					},
+					{
+						"constant": false,
+						"inputs": [
+							{
+								"name": "uid",
+								"type": "uint256"
+							}
+						],
+						"name": "cancel",
+						"outputs": [],
+						"payable": false,
+						"stateMutability": "nonpayable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [
+							{
+								"name": "uid",
+								"type": "uint256"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							}
+						],
+						"name": "edit",
+						"outputs": [],
+						"payable": false,
+						"stateMutability": "nonpayable",
+						"type": "function"
+					},
+					{
+						"constant": false,
+						"inputs": [
+							{
+								"name": "ipfs_hash",
+								"type": "string"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							}
+						],
+						"name": "include",
+						"outputs": [],
+						"payable": false,
+						"stateMutability": "nonpayable",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [],
+						"name": "auctionIds",
+						"outputs": [
+							{
+								"name": "",
+								"type": "uint256"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [
+							{
+								"name": "",
+								"type": "uint256"
+							}
+						],
+						"name": "buyRequests",
+						"outputs": [
+							{
+								"name": "",
+								"type": "address"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					},
+					{
+						"constant": true,
+						"inputs": [
+							{
+								"name": "",
+								"type": "uint256"
+							}
+						],
+						"name": "data",
+						"outputs": [
+							{
+								"name": "ipfs_hash",
+								"type": "string"
+							},
+							{
+								"name": "price",
+								"type": "uint256"
+							},
+							{
+								"name": "owner",
+								"type": "address"
+							}
+						],
+						"payable": false,
+						"stateMutability": "view",
+						"type": "function"
+					}
+				];
+
+			</script>
+ 			<script src="./scripts/wallet.js"></script>
+ 			<script src="./scripts/secret.js"></script>
+ 			<script src="./scripts/transact.js"></script>
+ 			<script src="./scripts/ui.js"></script>
+		</body>
+</html>
