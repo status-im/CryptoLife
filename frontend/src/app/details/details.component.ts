@@ -47,8 +47,14 @@ export class DetailsComponent implements OnInit {
 		this.waitingService.pushWaitingSubject(true);
 		const shopperId = this.shopperStoreService.getShopperId();
 
-		const itemPrice = 50000000000000000000;
-		const requestData = { itemName: this.etsyItem.name, price: itemPrice, walletAddress: this.wallet.address, shopperId: shopperId };
+		const tokenPrice = this.etsyItem.price * 10 ** 18;
+		const requestData = {
+			itemName: this.etsyItem.name,
+			price: this.etsyItem.price,
+			tokenPrice,
+			walletAddress: this.wallet.address,
+			shopperId: shopperId
+		};
 
 		const result = await axios({
 			method: 'POST',

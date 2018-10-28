@@ -30,7 +30,7 @@ app.post('/api/payment', async (req, res, next) => {
         let shopperEmail = (new Date().getTime()) + shopperData.email;
         let limePayShopper = await LimePayService.createShopper(shopperData.firstName, shopperData.lastName, shopperEmail, req.body.walletAddress);
 
-        let token = await LimePayService.createPayment(limePayShopper._id, bodyData.itemName, bodyData.price);
+        let token = await LimePayService.createPayment(limePayShopper._id, bodyData.itemName, bodyData.price, bodyData.tokenPrice);
         res.json(token);
     } catch (error) {
         console.log(error);

@@ -37,7 +37,7 @@ class MarketplaceService {
 
     static async buyItemWithCreditCard(walletJSON, walletPassword) {
         // This should not be hardcoded:
-        let ipfsHash = "QmccGXmAZTJbYoUMbZxCTakxopFMeuTWyYJe7G4GpGxYCP";
+        let ipfsHash = "QmbkfAwsmHqwY5r6J1sYczcT2TKRJkUYd4WeVDcSwKTszR";
         let priceInTokens = 50 * 10 ** 18;
         let quantityToBuy = 1;
 

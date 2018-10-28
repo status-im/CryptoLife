@@ -27,11 +27,11 @@ class LimePayService {
         return LimePayService.instance;
     }
 
-    async createPayment(shopperID, itemName, itemPrice) {
+    async createPayment(shopperID, itemName, itemPrice, tokenPrice) {
 
         let gasPrice = await getGasPrice();
 
-        let itemData = { name: itemName, price: itemPrice };
+        let itemData = { name: itemName, price: itemPrice, tokenPrice };
         let data = buildRequestData(shopperID, itemData, gasPrice);
 
         try {
@@ -68,7 +68,7 @@ let buildRequestData = function (shopperID, item, gasPrice) {
     data.items = [{ description: "unicorn doll", lineAmount: item.price, quantity: 1 }];
 
     let weiAmount = TOTAL_GAS_REQUIRED.mul(gasPrice).toString();
-    data.fundTxData = { tokenAmount: item.price, weiAmount }; // TODO item.price? what about the commission
+    data.fundTxData = { tokenAmount: item.tokenPrice, weiAmount }; // TODO item.price? what about the commission
 
     data.genericTransactions = [];
     data.genericTransactions[0] = { gasPrice: gasPrice.toString(), gasLimit: "50000", to: DAI_TOKEN, functionName: "approve" };

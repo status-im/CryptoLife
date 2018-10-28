@@ -17,7 +17,18 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6">
-					<img class="details-image" [src]="etsyItem.imagePath">
+					<div class="row">
+						<div class="col-md-12">
+							<img class="details-image" [src]="etsyItem.imagePath">
+							<hr>
+						</div>
+						<div class="col-md-12">
+							Seller: <strong>{{etsyItem.vendor}}</strong>
+						</div>
+						<div class="col-md-12">
+							Blockchain Address: {{etsyItem.vendorAddress}}
+						</div>
+					</div>
 				</div>
 				<div class="col-md-6">
 					<div *ngIf="showBloomAuthentication; else payment;">
@@ -87,7 +98,7 @@
 											</div>
 										</div>
 									</div>
-									<button class="btn btn-raised btn-info btn-lg col-md-11" type="submit" id="submit-button">Execute Transaction</button>
+									<button class="btn btn-raised btn-info btn-lg col-md-11" type="submit" id="submit-button" (click)="onProcessPayment()">Execute Transaction</button>
 								</form>
 							</div>
 						</div>
