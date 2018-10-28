@@ -1,5 +1,7 @@
 # DHotel
 
+This is a work of Jordi Moraleda. 
+
 `npm install`
 
 ## Blockchain
