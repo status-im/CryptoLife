@@ -30,8 +30,12 @@ function getConfigHash(boolArray) {
   for (var i = 0; i < rows.length; i++) {
     bufs.push(Buffer.from(rows[i].replace('0x', ''), 'hex'));
   }
-  return `0x${utils.sha3(bufs).toString('hex')}`;
-  //return getWeb3().utils.soliditySha3(encodeConfig(boolArray));
+  console.log(bufs);
+  const finBuf = Buffer.alloc(bufs.length * 32);
+  for (var i = 0; i < bufs.length; i++) {
+    bufs[i].copy(finBuf, i * 32);
+  }
+  return `0x${utils.sha3(finBuf).toString('hex')}`;
 }
 
 function encodeConfig(boolArray) {
