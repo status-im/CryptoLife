@@ -1,12 +1,10 @@
 const ethers = require('ethers');
-const limePayWeb = require('limepay-web');
+const limePayWeb = require('limepay-web/dist/lime-pay.min.js');
 
 const contractsInitializator = require('./config/contracts-initializator');
-const tokenService = require('./token-service');
-const baseValidators = require('./validators/baseValidators');
 const gasConfig = require('./config/gas-config.json');
 const constants = require('./config/constants.json');
-const util = require('./util/util');
+const util = require('./util');
 const ethService = require('./eth-service');
 
 
@@ -43,20 +41,10 @@ class MarketplaceService {
         let priceInTokens = 50 * 10 ** 18;
         let quantityToBuy = 1;
 
-        let gasPrice = await ethService.getGasPrice();
-
-        const overrideOptions = {
-            gasLimit: gasConfig.createIPClaim,
-            gasPrice: gasPrice
-        };
-
         let ipfsToBytes32 = util.getBytes32FromIpfsHash(ipfsHash);
 
-        // #SecurityBestPractise
-        const wallet = await new ethers.Wallet(constants.secret);
-
-        const marketplaceInstance = contractsInitializator.DetsyMarketplaceContract();
-        const tokenContract = await contractsInitializator.DAITokenContract();
+        const marketplaceInstance = contractsInitializator.DetsyMarketplaceContract;
+        const tokenContract = contractsInitializator.DAITokenContract;
 
         let transactions = [
             {
@@ -65,7 +53,7 @@ class MarketplaceService {
                 gasLimit: gasConfig.approve,
                 value: 0,
                 fnName: 'approve',
-                params: [marketplaceInstance.address, priceInTokens]
+                params: [marketplaceInstance.address, priceInTokens.toString()]
             },
             {
                 to: marketplaceInstance.address,

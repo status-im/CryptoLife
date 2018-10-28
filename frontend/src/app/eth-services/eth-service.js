@@ -1,4 +1,3 @@
-const config = require('../../../../../builds/dev/src/frontend/public/dev-generated/config').default;
 const ethers = require('ethers');
 const axios = require('axios');
 const provider = require('./config/network-provider').provider();
@@ -19,11 +18,11 @@ class EthService {
 
     }
 
-    static async waitForTransaction (txnHash) {
+    static async waitForTransaction(txnHash) {
         return await provider.waitForTransaction(txnHash);
     }
 
-    static async getTrasactionStatus (txnHash) {
+    static async getTrasactionStatus(txnHash) {
         let receipt = await provider.getTransactionReceipt(txnHash);
         return receipt.status !== 0;
     }

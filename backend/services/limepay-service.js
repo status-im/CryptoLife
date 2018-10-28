@@ -65,14 +65,14 @@ let buildRequestData = function (shopperID, item, gasPrice) {
     data.currency = "EUR";
     data.shopper = shopperID;
 
-    data.items = [{ description: item.name, lineAmount: item.price, quantity: 1 }];
+    data.items = [{ description: "unicorn doll", lineAmount: item.price, quantity: 1 }];
 
     let weiAmount = TOTAL_GAS_REQUIRED.mul(gasPrice).toString();
     data.fundTxData = { tokenAmount: item.price, weiAmount }; // TODO item.price? what about the commission
 
     data.genericTransactions = [];
-    data.genericTransactions[0] = { gasPrice: gasPrice.toString(), gasLimit: GAS_LIMIT, to: DAI_TOKEN, functionName: "approve" };
-    data.genericTransactions[1] = { gasPrice: gasPrice.toString(), gasLimit: GAS_LIMIT, to: DETSY_ADDRESS, functionName: "buyItem" };
+    data.genericTransactions[0] = { gasPrice: gasPrice.toString(), gasLimit: "50000", to: DAI_TOKEN, functionName: "approve" };
+    data.genericTransactions[1] = { gasPrice: gasPrice.toString(), gasLimit: "170000", to: DETSY_ADDRESS, functionName: "buyItem" };
 
     return data;
 }

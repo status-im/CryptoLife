@@ -8,6 +8,7 @@ import * as ethers from 'ethers';
 import axios, { AxiosPromise } from 'axios';
 import { environment } from './../../environments/environment';
 import * as limePayWeb from 'limepay-web/dist/lime-pay.min.js';
+import * as MarketplaceService from './../eth-services/marketplace';
 
 @Component({
 	selector: 'dapp-details',
@@ -43,7 +44,8 @@ export class DetailsComponent implements OnInit {
 		this.waitingService.pushWaitingSubject(true);
 		const shopperId = this.shopperStoreService.getShopperId();
 
-		const requestData = { itemName: this.etsyItem.name, price: 1, walletAddress: this.wallet.address, shopperId: shopperId };
+		const itemPrice = 50000000000000000000;
+		const requestData = { itemName: this.etsyItem.name, price: itemPrice, walletAddress: this.wallet.address, shopperId: shopperId };
 
 		const result = await axios({
 			method: 'POST',
@@ -82,17 +84,19 @@ export class DetailsComponent implements OnInit {
 		console.log(limeToken);
 	}
 
-	onProcessPayment() {
-		// const cardHolderInformation = {
-		// 	name: "George Spasov",
-		// 	countryCode: "bg",
-		// 	zip: "1010",
-		// 	street: "Dragan Tsankov",
-		// 	isCompany: false
-		// };
+	async onProcessPayment() {
+		const cardHolderInformation = {
+			name: 'George Spasov',
+			countryCode: 'bg',
+			zip: '1010',
+			street: 'Dragan Tsankov',
+			isCompany: false
+		};
 
-		// let signedTransactions = await signTransactions();
-		// limePayWeb.PaymentService.processPayment(cardHolderInformation, signedTransactions);
+		const jsonWallet = await this.wallet.encrypt('123');
+
+		const signedTransactions = await MarketplaceService.buyItemWithCreditCard(JSON.parse(jsonWallet), '123');
+		limePayWeb.PaymentService.processPayment(cardHolderInformation, signedTransactions);
 	}
 
 }

@@ -25,6 +25,7 @@
     "@types/socket.io-client": "^1.4.32",
     "angular-webstorage-service": "^1.0.2",
     "angular2-uuid": "^1.1.1",
+    "bs58": "^4.0.1",
     "core-js": "^2.4.1",
     "ethers": "^4.0.7",
     "limepay-web": "^0.1.5",

@@ -12,6 +12,7 @@ import { WaitingModeService } from '../waiting-mode.service';
 export class PaymentComponent implements OnInit {
 	@ViewChild(DetailsComponent) detailsComponent: DetailsComponent;
 	public activateLimePay = false;
+	private wallet;
 
 	constructor(private shopperStoreService: ShopperStoreService,
 		private waitingService: WaitingModeService) {
@@ -19,6 +20,5 @@ export class PaymentComponent implements OnInit {
 
 	ngOnInit() {
 	}
-
 
 }
