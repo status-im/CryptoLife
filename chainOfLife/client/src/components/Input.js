@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { splitIntoSubArray, getConfigHash, encodeConfigBytes32Array }  from '../util/hex';
+import { splitIntoSubArray, getConfigHash, encodeConfigBytes32Array, unpack }  from '../util/hex';
 
 import { Redirect } from 'react-router';
 
@@ -44,7 +44,7 @@ class Input extends Component {
     let buttonArray = this.state.config.map((alive, i) => {
       return this.renderButton(alive, i);
     });
-    return splitIntoSubArray(buttonArray, 64).map(row => {
+    return splitIntoSubArray(buttonArray, 32).map(row => {
       return (
         <div>
          {row}
@@ -56,6 +56,7 @@ class Input extends Component {
   async registerGame() {
     const boolConfig = this.state.config;
     const account = (await this.props.eth.web3.eth.getAccounts())[0];
+    const config = unpack(encodeConfigBytes32Array(boolConfig), 4);
     const gameId = getConfigHash(boolConfig);
     await this.props.eth.contract.methods.register(gameId).send({
       from: account
@@ -72,13 +73,14 @@ class Input extends Component {
       ...this.state,
       gameId: gameId
     });
+    window.localStorage.setItem(gameId, JSON.stringify(config));
   }
 
   async joinGame() {
     const boolConfig = this.state.config;
     const account = (await this.props.eth.web3.eth.getAccounts())[0];
-    console.log(encodeConfigBytes32Array(boolConfig));
-    await this.props.eth.contract.methods.join(this.props.gameId, encodeConfigBytes32Array(boolConfig)).send({
+    const config = unpack(encodeConfigBytes32Array(boolConfig), 4);
+    await this.props.eth.contract.methods.join(this.props.gameId, config).send({
       from: account
     });
   }

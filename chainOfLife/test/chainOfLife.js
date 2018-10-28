@@ -1,5 +1,6 @@
 import chai from 'chai';
 const ChainOfLife = artifacts.require("./ChainOfLife.sol");
+const Token = artifacts.require("./Token.sol");
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 const Utils = require('ethereumjs-utils');
@@ -13,6 +14,9 @@ const should = chai
 
 contract('ChainOfLife', (accounts) => {
   let game;
+  let lifeToken;
+  const tokenOwner = accounts[2];
+  const gameOwner = accounts[3]
   const alice = accounts[0];
   const bob = accounts[1];
   const bobField = ['0x00','0x0000000000000000000000000000000000000000000000000000000000000070','0x00','0x00','0x00','0x00','0x00','0x00',
@@ -61,20 +65,26 @@ contract('ChainOfLife', (accounts) => {
   //console.log("gameId: " + gameId);
 
   before(async() => {
-  	game = await ChainOfLife.new(1);
+    lifeToken = await Token.new({from:tokenOwner});
+    game = await ChainOfLife.new(1,1,{from:gameOwner});
+    await game.setTokenAddress(lifeToken.address,{from:gameOwner}).should.be.fulfilled;
+    await lifeToken.transfer(alice,100,{from:tokenOwner}).should.be.fulfilled;
+    await lifeToken.transfer(bob,100,{from:tokenOwner}).should.be.fulfilled;
+    await lifeToken.approve(game.address,100,{from:alice}).should.be.fulfilled;
+    await lifeToken.approve(game.address,100,{from:bob}).should.be.fulfilled; 
   });
 
   it('alice should be able to register a new game', async () => {
-  	const tx = await game.register(gameId, {from: alice}).should.be.fulfilled;
-  	assert.equal(tx.receipt.logs[0].topics[1], gameId); // check that hash in event
-  	const rsp = await game.games(gameId);
+    const tx = await game.register(gameId, {from: alice}).should.be.fulfilled;
+  	assert.equal(tx.receipt.logs[1].topics[1], gameId); // check that hash in event
+    const rsp = await game.games(gameId);
   	assert.equal(rsp[0], alice); 	
   });
 
   it('bob should allow to be able to join registered game', async () => {
     const tx = await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
     //console.log(tx.receipt.logs);
-    let eventField = tx.receipt.logs[0].data;
+    let eventField = tx.receipt.logs[1].data;
     eventField = eventField.slice(2);
     eventField = eventField.match(/.{1,64}/g);
     eventField = eventField.slice(2);
@@ -107,7 +117,14 @@ contract('ChainOfLife', (accounts) => {
   describe('Finilizing game', () => {
     describe('Before timeout', () => {
       beforeEach(async() => {
-        game = await ChainOfLife.new(100);
+        lifeToken = await Token.new({from:tokenOwner});
+        game = await ChainOfLife.new(100,1,{from:gameOwner});
+        await game.setTokenAddress(lifeToken.address,{from:gameOwner}).should.be.fulfilled;
+        await lifeToken.transfer(alice,100,{from:tokenOwner});
+        await lifeToken.transfer(bob,100,{from:tokenOwner});
+        await lifeToken.approve(game.address,100,{from:alice}).should.be.fulfilled;
+        await lifeToken.approve(game.address,100,{from:bob}).should.be.fulfilled;
+        
         await game.register(gameId, {from: alice}).should.be.fulfilled;
       })
       it("should prevent finalization before resolution and before timeout", async () => {
@@ -127,9 +144,9 @@ contract('ChainOfLife', (accounts) => {
         const rsp = await game.games(gameId);
         assert.equal(rsp[3], 2);
       });
-      it("should allow finalization  by Alice before Bob joined, cancelling the game", async () => {
+      it("should allow finalization by Alice before Bob joined, cancelling the game", async () => {
         const tx = await game.finalize(gameId,{from: alice}).should.be.fulfilled;
-        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        assert.equal(tx.receipt.logs[1].topics[1], gameId);
         const rsp = await game.games(gameId);
         assert.equal(rsp[0], 0);
       });
@@ -142,16 +159,23 @@ contract('ChainOfLife', (accounts) => {
     })
     describe('After timeout', () => {
       beforeEach(async() => {
-        game = await ChainOfLife.new(0);
+        lifeToken = await Token.new({from:tokenOwner});
+        game = await ChainOfLife.new(0,1,{from:gameOwner});
+        await game.setTokenAddress(lifeToken.address,{from:gameOwner}).should.be.fulfilled;
+        await lifeToken.transfer(alice,100,{from:tokenOwner});
+        await lifeToken.transfer(bob,100,{from:tokenOwner});
+        await lifeToken.approve(game.address,100,{from:alice}).should.be.fulfilled;
+        await lifeToken.approve(game.address,100,{from:bob}).should.be.fulfilled;
+
         await game.register(gameId, {from: alice}).should.be.fulfilled;
       })
-      it("should allow Alice finalization afte timeout", async () => {
+      it("should allow Alice finalization after timeout", async () => {
         await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
         await game.resolve(gameId, aliceField, true, {from: alice}).should.be.fulfilled;
 
         const tx = await game.finalize(gameId,{from: alice}).should.be.fulfilled;
-        assert.equal(tx.receipt.logs[0].topics[1], gameId);
-        assert.equal(parseInt(tx.receipt.logs[0].topics[2]), parseInt(alice));
+        assert.equal(tx.receipt.logs[1].topics[1], gameId);
+        assert.equal(parseInt(tx.receipt.logs[1].topics[2]), parseInt(alice));
         const rsp = await game.games(gameId);
         assert.equal(rsp[0], 0);
       });
@@ -160,8 +184,8 @@ contract('ChainOfLife', (accounts) => {
         await game.resolve(gameId, aliceField, true, {from: alice}).should.be.fulfilled;
 
         const tx = await game.finalize(gameId,{from: bob}).should.be.fulfilled;
-        assert.equal(tx.receipt.logs[0].topics[1], gameId);
-        assert.equal(parseInt(tx.receipt.logs[0].topics[2]), parseInt(alice));
+        assert.equal(tx.receipt.logs[1].topics[1], gameId);
+        assert.equal(parseInt(tx.receipt.logs[1].topics[2]), parseInt(alice));
         const rsp = await game.games(gameId);
         assert.equal(rsp[0], 0);
       });
@@ -177,14 +201,14 @@ contract('ChainOfLife', (accounts) => {
         await game.join(gameId, bobField, {from: bob}).should.be.fulfilled;
 
         const tx = await game.finalize(gameId,{from: bob}).should.be.fulfilled;
-        assert.equal(tx.receipt.logs[0].topics[1], gameId);
-        assert.equal(parseInt(tx.receipt.logs[0].topics[2]), parseInt(bob));
+        assert.equal(tx.receipt.logs[1].topics[1], gameId);
+        assert.equal(parseInt(tx.receipt.logs[1].topics[2]), parseInt(bob));
         const rsp = await game.games(gameId);
         assert.equal(rsp[0], 0);
       });
       it("should allow finalization  by Alice before Bob joined, cancelling the game", async () => {
         const tx = await game.finalize(gameId,{from: alice}).should.be.fulfilled;
-        assert.equal(tx.receipt.logs[0].topics[1], gameId);
+        assert.equal(tx.receipt.logs[1].topics[1], gameId);
         const rsp = await game.games(gameId);
         assert.equal(rsp[0], 0);
       });
