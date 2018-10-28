@@ -1,0 +1,9 @@
+[submodule "radical-bodies"]
+	path = radical-bodies
+	url = https://github.com/RadicalBodies/radical-bodies.git
+[submodule "protocol"]
+	path = protocol
+	url = https://github.com/RadicalBodies/protocol.git
+[submodule "radical-bodies-server"]
+	path = radical-bodies-server
+	url = https://github.com/RadicalBodies/radical-bodies-server.git
