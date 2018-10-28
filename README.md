@@ -1,31 +1,49 @@
-# CryptoLife
-A repo for all the #CryptoLife Hackathon submissions, The National House Smichov, Prague, 26-28th October 2018.
+# Onbotting.eth
 
-You can read more about the meaning behind the event [here](https://our.status.im/why-name-the-status-hackathon-cryptolife-what-does-that-actually-mean/).
+A hack to [EIP1077](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1077.md) to include “invite link” functionality
 
-The [EthMagicians](https://our.status.im/magic-internet-people/) will be in full attendance!
 
-You can check out the #CryptoLife Master List [here](https://our.status.im/your-cryptolife-masterlist/).
+## Assumptions
 
-# Submit Your Hack To This Repo
+- Bob is a new user without ETH, wallet or any prior crypto knowledge
 
-**Reminder:** In line with our principles at Status, all code that is submitted during the #CryptoLife Hackathon is considered completely open source and under the same license as this repo - the Mozilla Public License 2.0.
+- Alice has an EIP 1077 identity contract and a spare ERC721 Robot
+
+- Alice share the invite link with Bob over a secure channel e.g Whatsapp
+
+- There is an incentive in place (on a user, dapp or relay level) to pay gas
+
+
+## Steps of the scheme
+
+
+
+
+
+**PICTURE**
+
+
+1) Alice shares an  invite link to Bob
+2) Link includes a transit private key and a signature
+3) Bob is directed to a webpage
+4) Bob generates his own private key stored in the browser
+5) Bob uses transit private key to sign Bob’s private key
+6) Bob’s browser sends his two signatures to the relayer 
+7) Relayer calls Alice’s identity contract
+8) Alice’s identity contract creates an identity contract for Bob and sends a Robot
+9) Bob is now onboarded to Ethereum and owns a robot that he can play with!
 
 ## Steps to Follow
 
-1. Fork the repo to your own profile or orgnaization by using the button in the top right of this page.
-2. `git clone <your_git_repo_here>`
-3. `cd <your_git_repo>`
-4. Create a new branch in your forked version of the repo and add your code to it. Use the naming convention suggested by placing your team name first, and your project name after (if there is one).
-    
-    `git checkout -b <team-name_project-name>`
 
-5. Add, commit and push your changes to your new branch in your forked repo:
+### App
 
-    ```shell
-    git add .
-    git commit -m "<team_name> Submission for CryptoLife" 
-    git push
-    ```
+- In order to build the front-end, clone and run the robowars-app with yarn/build in parent folder & yarn/start in the sub folder client
 
-6. Go to your forked repo in the browser and submit a PR using the green button there.
+### Relayer 
+
+- In order to build smart-contracts and relayer you need to follow the instructions in relayer/readme.md
+
+
+
+
