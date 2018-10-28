@@ -1,4 +1,4 @@
-export const communityTokenABI = [
+export const communityTokenABI =  [
   {
     "constant": true,
     "inputs": [],
@@ -49,6 +49,20 @@ export const communityTokenABI = [
       {
         "name": "",
         "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "eventManager",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
       }
     ],
     "payable": false,
@@ -406,6 +420,28 @@ export const communityTokenABI = [
       {
         "name": "_value",
         "type": "uint256"
+      },
+      {
+        "name": "_data",
+        "type": "bytes"
+      }
+    ],
+    "name": "transfer",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "name": "_value",
+        "type": "uint256"
       }
     ],
     "name": "transfer",
@@ -423,19 +459,41 @@ export const communityTokenABI = [
     "constant": false,
     "inputs": [
       {
-        "name": "_to",
-        "type": "address"
+        "name": "_name",
+        "type": "string"
       },
       {
-        "name": "_value",
+        "name": "_date",
+        "type": "string"
+      },
+      {
+        "name": "_location",
+        "type": "string"
+      },
+      {
+        "name": "_participantLimit",
+        "type": "uint24"
+      },
+      {
+        "name": "_requiredStake",
         "type": "uint256"
-      },
-      {
-        "name": "_data",
-        "type": "bytes"
       }
     ],
-    "name": "transfer",
+    "name": "createEvent",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_index",
+        "type": "uint256"
+      }
+    ],
+    "name": "rsvp",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
