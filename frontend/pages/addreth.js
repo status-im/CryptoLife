@@ -76,6 +76,24 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
+const Input = styled.input`
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  border: 1px solid white;
+  border-radius: 3px;
+  padding-left: 0.25rem;
+  width: 100%;
+  font-size: 20px;
+  &:focus {
+    outline: none;
+  }
+
+  @media (max-width: 640px) {
+    max-width: 120px;
+  }
+`
+
+const Description = styled.textarea``
 
 export default class Addreth extends Component {
   state = {
@@ -415,27 +433,32 @@ export default class Addreth extends Component {
               )}
               {editMode && (
                 <>
-                  <input
+                  <Input
                     type="text"
                     placeholder="Enter your title!"
                     onChange={e =>
                       this.setState({ titleValue: e.target.value })
                     }
                   />
-                  <textarea
+                  <Description
                     placeholder="Enter your description!"
                     onChange={e =>
                       this.setState({ descriptionValue: e.target.value })
                     }
                   />
-                  <button onClick={this.saveData}>Save</button>
+                  <Button light onClick={this.saveData}>
+                    Save
+                  </Button>
                 </>
               )}
               {!editMode &&
-                isOwner && dataloaded && (
-                  <button onClick={() => this.setState({ editMode: true })}>
-                    {ipfsPayload || claimed ? 'Edit' : 'Claim now!'}
-                  </button>
+                isOwner && (
+                  <Button
+                    primary
+                    onClick={() => this.setState({ editMode: true })}
+                  >
+                    {ipfsPayload ? 'Edit' : 'Claim your address!'}
+                  </Button>
                 )}
             </ContentWrapper>
           </div>
