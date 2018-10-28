@@ -393,7 +393,6 @@ export default class Addreth extends Component {
         <Container>
           <div>
             <ContentWrapper>
-              <Title>{addreth}</Title>
               {!editMode && (
                 <>
                   <h1>{titleValue || (ipfsPayload && ipfsPayload.title)}</h1>
