@@ -36,8 +36,7 @@ build:
 	@echo "Bundling the web site"
 	NODE_ENV=production parcel build -d ./build --log-level 2 --no-source-maps --public-url ./ src/index.html
 
-www:
-	build
+www: build
 	serve build -p 1234
 
 dev:
