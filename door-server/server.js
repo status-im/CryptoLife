@@ -25,7 +25,7 @@ const Validator = new web3.eth.Contract(validatorAbi, VALIDATOR_CONTRACT_ADDRESS
 const server = express()
 
 server.use(bodyParser.json({ limit: "50kb" }))
-app.use(cors())
+server.use(cors())
 
 server.post("/access/request", async (req, res) => {
 	const result = { ok: false }
