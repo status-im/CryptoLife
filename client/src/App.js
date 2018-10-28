@@ -19,6 +19,33 @@ class App extends Component {
         this.Bookings = getBookingsInstance()
 
         this.checkWeb3Status()
+
+        // INIT AUDIO
+        Quiet.addReadyCallback(() => {
+            // RECEIVER
+            Quiet.receiver({
+                // profile: "audible",
+                profile: "ultrasonic-experimental",
+                onReceive: payload => console.log("PAYLOAD", Quiet.ab2str(payload)),
+                onCreateFail: reason => console.log("failed to create quiet receiver: " + reason),
+                onReceiveFail: () => console.error("RCV FAIL")
+            });
+
+            // SENDER
+            const transmit = Quiet.transmitter({
+                // profile: "audible",
+                profile: "ultrasonic-experimental",
+                onFinish: () => console.log("sent"),
+                clampFrame: false
+            });
+
+            setTimeout(() => {
+                const text = "HELLO CHECK 1, 2, 3"
+                transmit.transmit(Quiet.str2ab(text));
+            }, 1800)
+        }, err => {
+            console.log("ERR")
+        });
     }
 
     checkWeb3Status() {
@@ -50,7 +77,7 @@ class App extends Component {
 
         return <div>
             <Header className="header">
-                <h2 className="text-center" style={{color: "white"}}>DHotel</h2>
+                <h2 className="text-center" style={{ color: "white" }}>DHotel</h2>
             </Header>
             <Container>
                 <Switch>

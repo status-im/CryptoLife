@@ -88,23 +88,21 @@ class RoomView extends Component {
 					web3.eth.personal.sign('0x' + toHex(timestamp), accounts[0]).then(resolve)
 				})
 			})
-			.then(signature => {
-alert(timestamp + "\n--" + signature)
-
-				return fetch("https://dhotel-sign.herokuapp.com/access/request", {
-					method: 'POST',
-					body: JSON.stringify({
-						timestamp,
-						signature
-					}),
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				})
-			})
+			.then(signature => fetch("https://dhotel-sign.herokuapp.com/access/request", {
+				method: 'POST',
+				body: JSON.stringify({ timestamp, signature }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}))
 			.then(res => res.json())
 			.then(response => {
-				message.success('Response:' + JSON.stringify(response))
+				if (response && response.ok) {
+					message.success("Opening the door...")
+
+					// TODO: PLAY SOUND
+				}
+				else message.error("You are not authorized to enter the room")
 			})
 			.catch(error => {
 				message.error('Error:' + error.message)

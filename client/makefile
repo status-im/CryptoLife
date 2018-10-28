@@ -42,4 +42,6 @@ www:
 
 dev:
 	echo "Running on the ropsten blockchain"
+	@mkdir -p build
+	@cp src/lib/quiet* build
 	NODE_ENV=development parcel -d ./build src/index.html
