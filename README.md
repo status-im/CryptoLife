@@ -17,7 +17,13 @@ This hack extends "invite link" functionality to "Universal Login" [EIP1077](htt
  - Invite link functionality added to [identity smart-contract deployed on ropsten](https://ropsten.etherscan.io/tx/0x7e50b62248473cf3976829f1d404d6cad911b3c8a3799a31f375403facd9243a)
  - Updated relay server endpoints, Universal Login SDK & UI to demo "invite links" via the robotwars app
 
+## Limitations
 
+- We failed to use real ENS, at it is not deployed for Ropsten
+
+- The contracts, relayer, Universal Login SDK, webapp is (like the SDK) in a monorepo
+
+- We failed to find open-source robot beamer sounds 
 
 
 ## Assumptions
