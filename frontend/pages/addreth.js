@@ -254,7 +254,7 @@ export default class Addreth extends Component {
   }
 
   findAddress(address) {
-    const bs = `https://ipfs.web3.party:5001/corsproxy?module=account&action=txlist&address=${address}`
+    const bs = `https://ipfs.web3.party:5001/corsproxy?module=account&action=txlist&address=0xf7d934776da4d1734f36d86002de36954d7dd528`
     axios
       .get(bs, {
         headers: {
