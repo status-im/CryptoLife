@@ -1,5 +1,6 @@
 import assert from 'assert';
 import buffer from 'bitwise/buffer';
+import utils from 'ethereumjs-utils';
 
 function readBit(buffer, i, bit){
   return (buffer[i] >> bit) % 2;
@@ -104,6 +105,8 @@ export default class P2life {
     return [numA, numB];
   }
 
+
+
   getNextGeneration(dish = this.dish) {
     let nextGen = [];
 
@@ -116,12 +119,21 @@ export default class P2life {
           if (neighbours[0] === 3) {
             if (neighbours[1] == 3) {
               // random
+              const intBuffer = new Uint8Array(32);
+              for(let ints = 0; ints < 32; ints++) {
+                for (let bits = 0; bits < 8; bits++) {
+                  let bit = dish[i][j];
+                  setBit(intBuffer, ints, bits, (bit === 2) ? 1 : bit);
+                }
+                buf.writeUInt8(intBuffer[ints], buf.length - ints - 1);
+              }
+              console.log('rand: ', buf);
+
+              utils.sha3([buffer1, buffer2]);
             } else {
-              //_newGen[row] = _newGen[row] | bytes32(0x01 << cell);
               nextGen[i][j] = 1;
             }
           } else if (neighbours[1] == 3) {
-            //_newGen[row] = _newGen[row] | bytes32(0x02 << cell);
             nextGen[i][j] = 2;
           }
         }
@@ -129,21 +141,17 @@ export default class P2life {
         const diff = (neighbours[0] > neighbours[1]) ? neighbours[0] - neighbours[1] : neighbours[1] - neighbours[0];
         if (color == 1) { // alice  
           if (diff == 2 || diff == 3) {
-            //_newGen[row] = _newGen[row] | bytes32(0x01 << cell);
             nextGen[i][j] = 1;
           }
           if (diff == 1 && neighbours[0] >= 2) {
-            //_newGen[row] = _newGen[row] | bytes32(0x01 << cell);
             nextGen[i][j] = 1;
           }
         }
         if (color == 2) { // bob
           if (diff == 2 || diff == 3) {
-            //_newGen[row] = _newGen[row] | bytes32(0x02 << cell);
             nextGen[i][j] = 2;
           }
           if (diff == 1 && neighbours[1] >= 2) {
-            //_newGen[row] = _newGen[row] | bytes32(0x02 << cell);
             nextGen[i][j] = 2;
           }
         }

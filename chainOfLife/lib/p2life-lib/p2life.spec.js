@@ -38,4 +38,13 @@ describe('P2life', () => {
     assert.deepEqual(nextGen,nextGen2);
   })
 
+  it('should use randomnes', () => {
+    const a = '0x0000000000000000000000000000000000000000000000000001000000000000';
+    const b = '0x0000000000000000000000000000000000000000000000000010100000000000';
+    const c = '0x0000000000000000000000000000000000000000000000000011100000000000';
+    const p2life = new P2life([empty,empty,a,b], [c,empty,empty,empty]);
+    const nextGen = p2life.getNextGeneration();
+    console.log(nextGen);
+  })
+
 });
