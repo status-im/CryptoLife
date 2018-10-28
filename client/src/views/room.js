@@ -93,6 +93,8 @@ class RoomView extends Component {
 		const web3 = getWeb3()
 		const timestamp = String(Date.now())
 
+		this.setState({ loading: true })
+
 		web3.eth.getAccounts()
 			.then(accounts => {
 				return new Promise((resolve) => {
@@ -110,6 +112,8 @@ class RoomView extends Component {
 			}))
 			.then(res => res.json())
 			.then(response => {
+				this.setState({ loading: false })
+
 				if (response && response.ok) {
 					message.success("Opening the door...")
 
@@ -120,6 +124,7 @@ class RoomView extends Component {
 				else message.error("You are not authorized to enter the room")
 			})
 			.catch(error => {
+				this.setState({ loading: false })
 				message.error('Error:' + error.message)
 			})
 	}
