@@ -42,6 +42,8 @@ const AddrethLink = styled.a`
   font-weight: 100;
   font-size: 1.5rem;
   text-decoration: none;
+  justify-self: center;
+  align-self: starts;
 `
 
 const Wrapper = styled.div`
@@ -81,6 +83,14 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
+const EditContainer = styled.div`
+  display: grid;
+  grid-gap: 1rem;
+`
+
+const ClaimContainer = styled.div`
+  padding-top: 1rem;
+`
 
 const Input = styled.input`
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
@@ -97,15 +107,6 @@ const Input = styled.input`
   @media (max-width: 640px) {
     max-width: 120px;
   }
-`
-
-const EditContainer = styled.div`
-  display: grid;
-  grid-gap: 1rem;
-`
-
-const ClaimContainer = styled.div`
-  padding-top: 1rem;
 `
 
 export default class Addreth extends Component {

@@ -2,18 +2,18 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import Web3 from 'web3'
 import Emojify from 'react-emojione'
-import axios from 'axios';
-import { FaBolt } from 'react-icons/fa';
+import axios from 'axios'
+import { FaBolt } from 'react-icons/fa'
 
 const LeaderboardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  min-width: 80vw;
 `
 
 const TxGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr 3fr 1fr;
-  grid-gap: 1rem;
+  grid-template-columns: auto 3fr 1fr 3fr 1fr;
 `
 
 const TxLink = styled.a`
@@ -22,10 +22,46 @@ const TxLink = styled.a`
 `
 const TxLinkContainer = styled.div`
   max-width: 200px;
+  padding: 0.5rem;
+`
+
+const Spannet = styled.span`
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+`
+
+const LeaderboardSpannet = styled.span`
+  padding: 0.5rem;
+`
+
+const LinkSpannet = styled.span`
+  padding: 0.5rem 0;
+`
+
+const Line = styled.hr`
+  margin: 0.5rem 0;
+  border-color: rgba(255, 255, 255, 0.1);
+`
+
+const Total = styled.h2`
+  font-weight: 100;
+  padding: 2rem;
+`
+
+const Amount = styled.span`
+  color: #ff9a62;
+  font-weight: 400;
+  font-size: 3rem;
+  padding: 0 2rem;
 `
 
 const AmountDonated = props => {
-  return <div>Total amount collected: {props.amount}</div>
+  return (
+    <Total>
+      Total amount collected
+      <Amount>{props.amount} ETH</Amount>
+    </Total>
+  )
 }
 
 export default class Leaderboard extends PureComponent {
@@ -35,16 +71,14 @@ export default class Leaderboard extends PureComponent {
   }
 
   fetchTxs = async address => {
-
     const bs = `https://ipfs.web3.party:5001/corsproxy?module=account&action=txlist&address=${address}`
-    const json =  await axios
-      .get(bs, {
-        headers: {
-          Authorization: '',
-          'Target-URL': 'https://blockscout.com/eth/ropsten/api',
-        },
-      })
-    return this.processTxList(json.data.result);
+    const json = await axios.get(bs, {
+      headers: {
+        Authorization: '',
+        'Target-URL': 'https://blockscout.com/eth/ropsten/api',
+      },
+    })
+    return this.processTxList(json.data.result)
   }
 
   processTxList = ethlist => {
@@ -115,12 +149,12 @@ export default class Leaderboard extends PureComponent {
     if (this.state.txs) {
       const TxsList = this.state.txs.map(tx => (
         <React.Fragment key={tx.from}>
-          <span>{tx.rank}</span>
-          <span>{tx.from}</span>
-          <span>{tx.value} ETH</span>
-          <span>
+          <LeaderboardSpannet>{tx.rank}</LeaderboardSpannet>
+          <LeaderboardSpannet>{tx.from}</LeaderboardSpannet>
+          <LeaderboardSpannet>{tx.value} ETH</LeaderboardSpannet>
+          <LeaderboardSpannet>
             <Emojify>{tx.input}</Emojify>
-          </span>
+          </LeaderboardSpannet>
           <TxLinkContainer>
             {tx.hash.map((hash, index) => (
               <TxLink
@@ -139,11 +173,11 @@ export default class Leaderboard extends PureComponent {
         <LeaderboardContainer>
           <AmountDonated amount={this.state.totalAmount} />
           <TxGrid>
-            <span>Rank</span>
-            <span>From</span>
-            <span>Value</span>
-            <span>Message</span>
-            <span>Tx</span>
+            <Spannet>Rank</Spannet>
+            <Spannet>From</Spannet>
+            <Spannet>Value</Spannet>
+            <Spannet>Message</Spannet>
+            <Spannet>Tx</Spannet>
             {TxsList}
           </TxGrid>
         </LeaderboardContainer>

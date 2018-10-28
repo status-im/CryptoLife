@@ -26,6 +26,14 @@ const Input = styled.input`
   padding: 0.3rem;
 `
 
+const Thanks = styled.span`
+  margin: 0 auto;
+  text-align: center;
+  font-size: 3rem;
+  grid-row: 1 / span 2;
+  color: #03dac6;
+`
+
 export default class DonationForm extends PureComponent {
   constructor(props) {
     super()
@@ -159,7 +167,6 @@ export default class DonationForm extends PureComponent {
         {/* <img src="/img/ways-to-donate.svg" className="typelogo img-fluid" /> */}
         {candonate ? (
           <TransactionContainer>
-            <h4>Send a transaction via Metamask to this address: </h4>
             <TransactionForm onSubmit={this.handleDonate}>
               <Input type="text" placeholder="ETH to send" name="amount" />
               <Input type="text" placeholder="message" name="message" />
@@ -170,7 +177,7 @@ export default class DonationForm extends PureComponent {
           <br />
         )}
         {/* <img src="/img/placeholder-qr.svg" className="qr-code" /> */}
-        {this.state.thanks && <div>WELL THANKS BUDDY</div>}
+        {this.state.thanks && <Thanks>WELL THANKS BUDDY</Thanks>}
       </Container>
     )
   }
