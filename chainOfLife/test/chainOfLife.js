@@ -16,6 +16,7 @@ contract('ChainOfLife', (accounts) => {
   let game;
   let lifeToken;
   const tokenOwner = accounts[2];
+  const gameOwner = accounts[3]
   const alice = accounts[0];
   const bob = accounts[1];
   const bobField = ['0x00','0x0000000000000000000000000000000000000000000000000000000000000070','0x00','0x00','0x00','0x00','0x00','0x00',
@@ -65,7 +66,8 @@ contract('ChainOfLife', (accounts) => {
 
   before(async() => {
     lifeToken = await Token.new({from:tokenOwner});
-    game = await ChainOfLife.new(1,lifeToken.address,1);
+    game = await ChainOfLife.new(1,1,{from:gameOwner});
+    await game.setTokenAddress(lifeToken.address,{from:gameOwner}).should.be.fulfilled;
     await lifeToken.transfer(alice,100,{from:tokenOwner}).should.be.fulfilled;
     await lifeToken.transfer(bob,100,{from:tokenOwner}).should.be.fulfilled;
     await lifeToken.approve(game.address,100,{from:alice}).should.be.fulfilled;
@@ -116,7 +118,8 @@ contract('ChainOfLife', (accounts) => {
     describe('Before timeout', () => {
       beforeEach(async() => {
         lifeToken = await Token.new({from:tokenOwner});
-        game = await ChainOfLife.new(100,lifeToken.address,1);
+        game = await ChainOfLife.new(100,1,{from:gameOwner});
+        await game.setTokenAddress(lifeToken.address,{from:gameOwner}).should.be.fulfilled;
         await lifeToken.transfer(alice,100,{from:tokenOwner});
         await lifeToken.transfer(bob,100,{from:tokenOwner});
         await lifeToken.approve(game.address,100,{from:alice}).should.be.fulfilled;
@@ -157,7 +160,8 @@ contract('ChainOfLife', (accounts) => {
     describe('After timeout', () => {
       beforeEach(async() => {
         lifeToken = await Token.new({from:tokenOwner});
-        game = await ChainOfLife.new(0,lifeToken.address,1);
+        game = await ChainOfLife.new(0,1,{from:gameOwner});
+        await game.setTokenAddress(lifeToken.address,{from:gameOwner}).should.be.fulfilled;
         await lifeToken.transfer(alice,100,{from:tokenOwner});
         await lifeToken.transfer(bob,100,{from:tokenOwner});
         await lifeToken.approve(game.address,100,{from:alice}).should.be.fulfilled;

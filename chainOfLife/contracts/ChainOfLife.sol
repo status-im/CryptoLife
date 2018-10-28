@@ -15,6 +15,7 @@ contract ChainOfLife {
   uint256 timeout;
   uint256 stake;
   ERC20 token;
+  address owner;
 
   struct Game{
     address alice;
@@ -40,13 +41,19 @@ contract ChainOfLife {
   mapping (bytes32 => Game) public games;
   mapping (address => PlayerStats) public players;
 
-  constructor (uint _timeout, address _tokenAddr, uint256 _stake) public {
+  constructor (uint _timeout, uint256 _stake) public {
+    owner = msg.sender;
     timeout = _timeout;
-    token = ERC20(_tokenAddr);
     stake = _stake;
+  }
+
+  function setTokenAddress (address _tokenAddr) public {
+    require(msg.sender == owner);
+    token = ERC20(_tokenAddr);
   }
   
   function register(bytes32 _hash) public {
+    require(token != address(0), "Token contract address not set");
     require(games[_hash].alice == address(0), "Game with the same initial field already exists");
     games[_hash] = Game(msg.sender, 0, 0, 0, block.number);
     token.transferFrom(msg.sender,address(this),stake);
@@ -55,6 +62,7 @@ contract ChainOfLife {
   }
 
   function join(bytes32 _gameId, bytes32[] _field) public {
+    require(token != address(0), "Token contract address not set");
     Game storage game = games[_gameId];
     require(game.alice != address(0), "Game doesn't exist");
     require(game.state == 0);
@@ -68,6 +76,7 @@ contract ChainOfLife {
   }
 
   function resolve(bytes32 _gameId, bytes32[] _field, bool _isWinner) public {
+    require(token != address(0), "Token contract address not set");
     bytes32 fieldHash = keccak256(abi.encodePacked(_field));
     require(_gameId == fieldHash, "Alice hashes do not match");
     Game storage game = games[_gameId];
@@ -88,6 +97,7 @@ contract ChainOfLife {
   }
 
   function finalize(bytes32 _gameId) public {
+    require(token != address(0), "Token contract address not set");
     Game storage game = games[_gameId];
     if(game.state == 0 && msg.sender == game.alice) {
       games[_gameId] = Game(0,0,0,0,0);
