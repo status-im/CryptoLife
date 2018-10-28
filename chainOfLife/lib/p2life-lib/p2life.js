@@ -31,7 +31,7 @@ export default class P2life {
     for (let i = 0; i < half1Bufs.length; i++) {
         const buffer = [];
         // itterate over all arrays
-        for (let j = 0; j < half1Bufs[i].length; j++) {
+        for (let j = half1Bufs[i].length -1; j >= 0; j--) {
           // over all 8 bits 
           for (let k = 0; k < 8; k++) {
             buffer.push(readBit(half1Bufs[i], j, k));
@@ -43,7 +43,7 @@ export default class P2life {
     for (let i = 0; i < half2Bufs.length; i++) {
       const buffer = [];
       // itterate over all arrays
-      for (let j = 0; j < half2Bufs[i].length; j++) {
+      for (let j = half2Bufs[i].length-1; j >= 0; j--) {
         // over all 8 bits 
         for (let k = 0; k < 8; k++) {
           buffer.push((readBit(half2Bufs[i], j, k) === 1) ? 2 : 0);
@@ -74,10 +74,82 @@ export default class P2life {
           let bit = this.dish[row + (this.dish.length / 2) * half][ints * 8 + bits];
           setBit(intBuffer, ints, bits, (bit === 2) ? 1 : bit);
         }
-        buf.writeUInt8(intBuffer[ints], ints);
+        buf.writeUInt8(intBuffer[ints], buf.length - ints - 1);
       }
       rsp.push(`0x${buf.toString('hex')}`);
     }
     return rsp;
+  }
+
+  countNeighbours(row, col, dish = this.dish) {
+    const rowAbove = (row == 0) ? dish.length - 1 : row - 1;
+    const rowBelow = (row == dish.length - 1) ? 0 : row + 1;
+    const rows = [rowAbove, row, rowBelow];
+    const colPrev = (col == 0) ? dish.length - 1 : col - 1;
+    const colNext = (col == dish.length - 1) ? 0 : col + 1;
+    const cols = [colPrev, col, colNext];
+
+    let numA = 0;
+    let numB = 0;
+
+    for (let i = 0; i < rows.length; i++) {
+      for (let j = 0; j < cols.length; j++) {
+        if (!(i == 1 && j == 1)) {
+          const cell = dish[rows[i]][cols[j]];
+          if(cell == 1) numA ++;
+          if(cell == 2) numB ++;
+        }
+      }
+    }
+    return [numA, numB];
+  }
+
+  getNextGeneration(dish = this.dish) {
+    let nextGen = [];
+
+    for (let i = 0; i < dish.length; i++) {
+      nextGen.push(new Uint8Array(dish.length));
+      for (let j = 0; j < dish.length; j++) {        
+        const neighbours = this.countNeighbours(i,j,dish);
+        const color = dish[i][j];
+        if (color === 0) { // empty
+          if (neighbours[0] === 3) {
+            if (neighbours[1] == 3) {
+              // random
+            } else {
+              //_newGen[row] = _newGen[row] | bytes32(0x01 << cell);
+              nextGen[i][j] = 1;
+            }
+          } else if (neighbours[1] == 3) {
+            //_newGen[row] = _newGen[row] | bytes32(0x02 << cell);
+            nextGen[i][j] = 2;
+          }
+        }
+        // difference between aliceNeighbours and bobNeighbours
+        const diff = (neighbours[0] > neighbours[1]) ? neighbours[0] - neighbours[1] : neighbours[1] - neighbours[0];
+        if (color == 1) { // alice  
+          if (diff == 2 || diff == 3) {
+            //_newGen[row] = _newGen[row] | bytes32(0x01 << cell);
+            nextGen[i][j] = 1;
+          }
+          if (diff == 1 && neighbours[0] >= 2) {
+            //_newGen[row] = _newGen[row] | bytes32(0x01 << cell);
+            nextGen[i][j] = 1;
+          }
+        }
+        if (color == 2) { // bob
+          if (diff == 2 || diff == 3) {
+            //_newGen[row] = _newGen[row] | bytes32(0x02 << cell);
+            nextGen[i][j] = 2;
+          }
+          if (diff == 1 && neighbours[1] >= 2) {
+            //_newGen[row] = _newGen[row] | bytes32(0x02 << cell);
+            nextGen[i][j] = 2;
+          }
+        }
+      }
+    }
+    
+    return nextGen;
   }
 }
