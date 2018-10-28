@@ -51,4 +51,17 @@ function splitIntoSubArray(arr, count) {
     return newArray;
 }
 
-export { encodeConfig, splitIntoSubArray, getConfigHash, encodeConfigBytes32Array };
+function unpack(packed, size = 8) {
+  const rsp = [];
+  for (var i = 0; i < packed.length; i++) {
+    const buf = Buffer.from(packed[i].replace('0x', ''), 'hex');
+    for (var j = 0; j < buf.length / size; j++) {
+      const elem = Buffer.alloc(32);
+      buf.slice(j * size, (j + 1) * size).copy(elem, 32 - size);
+      rsp.push(`0x${elem.toString('hex')}`);
+    }
+  }
+  return rsp;
+}
+
+export { encodeConfig, splitIntoSubArray, getConfigHash, encodeConfigBytes32Array, unpack };
