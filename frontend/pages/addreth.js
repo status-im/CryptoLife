@@ -20,6 +20,7 @@ const Container = styled.div`
   align-content: center;
   padding: 2rem;
   min-height: 100vh;
+  color: white;
 
   background: linear-gradient(180deg, #6200ee 0%, rgba(98, 0, 238, 0.49) 100%),
     #c4c4c4;
@@ -70,21 +71,21 @@ const Title = styled.h1`
 
 const ContentWrapper = styled.div`
   margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
 `
-
-const localWeb3 = new Web3()
 
 export default class Addreth extends Component {
   state = {
     metamaskAvailable: false,
     account: null,
-    claimed: false,
     editTitle: false,
     titleValue: '',
     editDescription: false,
     descriptionValue: '',
     isAddrethValid: true,
-    isAddrethValidated: false
+    isAddrethValidated: false,
+    editMode: false,
   }
 
   static async getInitialProps({ query }) {
@@ -120,6 +121,8 @@ export default class Addreth extends Component {
   componentDidMount() {
     this.initMetaMask()
     this.findAddress(this.props.addreth)
+    this.ensureEthAddress(this.props.addreth)
+    this.validateAddreth(this.props.addreth)
   }
 
   validateENSDomain(addreth) {
@@ -211,8 +214,7 @@ export default class Addreth extends Component {
   // save data on IPFS & send transaction immediately
   saveData = () => {
     this.setState({
-      editDescription: false,
-      editTitle: false,
+      editMode: false,
     })
     return new Promise((resolve, reject) => {
       const msgParams = this.makeData()
@@ -304,10 +306,10 @@ export default class Addreth extends Component {
   async probeEnsDomain(addreth) {
     if (this.validateENSDomain(addreth)) {
       try {
-        await Utils.resolveEnsDomain(addreth);
+        await Utils.resolveEnsDomain(addreth)
         return true
       } catch (e) {
-        console.error(e);
+        console.error(e)
         return false
       }
     }
@@ -315,36 +317,37 @@ export default class Addreth extends Component {
 
   async validateAddreth(addreth) {
     const web3 = new Web3()
-    const foo = await this.probeEnsDomain(addreth);
-    const isValid = web3.utils.isAddress(addreth) || await this.probeEnsDomain(addreth);
-    this.setState({isAddrethValid: isValid, isAddrethValidated: true});
+    const isValid =
+      web3.utils.isAddress(addreth) || (await this.probeEnsDomain(addreth))
+    this.setState({ isAddrethValid: isValid, isAddrethValidated: true })
   }
 
   async ensureEthAddress(addreth) {
     if (this.validateENSDomain(addreth)) {
       try {
-        let address = await Utils.resolveEnsDomain(addreth);
-        Router.push(`/addreth/${address}`);
+        let address = await Utils.resolveEnsDomain(addreth)
+        Router.push(`/addreth/${address}`)
       } catch (e) {
-        console.error(e);
+        console.error(e)
       }
     }
-  }
-
-  componentDidMount() {
-    this.ensureEthAddress(this.props.addreth);
-    this.validateAddreth(this.props.addreth);
   }
 
   renderBody() {
     if (!this.state.isAddrethValidated) {
       return <div>Back in the tube and staining...</div>
     } else if (!this.state.isAddrethValid) {
-      return <NotAnAddreth/>
+      return <NotAnAddreth />
     } else {
       return (
         <Container>
-          <AddrethLink href={`https://blockscout.com/eth/ropsten/address/${this.props.addreth}`} target="_blank">
+          <AddrethLink
+            href={`https://blockscout.com/eth/mainnet/address/${
+              this.props.addreth
+            }`}
+            target="_blank"
+          >
+            {this.props.addreth}
           </AddrethLink>
           <DonationForm address={this.props.addreth} donationNetworkID={3} />
           <LeaderboardContainer>
@@ -359,15 +362,13 @@ export default class Addreth extends Component {
     const { addreth } = this.props
     const {
       account,
-      claimed,
-      editTitle,
       titleValue,
-      editDescription,
       descriptionValue,
+      editMode,
       ipfsPayload,
     } = this.state
 
-    console.log(this.state)
+    const isOwner = account === addreth.toLowerCase()
 
     return (
       <div>
@@ -383,48 +384,42 @@ export default class Addreth extends Component {
         </Navbar>
         <Container>
           <div>
-            <Title>{addreth}</Title>
-            {claimed && (
-              <ContentWrapper>
-                <p>You've already claimed this page!</p>
-                {editTitle ? (
-                  <input
-                    type="text"
-                    onChange={this.handleTitle}
-                    onKeyDown={this.handleTitle}
-                    defaultValue={titleValue}
-                  />
-                ) : (
-                  <h1 onClick={() => this.setState({ editTitle: true })}>
-                    {(ipfsPayload && ipfsPayload.title) ||
-                      titleValue ||
-                      'Add a title..'}
-                  </h1>
-                )}
-                {editDescription ? (
-                  <textarea
-                    onKeyDown={this.handleDescription}
-                    defaultValue={descriptionValue}
-                  />
-                ) : (
-                  <p onClick={() => this.setState({ editDescription: true })}>
-                    {(ipfsPayload && ipfsPayload.description) ||
-                      descriptionValue ||
-                      'Add a description..'}
-                  </p>
-                )}
-                {claimed && <button onClick={this.saveData}>Save page</button>}
-              </ContentWrapper>
-            )}
-            {addreth.toLowerCase() === account &&
-              !claimed && (
+            <ContentWrapper>
+              <Title>{addreth}</Title>
+              {!editMode && (
                 <>
-                  <p>This address has not been claimed yet!</p>
-                  <button onClick={() => this.setState({ claimed: true })}>
-                    Claim now!
-                  </button>
+                  <h1>{titleValue || (ipfsPayload && ipfsPayload.title)}</h1>
+                  <p>
+                    {descriptionValue ||
+                      (ipfsPayload && ipfsPayload.description)}
+                  </p>
                 </>
               )}
+              {editMode && (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Enter your title!"
+                    onChange={e =>
+                      this.setState({ titleValue: e.target.value })
+                    }
+                  />
+                  <textarea
+                    placeholder="Enter your description!"
+                    onChange={e =>
+                      this.setState({ descriptionValue: e.target.value })
+                    }
+                  />
+                  <button onClick={this.saveData}>Save</button>
+                </>
+              )}
+              {!editMode &&
+                isOwner && (
+                  <button onClick={() => this.setState({ editMode: true })}>
+                    {ipfsPayload ? 'Edit' : 'Claim now!'}
+                  </button>
+                )}
+            </ContentWrapper>
           </div>
           {this.renderBody()}
         </Container>
