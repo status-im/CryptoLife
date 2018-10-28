@@ -3,7 +3,6 @@ const bodyParser = require("body-parser")
 const fs = require("fs")
 const path = require("path")
 const Web3 = require("web3")
-const HDWalletProvider = require("truffle-hdwallet-provider")
 const { toHex } = require("../lib/sign")
 const config = require("./config.json")
 
@@ -15,7 +14,7 @@ const validatorAbi = JSON.parse(validatorAbiStr)
 const WEB3_PROVIDER = process.env.WEB3_PROVIDER || config.WEB3_PROVIDER
 const VALIDATOR_CONTRACT_ADDRESS = process.env.VALIDATOR_CONTRACT_ADDRESS || config.VALIDATOR_CONTRACT_ADDRESS
 const BOOKINGS_CONTRACT_ADDRESS = process.env.BOOKINGS_CONTRACT_ADDRESS || config.BOOKINGS_CONTRACT_ADDRESS
-const DOOR_SERVER_PUBLIC_KEY = process.env.DOOR_SERVER_PUBLIC_KEY || config.DOOR_SERVER_PUBLIC_KEY
+// const DOOR_SERVER_PUBLIC_KEY = process.env.DOOR_SERVER_PUBLIC_KEY || config.DOOR_SERVER_PUBLIC_KEY
 const DOOR_SERVER_PRIVATE_KEY = process.env.DOOR_SERVER_PRIVATE_KEY || config.DOOR_SERVER_PRIVATE_KEY
 const web3 = new Web3(WEB3_PROVIDER)
 

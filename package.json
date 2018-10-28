@@ -1,0 +1,20 @@
+{
+  "name": "ledfusion-dhotel-door-auth",
+  "version": "1.0.0",
+  "description": "## Blockchain",
+  "main": "fake-door/index.js",
+  "scripts": {
+    "start": "node door-server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ledfusion/CryptoLife.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ledfusion/CryptoLife/issues"
+  },
+  "homepage": "https://github.com/ledfusion/CryptoLife#readme"
+}
