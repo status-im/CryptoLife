@@ -9,9 +9,21 @@ GAS_PRICE = int(1e9 * 10) # Do not hardcode. x-DAI is still cheap anyway.
 def get_nft():
     return network.contract(address=network.to_checksum(addr.NFT_CONTRACT), abi=open('cryptotk.abi').read().strip())
 
+def get_uri(idx):
+  ' get the URI '
+  return get_nft().functions.tokenURI(idx).call()
+
 def get_ntokens():
   ' number of NFT tokens '
   return get_nft().functions.totalSupply().call()
+
+def sort():
+  ' most voted songs '
+  return get_nft().functions.sort().call()
+
+def upvotes(idx):
+  ' votes '
+  return get_nft().functions.getVoteUp(idx).call()
 
 def wait_for_tx(tx_hash):
     ' Wait for tx '
