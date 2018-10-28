@@ -19,11 +19,6 @@ class App extends Component {
         this.Bookings = getBookingsInstance()
 
         this.checkWeb3Status()
-        this.statusInterval = setInterval(() => this.checkWeb3Status(), 5000)
-    }
-
-    componentWillUnmount() {
-        if (this.statusInterval) clearInterval(this.statusInterval)
     }
 
     checkWeb3Status() {

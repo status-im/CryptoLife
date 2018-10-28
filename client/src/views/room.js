@@ -3,6 +3,8 @@ import { connect } from "react-redux"
 import { Row, Col, Card, Button, Spin, message } from "antd"
 
 import getBookingsInstance from "../contracts/bookings.js"
+import { getWeb3 } from "../contracts/web3.js"
+import { toHex } from "../../../lib/sign"
 
 class RoomView extends Component {
 	constructor(props) {
@@ -75,7 +77,31 @@ class RoomView extends Component {
 	}
 
 	onOpen() {
-		alert("Sound goes here")
+		const web3 = getWeb3()
+
+		web3.eth.getAccounts()
+			.then(accounts => {
+				const timestamp = String(Date.now())
+				const signature = web3.eth.sign('0x' + toHex(timestamp), accounts[0])
+
+				return fetch("http://localhost:8080/access/request", {
+					method: 'POST',
+					body: JSON.stringify({
+						timestamp,
+						signature
+					}),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+			})
+			.then(res => res.json())
+			.then(response => {
+				message.success('Response:' + JSON.stringify(response))
+			})
+			.catch(error => {
+				message.error('Error:' + error.message)
+			})
 	}
 
 	renderCheckIn() {

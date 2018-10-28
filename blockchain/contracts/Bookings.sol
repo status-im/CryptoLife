@@ -15,8 +15,8 @@ contract Bookings {
         uint8 month;
         uint8 day;
     }
-    address checkedInGuest;
     address hotelAccount;
+    address public checkedInGuest;
     uint public deposit;         // check-in deposit
     uint public price;           // room price
 
