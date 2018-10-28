@@ -50,7 +50,12 @@ server.post("/access/request", async (req, res) => {
 
 		// get checked in guest
 		const currentGuestAddress = await Bookings.methods.checkedInGuest().call()
-		if (!currentGuestAddress || !signerPublicKey.toLowerCase || currentGuestAddress == "0x0") {
+
+		if(process.env.VERBOSE){
+			console.log("RECEIVED", signerPublicKey, currentGuestAddress)
+		}
+
+		if (!currentGuestAddress || !currentGuestAddress.toLowerCase || currentGuestAddress == "0x0") {
 			return res.status(401).send(result)
 		}
 
