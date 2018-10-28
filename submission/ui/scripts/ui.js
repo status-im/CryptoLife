@@ -32,7 +32,7 @@ function updateImgSrc(_src, _selector="img#preview") {
 	@return {string}
  */
 function processImage() {
-	var file = document.querySelector("input[type=file]").files[0];
+	let file = document.querySelector("input[type=file]").files[0];
 
 	// listen for changes to file reader
 	reader.addEventListener("load", function () {
@@ -45,22 +45,42 @@ function processImage() {
 }
 
 
+function getImgDataUrl() {
+	return new Promise((resolve, reject)=>{
+		let file = document.querySelector("input[type=file]").files[0];
+		console.log('reader result',reader.result);
+		resolve(reader.result);
+
+		if(file) {
+			reader.readAsDataURL(file);
+		}
+	});
+}
+
 /*
 	Submit secret to the market
  */
 async function submit(_event) {
 	_event.preventDefault();
 
-	// gater submission meta data
-	const meta = {
-		title: document.querySelector("input#title").value,
-		price: document.querySelector("input#price").value,
-		desc: document.querySelector("textarea").value,
-	};
-
 	try {
-		encrypted = await secret.encrypt(ADDRESS, image);
-		console.log('encrypted data', encrypted)
+		// gater submission meta data
+		let meta = {
+			title: document.querySelector("input#title").value,
+			price: document.querySelector("input#price").value,
+			desc: document.querySelector("textarea").value,
+		};
+
+		let image = await getImgDataUrl();
+		console.log('image', image);
+		let encrypted = await secret.encrypt(ADDRESS, image);
+		let store = await storeItForever(encrypted);
+
+		console.log('encrypted data', encrypted);
+		console.log('store', store)
+
+		document.querySelector("p#stored-ipfs-hash").html = store.hash;
+
 	} catch(_error) {
 		console.log("error", _error)
 	}
@@ -73,15 +93,18 @@ async function submit(_event) {
 	@return {string}
  */
 function storeItForever(_data){
-	ipfs.files.add(_data, (_err, _result) => {
-		if(_err) {
-			console.error(err);
-			return _err;
-		}
+	return new Promise((resolve, reject) => {
+		ipfs.files.add(_data, (_err, _result) => {
+			if(_err) {
+				console.error(err);
+				reject(_err);
+			}
 
-		let url = `https://ipfs.io/ipfs/${_result[0].hash}`;
+			let url = `https://ipfs.io/ipfs/${_result[0].hash}`;
 
-		console.log(`Url --> ${url}`)
-		return url;
-	})
+			console.log(`Url --> ${url}`)
+			resolve({'url': url, 'hash':_result[0].hash});
+		})
+	});
 }
+
