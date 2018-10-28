@@ -20,6 +20,19 @@ class RoomView extends Component {
 	componentDidMount() {
 		this.fetchCanCheckIn()
 		this.fetchCanCheckOut()
+
+		// INIT AUDIO EMITTER
+		Quiet.addReadyCallback(() => {
+			// SENDER
+			this.transmit = Quiet.transmitter({
+				// profile: "audible",
+				profile: "ultrasonic-experimental",
+				onFinish: () => console.log("sent"),
+				clampFrame: false
+			});
+		}, err => {
+			console.log("ERR", err)
+		});
 	}
 
 	fetchCanCheckIn() {
@@ -100,7 +113,9 @@ class RoomView extends Component {
 				if (response && response.ok) {
 					message.success("Opening the door...")
 
-					// TODO: PLAY SOUND
+					// EMIT SOUND
+					const payload = JSON.stringify(response)
+					this.transmit.transmit(Quiet.str2ab(payload));
 				}
 				else message.error("You are not authorized to enter the room")
 			})

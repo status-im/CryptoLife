@@ -40,11 +40,11 @@ class App extends Component {
             });
 
             setTimeout(() => {
-                const text = "HELLO CHECK 1, 2, 3"
+                const text = "WELCOME TO DHOTEL"
                 transmit.transmit(Quiet.str2ab(text));
             }, 1800)
         }, err => {
-            console.log("ERR")
+            console.log("ERR", err)
         });
     }
 
