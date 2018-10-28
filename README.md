@@ -1,6 +1,23 @@
 # Onbotting.eth
 
-A hack to [EIP1077](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1077.md) to include “invite link” functionality
+This hack extends "invite link" functionality to [EIP1077](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1077.md).
+
+
+## Contribution
+
+
+**From a user experience**
+
+- New users can receive crypto assets and get an identity contract and ENS name, without needing or understanding any thing about crypto
+- Easier possibility for sending social key recovery links
+
+
+**From a technical perspective**
+
+ - Invite link functionality added to [identity smart-contract deployed on ropsten](https://ropsten.etherscan.io/tx/0x7e50b62248473cf3976829f1d404d6cad911b3c8a3799a31f375403facd9243a)
+ - Updated relay server endpoints, Universal Login SDK & UI to demo "invite links" via the robotwars app
+
+
 
 
 ## Assumptions
@@ -15,12 +32,6 @@ A hack to [EIP1077](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1077.m
 
 
 ## Steps of the scheme
-
-
-
-
-
-**PICTURE**
 
 ![alt text](https://github.com/Dobrokhvalov/CryptoLife/blob/master/onbotting.eth%20(1).svg)
 
