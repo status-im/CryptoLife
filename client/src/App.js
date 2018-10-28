@@ -20,32 +20,32 @@ class App extends Component {
 
         this.checkWeb3Status()
 
-        // INIT AUDIO
-        Quiet.addReadyCallback(() => {
-            // RECEIVER
-            Quiet.receiver({
-                // profile: "audible",
-                profile: "ultrasonic-experimental",
-                onReceive: payload => console.log("PAYLOAD", Quiet.ab2str(payload)),
-                onCreateFail: reason => console.log("failed to create quiet receiver: " + reason),
-                onReceiveFail: () => console.error("RCV FAIL")
-            });
+        // // INIT AUDIO
+        // Quiet.addReadyCallback(() => {
+        //     // RECEIVER
+        //     Quiet.receiver({
+        //         // profile: "audible",
+        //         profile: "ultrasonic-experimental",
+        //         onReceive: payload => console.log("PAYLOAD", Quiet.ab2str(payload)),
+        //         onCreateFail: reason => console.log("failed to create quiet receiver: " + reason),
+        //         onReceiveFail: () => console.error("RCV FAIL")
+        //     });
 
-            // SENDER
-            const transmit = Quiet.transmitter({
-                // profile: "audible",
-                profile: "ultrasonic-experimental",
-                onFinish: () => console.log("sent"),
-                clampFrame: false
-            });
+        //     // SENDER
+        //     const transmit = Quiet.transmitter({
+        //         // profile: "audible",
+        //         profile: "ultrasonic-experimental",
+        //         onFinish: () => console.log("sent"),
+        //         clampFrame: false
+        //     });
 
-            setTimeout(() => {
-                const text = "WELCOME TO DHOTEL"
-                transmit.transmit(Quiet.str2ab(text));
-            }, 1800)
-        }, err => {
-            console.log("ERR", err)
-        });
+        //     setTimeout(() => {
+        //         const text = "WELCOME TO DHOTEL"
+        //         transmit.transmit(Quiet.str2ab(text));
+        //     }, 1800)
+        // }, err => {
+        //     console.log("ERR", err)
+        // });
     }
 
     checkWeb3Status() {

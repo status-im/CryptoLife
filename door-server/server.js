@@ -81,6 +81,10 @@ server.post("/access/request", async (req, res) => {
 	}
 })
 
+server.get("/", (req, res) => {
+	res.sendFile(__dirname + "/index.html")
+})
+
 server.listen(process.env.PORT || 8000, () => {
 	console.log("Listening on port", process.env.PORT || 8000)
 })

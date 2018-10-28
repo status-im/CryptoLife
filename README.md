@@ -1,5 +1,7 @@
 # DHotel
 
+`npm install`
+
 ## Blockchain
 
 ```
@@ -9,8 +11,19 @@ make init
 
 Note the contract's address for later use.
 
+* Every time a new version of the contract is deployed:
+	* Update the `config.json` files
+	* Update the environment variables of the NodeJS server / Heroku
+
+## Server
+
+Run `npm start` on the root of the project
+
 ## Client
-Copy the contract address you got before and paste it into `client/contracts/bookings.js`
+
+The mobile client and the door simulator
+
+Check [https://dhotel-server.herokuapp.com/](https://dhotel-server.herokuapp.com/)
 
 ## Disclaimers
 * Not taking into account timezones

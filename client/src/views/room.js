@@ -103,7 +103,7 @@ class RoomView extends Component {
 					web3.eth.personal.sign('0x' + toHex(timestamp), accounts[0]).then(resolve)
 				})
 			})
-			.then(signature => fetch("https://dhotel-sign.herokuapp.com/access/request", {
+			.then(signature => fetch("https://dhotel-server.herokuapp.com/access/request", {
 				method: 'POST',
 				body: JSON.stringify({ timestamp, signature }),
 				headers: {
