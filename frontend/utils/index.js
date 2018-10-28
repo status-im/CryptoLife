@@ -1,6 +1,8 @@
 import ENS from 'ethjs-ens'
 import HttpProvider from 'ethjs-provider-http'
 
+import { Web3Store } from '../stores'
+
 // TODO: Allow configuring mainnet/ropsten
 
 export default class {
@@ -25,13 +27,16 @@ export default class {
   }
 
   static async getMyAddress() {
-    this.setWeb3()
-    try {
-      const accounts = await web3.eth.getAccounts()
-      return accounts[0].toLowerCase()
-    } catch (e) {
-      console.error(e)
+    if (!Web3Store.accounts.length) {
+      this.setWeb3()
+      try {
+        const accounts = await window.web3.eth.getAccounts()
+        Web3Store.accounts = accounts
+      } catch (e) {
+        console.error(e)
+      }
     }
+    return Web3Store.accounts[0].toLowerCase()
   }
 
   static async resolveEnsDomain(domain) {
