@@ -1,7 +1,8 @@
 {
   "name": "flipper",
   "version": "0.1.0",
-  "description": "",
+  "author": "Honeybadgerz™",
+  "description": "Salary streaming contracts",
   "keywords": [
     "status",
     "hackathon",
@@ -26,7 +27,6 @@
     "type": "git",
     "url": "https://github.com/PaulRBerg/CryptoLife.git"
   },
-  "author": "Honeybadgerz™",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PaulRBerg/CryptoLife/issues"
