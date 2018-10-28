@@ -1,8 +1,8 @@
 import getWeb3 from './getWeb3';
+import Buffer2 from 'buffer';
+import utils from 'ethereumjs-utils';
 
-import Buffer from 'buffer';
-
-Buffer = Buffer.Buffer;
+Buffer = Buffer2.Buffer;
 
 const binToHex = {
   '0000' : '0',
@@ -24,7 +24,14 @@ const binToHex = {
 }
 
 function getConfigHash(boolArray) {
-  return getWeb3().utils.soliditySha3(encodeConfig(boolArray));
+  const compact = encodeConfigBytes32Array(boolArray);
+  const rows = unpack(compact);
+  const bufs = [];
+  for (var i = 0; i < rows.length; i++) {
+    bufs.push(Buffer.from(rows[i].replace('0x', ''), 'hex'));
+  }
+  return `0x${utils.sha3(bufs).toString('hex')}`;
+  //return getWeb3().utils.soliditySha3(encodeConfig(boolArray));
 }
 
 function encodeConfig(boolArray) {
@@ -56,7 +63,6 @@ function splitIntoSubArray(arr, count) {
 }
 
 function unpack(packed, size = 8) {
-  console.log(Buffer);
   const rsp = [];
   for (var i = 0; i < packed.length; i++) {
     const buf = Buffer.from(packed[i].replace('0x', ''), 'hex');
