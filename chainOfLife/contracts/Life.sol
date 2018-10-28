@@ -15,6 +15,15 @@ contract Life {
     bytes32 nextRow;
     uint256 prevCell;
     uint256 nextCell;
+    uint256 randHash;
+    // create a hash for randomnes
+    prevRow = _dish[_dish.length / 4];
+    nextRow = _dish[_dish.length / 2];
+    assembly {
+      mstore(0, prevRow)
+      mstore(0x20, nextRow)
+      randHash := keccak256(0, 0x40)
+    }
     for (uint256 row = 0; row < _dish.length; row++) { //each row
       for (uint256 cell = 0; cell < _dish.length * 2; cell+=2) { //each cell
         color = (uint8(_dish[row] >> cell) & 0x03);
@@ -46,15 +55,7 @@ contract Life {
         if (color == 0) { // empty
           if (aN == 3) {
             if (bN == 3) {
-              // random
-              prevRow = _dish[0];
-              nextRow = _dish[_dish.length / 2];
-              assembly {
-                mstore(0, prevRow)
-                mstore(0x20, nextRow)
-                prevCell := keccak256(0, 0x40)
-              }
-              _newGen[row] = _newGen[row] | bytes32((prevCell % 2 + 1) << cell);
+              _newGen[row] = _newGen[row] | bytes32((randHash >> cell % 2 + 1) << cell);
             } else {
               _newGen[row] = _newGen[row] | bytes32(0x01 << cell);
             }
