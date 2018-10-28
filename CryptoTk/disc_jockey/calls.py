@@ -13,14 +13,14 @@ def wait_for_tx(tx_hash):
     ' Wait for tx '
     return network.WEB3.eth.waitForTransactionReceipt(tx_hash)
 
-def single_arg(method, arg, nonce_inc):
+def single_arg(method, arg, nonce_inc=0):
     ' make calls to the contract with a single arg - what we need for now - hackaton style '
     data_to_encode = get_nft().encodeABI(fn_name=method, args=[arg])
     signed_txn = network.WEB3.eth.account.signTransaction(dict(
         nonce = network.WEB3.eth.getTransactionCount(network.to_checksum(addr.PUB)) + nonce_inc,
         gasPrice = GAS_PRICE,
         data=data_to_encode,
-        gas = 100000,
+        gas = 10000000,
         to = network.to_checksum(addr.NFT_CONTRACT),
         ), addr.PRIV)
     tx_hash = network.WEB3.eth.sendRawTransaction(signed_txn.rawTransaction)
