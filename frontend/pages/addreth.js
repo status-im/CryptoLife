@@ -15,7 +15,7 @@ import Utils from '../utils'
 const Container = styled.div`
   max-width: 100vw;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: (auto-fill, 1fr);
   justify-content: center;
   align-content: center;
   padding: 2rem;
