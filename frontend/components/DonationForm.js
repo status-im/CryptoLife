@@ -22,8 +22,13 @@ const TransactionForm = styled.form`
 `
 
 export default class DonationForm extends PureComponent {
-  state = {
-    netId: 3,
+
+  constructor(props){
+    super();
+    this.state = {
+      netId: 3,
+      thanks: false,
+    }  
   }
 
   handleDonate = event => {
@@ -44,6 +49,15 @@ export default class DonationForm extends PureComponent {
             value: donateWei,
             gas: 150000 + extraGasNeeded,
             data: message,
+          },(err,hash)=>{
+            //debugger;
+            console.log('tx hash', hash);
+            form.elements['message'].value = "";
+            form.elements['amount'].value = "";
+            this.setState({
+              thanks: true,
+              donateenabled: true,
+            })
           })
           .catch(e => {
             console.log(e)
@@ -52,6 +66,7 @@ export default class DonationForm extends PureComponent {
     } else {
       console.log('no donation allowed on this network')
       this.setState({
+        thanks: true,
         donateenabled: false,
       })
     }
@@ -148,6 +163,9 @@ export default class DonationForm extends PureComponent {
           <br />
         )}
         {/* <img src="/img/placeholder-qr.svg" className="qr-code" /> */}
+        {(this.state.thanks) && (
+          <div>WELL THANKS BUDDY</div>
+        )}
       </Container>
     )
   }
