@@ -44,4 +44,3 @@ Each major sponsor also gets to specify a list of hacks they'd like to see, or p
 
 And that's all she wrote. We can't wait to see you in Prague to bring crypto one more step closer to real life for all of us.
 
-

@@ -1,0 +1,35 @@
+{
+  "name": "flipper",
+  "version": "0.1.0",
+  "author": "Honeybadgerz™",
+  "description": "Continuous salaries on xDai",
+  "keywords": [
+    "status",
+    "hackathon",
+    "ethereum",
+    "contracts",
+    "smart contracts",
+    "dapp",
+    "flipper",
+    "salaries"
+  ],
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "openzeppelin-solidity": "^2.0.0",
+    "truffle-hdwallet-provider": "0.0.6",
+    "web3": "^1.0.0-beta.36"
+  },
+  "scripts": {
+    "lint": "eslint ./src",
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PaulRBerg/CryptoLife.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PaulRBerg/CryptoLife/issues"
+  },
+  "homepage": "https://github.com/PaulRBerg/CryptoLife#readme"
+}
