@@ -1,31 +1,14 @@
-# CryptoLife
-A repo for all the #CryptoLife Hackathon submissions, The National House Smichov, Prague, 26-28th October 2018.
+# Flipper
+An app that lets businesses "stream" salaries to their employees. By streaming, we mean continuous payments per hour, minute, day etc. The time interval is chosen by the business, but it has to be a multiple of 5 due to [xDai](https://blockscout.com/poa/dai) block times.
 
-You can read more about the meaning behind the event [here](https://our.status.im/why-name-the-status-hackathon-cryptolife-what-does-that-actually-mean/).
+After the stream starts, employee can "checkpoint" the contract funds at any point in time (block height) to get the money in their account. We propose a new economic model where agents are paid continuously rather than in chunks once - per month or per week.
 
-The [EthMagicians](https://our.status.im/magic-internet-people/) will be in full attendance!
+This project was bootstrapped in a weekend at the Status CryptoLife Hackathon held at The National House Smichov, Prague, 26-28th October 2018.
 
-You can check out the #CryptoLife Master List [here](https://our.status.im/your-cryptolife-masterlist/).
+BUIDLers:
 
-# Submit Your Hack To This Repo
-
-**Reminder:** In line with our principles at Status, all code that is submitted during the #CryptoLife Hackathon is considered completely open source and under the same license as this repo - the Mozilla Public License 2.0.
-
-## Steps to Follow
-
-1. Fork the repo to your own profile or orgnaization by using the button in the top right of this page.
-2. `git clone <your_git_repo_here>`
-3. `cd <your_git_repo>`
-4. Create a new branch in your forked version of the repo and add your code to it. Use the naming convention suggested by placing your team name first, and your project name after (if there is one).
-    
-    `git checkout -b <team-name_project-name>`
-
-5. Add, commit and push your changes to your new branch in your forked repo:
-
-    ```shell
-    git add .
-    git commit -m "<team_name> Submission for CryptoLife" 
-    git push
-    ```
-
-6. Go to your forked repo in the browser and submit a PR using the green button there.
+- [Paul Berg](https://twitter.com/PaulRBerg)
+- [Mark Milton](https://twitter.com/markbmilton)
+- [Mauro](https://twitter.com/Mauro)
+- [Stefan Ionescu](https://github.com/stefanionescu)
+- [Abel Tedros](https://twitter.com/abeltedros_)

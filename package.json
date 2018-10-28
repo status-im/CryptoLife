@@ -1,13 +1,16 @@
 {
-  "name": "contractz",
+  "name": "flipper",
   "version": "0.1.0",
-  "description": "Paul Berg's Ethereum contracts",
+  "description": "",
   "keywords": [
+    "status",
+    "hackathon",
     "ethereum",
     "contracts",
     "smart contracts",
-    "tokens",
-    "dapp"
+    "dapp",
+    "flipper",
+    "salaries"
   ],
   "dependencies": {
     "dotenv": "^6.0.0",
@@ -21,12 +24,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/PaulRBerg/cryptolife.git"
+    "url": "https://github.com/PaulRBerg/CryptoLife.git"
   },
-  "author": "Paul Berg <hello@paulrberg.com> (https://paulrberg.com)",
+  "author": "Honeybadgerz™",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/PaulRBerg/cryptolife/issues"
+    "url": "https://github.com/PaulRBerg/CryptoLife/issues"
   },
-  "homepage": "https://github.com/PaulRBerg/cryptolife#readme"
+  "homepage": "https://github.com/PaulRBerg/CryptoLife#readme"
 }
