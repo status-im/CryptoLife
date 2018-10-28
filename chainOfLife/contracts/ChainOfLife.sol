@@ -27,8 +27,8 @@ contract ChainOfLife {
     // 1 hash and bob data
     // 2 resolved alice wins 
     // 3 resolved bob wins
-    // 4 challenged
-    // 5 finalized
+    // 4 resolved draw
+    // 5 challenged
     uint256 state;
     uint256 time;
   }
@@ -41,14 +41,15 @@ contract ChainOfLife {
   mapping (bytes32 => Game) public games;
   mapping (address => PlayerStats) public players;
 
-  constructor (uint _timeout, uint256 _stake) public {
+  constructor (uint _timeout, uint256 _stake, address _tokenAddr) public {
     owner = msg.sender;
     timeout = _timeout;
     stake = _stake;
+    token = ERC20(_tokenAddr);
   }
 
   function setTokenAddress (address _tokenAddr) public {
-    require(msg.sender == owner);
+    require(msg.sender == owner, "Not sent by contract owner");
     token = ERC20(_tokenAddr);
   }
   
@@ -75,8 +76,9 @@ contract ChainOfLife {
     emit JoinGame(_gameId, msg.sender, _field);
   }
 
-  function resolve(bytes32 _gameId, bytes32[] _field, bool _isWinner) public {
+  function resolve(bytes32 _gameId, bytes32[] _field, uint256 _outcome) public {  //_outcome: 0 - Alice wins; 1 - Bob wins; 2 - Draw
     require(token != address(0), "Token contract address not set");
+    require(_outcome == 0 || _outcome == 1 || _outcome == 2, "Not calid outcome");
     bytes32 fieldHash = keccak256(abi.encodePacked(_field));
     require(_gameId == fieldHash, "Alice hashes do not match");
     Game storage game = games[_gameId];
@@ -84,13 +86,18 @@ contract ChainOfLife {
     require(game.state == 1, "Wrong game state");
 
     address winner;
-    if (_isWinner){
+    if (_outcome == 0){
       winner = game.alice;
       game.state = 2;      
-    } else {
+    } 
+    if (_outcome == 1) {
       winner = game.bob;
       game.state = 3;
     }
+    if (_outcome == 2) {
+      winner = address(0);
+      game.state = 4;
+    } 
     game.time = block.number;
 
     emit ResolveGame(_gameId, winner, _field);
@@ -107,7 +114,7 @@ contract ChainOfLife {
     }
 
     require(block.number > game.time + timeout * 12, "Timeout has not been reached");
-    require(game.state == 1 || game.state == 2 || game.state == 3, "Wrong game state");
+    require(game.state == 1 || game.state == 2 || game.state == 3 || game.state == 4, "Wrong game state");
     require(msg.sender == game.alice || msg.sender == game.bob, "Finalize message not send sent by player");
 
     address winner;
@@ -133,8 +140,22 @@ contract ChainOfLife {
       players[game.bob].wins.add(1);
       message = "Player 2 wins";
     }
+    if(game.state == 4) {
+      address bob = game.bob;
+      winner = game.alice;
+      players[game.alice].games.add(1);
+      players[game.bob].games.add(1);
+      message = "Draw";
+      games[_gameId] = Game(0,0,0,0,0);
+      token.transfer(winner,stake);
+      token.transfer(bob,stake);
+
+      emit FinalizeGame(_gameId, address(0),message);
+      return; 
+    }
     games[_gameId] = Game(0,0,0,0,0);
     token.transfer(winner,stake * 2);
+
     emit FinalizeGame(_gameId, winner,message);    
   }
 }
