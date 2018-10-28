@@ -87,6 +87,7 @@ export default class Addreth extends Component {
     isAddrethValid: true,
     isAddrethValidated: false,
     editMode: false,
+    claimed: false,
   }
 
   static async getInitialProps({ query }) {
@@ -216,6 +217,7 @@ export default class Addreth extends Component {
   saveData = () => {
     this.setState({
       editMode: false,
+      claimed: true,
     })
     return new Promise((resolve, reject) => {
       const msgParams = this.makeData()
@@ -369,6 +371,7 @@ export default class Addreth extends Component {
       descriptionValue,
       editMode,
       ipfsPayload,
+      claimed,
     } = this.state
 
     const isOwner = account === addreth.toLowerCase()
@@ -421,7 +424,7 @@ export default class Addreth extends Component {
               {!editMode &&
                 isOwner && (
                   <button onClick={() => this.setState({ editMode: true })}>
-                    {ipfsPayload ? 'Edit' : 'Claim now!'}
+                    {ipfsPayload || claimed ? 'Edit' : 'Claim now!'}
                   </button>
                 )}
             </ContentWrapper>
