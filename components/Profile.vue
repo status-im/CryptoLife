@@ -56,7 +56,7 @@
 
                                     <v-list-tile-content>
                                         <v-list-tile-title>Token Balance</v-list-tile-title>
-                                        <v-list-tile-sub-title>{{$store.state.userBalance}}</v-list-tile-sub-title>
+                                        <v-list-tile-sub-title>{{$store.state.balanceOf}}</v-list-tile-sub-title>
                                     </v-list-tile-content>
                                 </v-list-tile>
 
