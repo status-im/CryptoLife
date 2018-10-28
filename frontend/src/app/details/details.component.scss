@@ -29,7 +29,6 @@
     margin-bottom: 0;
   }
   .item-price {
-    font-weight: bold;
   }
 }
 
@@ -98,11 +97,12 @@
     height: 38px;
   }
   #submit-button {
-    margin-left: auto;
+    margin-left: 10px;
     margin-right: auto;
     position: absolute;
-    top: 395px;
-    left: 186px;
+    top: 420px;
+    border-radius: 0px 0px 12px 12px;
+    width: 500px;
   }
   .card-holder {
     width: 500px;

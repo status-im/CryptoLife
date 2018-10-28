@@ -21,15 +21,17 @@
 				</div>
 				<div class="col-md-6">
 					<div *ngIf="showBloomAuthentication; else payment;">
-						<p>In order to purchase please Login below:</p>
+						<span class="item-price">Price: <strong>${{etsyItem.price}}</strong></span>
 						<hr>
+						<p>In order to purchase please Login below:</p>
 						<div class="button-holder">
-							<dapp-bloom-button [itemId]='itemId' (loginSuccess)="startPayment()"></dapp-bloom-button>
+							<dapp-bloom-button [itemId]='itemId' (loginSuccess)="startPayment($event)"></dapp-bloom-button>
 						</div>
 					</div>
 					<ng-template #payment>
-						<span class="item-price">Price: ${{etsyItem.price}}</span>
-						<hr>
+						<p>Logged in as <strong>{{userEmail}}</strong></p>
+						<p>Your address: <strong>{{wallet.address}}</strong></p>
+						<span class="item-price">Price: <strong>${{etsyItem.price}}</strong></span>
 						<div class="row payment">
 							<div class="col-md-6 text-center payment-type-holder">
 								<button type="button" class="dai-button"><img class="payment-icon" src="assets/images/dai.png"> Pay with DAI</button>
@@ -85,7 +87,7 @@
 											</div>
 										</div>
 									</div>
-									<button class="btn btn-raised btn-info btn-lg col-md-4" type="submit" id="submit-button">Pay Now</button>
+									<button class="btn btn-raised btn-info btn-lg col-md-11" type="submit" id="submit-button">Execute Transaction</button>
 								</form>
 							</div>
 						</div>

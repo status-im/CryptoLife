@@ -17,7 +17,7 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 	public qrShown: boolean;
 	@ViewChild('qrContainer') qrContainer: ElementRef;
 	@Input() itemId: string;
-	@Output() loginSuccess = new EventEmitter<boolean>();
+	@Output() loginSuccess = new EventEmitter<any>();
 
 	public subscription: Subscription;
 
@@ -44,10 +44,9 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 				if (data.qrToken !== `${uuidToken}${this.itemId}`) {
 					return;
 				}
-				console.log(data);
 				this.shopperStoreService.setShopperId(data.personData.shopperId);
 				this.subscription.unsubscribe();
-				this.loginSuccess.emit(true);
+				this.loginSuccess.emit(data);
 			}
 		});
 		this.qrShown = true;

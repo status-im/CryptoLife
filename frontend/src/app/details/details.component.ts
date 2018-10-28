@@ -21,7 +21,8 @@ export class DetailsComponent implements OnInit {
 	public itemId;
 	public etsyItem: EtsyItem;
 	public activateLimePay: boolean;
-	private wallet;
+	public wallet;
+	public userEmail: string;
 
 	constructor(private activeRoute: ActivatedRoute,
 		private router: Router,
@@ -35,7 +36,9 @@ export class DetailsComponent implements OnInit {
 		this.etsyItem = this.detsyStoreService.getItem(this.itemId);
 	}
 
-	public startPayment() {
+	public startPayment(data: any) {
+		console.log(data);
+		this.userEmail = data.personData.email;
 		this.wallet = ethers.Wallet.createRandom();
 		this.showBloomAuthentication = false;
 	}
