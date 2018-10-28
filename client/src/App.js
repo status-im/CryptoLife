@@ -79,7 +79,7 @@ class App extends Component {
             <Header className="header">
                 <h2 className="text-center" style={{ color: "white" }}>DHotel</h2>
             </Header>
-            <Container>
+            <Container xs={400} sm={400} md={440} lg={470}>
                 <Switch>
                     <Route path="/" exact component={HomeView} />
                     <Route path="/room" exact component={RoomView} />

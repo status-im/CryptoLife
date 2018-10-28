@@ -141,8 +141,8 @@ class RoomView extends Component {
 			<Card>
 				You may check in now
 			</Card>
-			<Button type="primary" className="width-100 margin-top" onClick={() => this.onCheckIn()}>Check in</Button>
-			<Button className="width-100 margin-top" onClick={() => this.props.history.goBack()}>Go back</Button>
+			<Button type="primary" size="large" className="width-100 margin-top" onClick={() => this.onCheckIn()}>Check in</Button>
+			<Button size="large" className="width-100 margin-top" onClick={() => this.props.history.goBack()}>Go back</Button>
 		</div>
 	}
 
@@ -153,17 +153,17 @@ class RoomView extends Component {
 			</Card>
 			{
 				this.state.emittablePayload ?
-					<Button type="primary" className="width-100 margin-top" onClick={() => this.onReplay()}>Try again</Button> :
-					<Button type="primary" className="width-100 margin-top" onClick={() => this.onOpen()}>Unlock the door</Button>
+					<Button size="large" type="primary" className="width-100 margin-top" onClick={() => this.onReplay()}>Try again</Button> :
+					<Button size="large" type="primary" className="width-100 margin-top" onClick={() => this.onOpen()}>Unlock the door</Button>
 			}
-			<Button type="danger" className="width-100 margin-top" onClick={() => this.onCheckOut()}>Check Out</Button>
-			<Button className="width-100 margin-top" onClick={() => this.props.history.goBack()}>Go back</Button>
+			<Button size="large" type="danger" className="width-100 margin-top" onClick={() => this.onCheckOut()}>Check Out</Button>
+			<Button size="large" className="width-100 margin-top" onClick={() => this.props.history.goBack()}>Go back</Button>
 		</div>
 	}
 
 	renderStale() {
 		return <div>
-			<Button className="width-100" onClick={() => this.props.history.goBack()}>Go back</Button>
+			<Button size="large" className="width-100" onClick={() => this.props.history.goBack()}>Go back</Button>
 		</div>
 	}
 
@@ -177,7 +177,7 @@ class RoomView extends Component {
 		return <div id="room">
 			<Row>
 				<Col>
-					<p className="margin-top">Welcome to the check-in desk</p>
+					<p className="margin-top white">Welcome to the check-in desk</p>
 				</Col>
 			</Row>
 

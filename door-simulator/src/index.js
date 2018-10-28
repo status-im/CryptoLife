@@ -6,7 +6,7 @@ import getValidatorInstance from "../../client/src/contracts/validator.js"
 
 const serverPublicKey = "0xbda352aeb022a1d8e847ee6372795d02dcbf53f8"
 
-const Bookings = getBookingsInstance()
+// const Bookings = getBookingsInstance()
 const Validator = getValidatorInstance()
 
 class DoorSimulator extends React.Component {

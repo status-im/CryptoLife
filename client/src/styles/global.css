@@ -1,5 +1,7 @@
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-image: url(../media/hotel1.jpeg);
+	background-size: cover;
 }
 
 .light {
@@ -15,8 +17,12 @@ body {
 }
 
 .margin-top {
-	margin-top: 10px;
+	margin-top: 15px;
 }
 .margin-bottom {
-	margin-bottom: 10px;
+	margin-bottom: 15px;
+}
+
+.ant-layout-header {
+	background: #eeec !important;
 }

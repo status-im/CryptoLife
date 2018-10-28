@@ -44,7 +44,7 @@ class HomeView extends Component {
 			.catch(err => {
 				this.setState({ myBookingDate: null })
 				message.warn("The availability status could not be checked")
-alert(err.message);
+
 				this.setState({ selectedDate: null })
 			})
 	}
@@ -129,30 +129,34 @@ alert(err.message);
 
 	renderCurrentReservation() {
 		return <div>
-			<Card className="margin-bottom">
+			<Card
+				cover={<img alt="Welcome" src={require("../media/hotel2.jpeg")} />}
+				className="margin-bottom">
 				<p>You currently have a reservation</p>
 				<p>Arrival on {this.state.myBookingDate.day}/{this.state.myBookingDate.month}/{this.state.myBookingDate.year}</p>
 			</Card>
 			{
-				this.state.canCheckIn ? <Button type="primary" className="width-100 margin-bottom" onClick={() => this.onRoomClick()}>Check In</Button> : null
+				this.state.canCheckIn ? <Button type="primary" size="large" className="width-100 margin-bottom" onClick={() => this.onRoomClick()}>Check In</Button> : null
 			}
 			{
-				this.state.canCheckOut ? <Button type="primary" className="width-100 margin-bottom" onClick={() => this.onRoomClick()}>Room access</Button> : null
+				this.state.canCheckOut ? <Button type="primary" size="large" className="width-100 margin-bottom" onClick={() => this.onRoomClick()}>Room access</Button> : null
 			}
-			<Button type="danger" className="width-100" onClick={() => this.onCancelBooking()}>Cancel booking</Button>
+			<Button type="danger" size="large" className="width-100" onClick={() => this.onCancelBooking()}>Cancel booking</Button>
 		</div>
 	}
 
 	renderBookForm() {
 		return <div>
-			<Card className="margin-bottom">
+			<Card
+				cover={<img alt="Welcome" src={require("../media/hotel2.jpeg")} />}
+				className="margin-bottom">
 				<p>Choose the date you'd like to book</p>
 				<DatePicker className="width-100" onChange={value => this.datePicked(value)} />
 			</Card>
 
 			{
 				this.state.selectedDate && (!this.state.bookingLoading) ?
-					<Button type="primary" className="width-100" onClick={() => this.onBookRoom()}>Book now</Button> : null
+					<Button type="primary" size="large" className="width-100" onClick={() => this.onBookRoom()}>Book now</Button> : null
 			}
 
 			{
@@ -166,7 +170,7 @@ alert(err.message);
 		return <div id="home">
 			<Row>
 				<Col>
-					<p className="margin-top">Welcome to the first distributed hotel</p>
+					<p className="margin-top white">Welcome to the first distributed hotel</p>
 				</Col>
 			</Row>
 

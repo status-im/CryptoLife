@@ -23,12 +23,18 @@ make deploy
 Run `npm start` on the root of the project or `make run` on the own folder.
 At the time, it is deployed on Heroku.
 
+Develop (nodemon) with `make dev`
+
 ## Client
 
 The mobile client and the door simulator
 
-* Mobile client: [https://dhotel-server.herokuapp.com/](https://dhotel-server.herokuapp.com/)
-* Door simulator: run `cd door-simulator ; make www`
+* Mobile client
+	* Link [https://dhotel-server.herokuapp.com/](https://dhotel-server.herokuapp.com/)
+	* Develop with `make dev`
+* Door simulator
+	* Run with `cd door-simulator ; make www`
+	* Develop with `make dev`
 
 ## Disclaimers
 
@@ -38,7 +44,8 @@ The mobile client and the door simulator
 * Single person team, everything is a best effort
 
 ## TO DO
-
+* Implement a state channel to allow in-room expenses
+* Settle the state channel expenses when checking out
 * Limit the interval during which a user can replay
 * Check that the timestamps are +/- 10 seconds
 * Check that signatures are always incremental
