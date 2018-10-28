@@ -5,11 +5,11 @@ import IPFS from 'ipfs-mini'
 import parse from 'domain-name-parser'
 import axios from 'axios'
 import abiDecoder from 'abi-decoder'
+import { Router, Link } from '../routes'
 
 import Leaderboard from '../components/Leaderboard'
 import DonationForm from '../components/DonationForm'
 import NotAnAddreth from '../components/NotAnAddreth'
-import { Router } from '../routes'
 import Utils from '../utils'
 
 const Container = styled.div`
@@ -27,7 +27,7 @@ const Container = styled.div`
 
   @media (max-width: 640px) {
     width: 100vw;
-    grid-template-columns: (auto-fit, 1fr);
+    grid-template-columns: (auto-fill, 1fr);
   }
 `
 const LeaderboardContainer = styled.div`
@@ -46,7 +46,7 @@ const AddrethLink = styled.a`
 const Wrapper = styled.div`
   padding: 0 2rem;
   min-height: 100vh;
-  background: linear-gradient(180deg, #6200ee 0%, rgba(98, 0, 238, 0.49) 100%),
+  background: linear-gradient(180deg, #6200ee 0%, rgba(98, 0, 238, 0.49) 100%),
     #c4c4c4;
 `
 
@@ -62,6 +62,7 @@ const Brand = styled.img`
   height: 50%;
   margin-left: 1rem;
   margin-right: 1rem;
+  cursor: pointer;
 `
 
 const Title = styled.h1`
@@ -373,7 +374,9 @@ export default class Addreth extends Component {
     return (
       <div>
         <Navbar>
-          <Brand src="../static/images/brand.svg" />
+          <Link route="/">
+            <Brand src="../static/images/brand.svg" />
+          </Link>
           <p>{addreth}</p>
           {this.validateENSDomain(addreth) && (
             <>
