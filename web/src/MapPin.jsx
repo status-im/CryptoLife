@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Source from "react-mapbox-gl/lib/source";
-import {Layer} from "react-mapbox-gl";
+import {Layer, Feature} from "react-mapbox-gl";
 import Icon from "./marker.png";
 import PinPopup from "./PinPopup";
 
@@ -8,9 +8,9 @@ class MapPin extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            jsonData: props.jsonData,
-        };
+        // this.state = {
+        //     jsonData: props.jsonData,
+        // };
     }
 
     // handleClick = (map, ev) => {
@@ -33,7 +33,7 @@ class MapPin extends Component {
 
         return (
             <React.Fragment>
-                    <Source id="source_id" tileJsonSource={this.state.jsonData} />
+                    {/*<Source id="source_id" tileJsonSource={this.props.jsonData} />*/}
                     <Layer id="layer_id"
                 images={images}
                 type="symbol"
@@ -44,8 +44,9 @@ class MapPin extends Component {
                         "text-offset": [0, -3],
                         "text-anchor": "top"
                 }}
-                sourceId="source_id"
+                // sourceId="source_id"
                     >
+                        {this.props.jsonData.data.features.map((feature,i) => <Feature key={i} properties={feature.properties} coordinates={feature.geometry.coordinates}/>)}
                     </Layer>
             </React.Fragment>
         );

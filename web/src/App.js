@@ -18,19 +18,53 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            screams: {
+                type: "geojson",
+                data: {
+                    type: "FeatureCollection",
+                    features: [{
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [-77.03238901390978, 38.913188059745586]
+                        },
+                        properties: {
+                            title: "Want some croquttes",
+                            description: "",
+                            amount: "0.002 ETH ",
+                            rating: "3.5"
+                        }
+                    }, {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [-122.414, 37.776]
+                        },
+                        properties: {
+                            title: "Make homework",
+                            description: "Help me with maths!",
+                            amount: "0.01 ETH ",
+                            rating: "4.1"
+                        }
+                    }]
+                }
+            },
             showScreamInputForm: false,
             newScream: true,
             showPopup: false,
             scream: {
                 title: "",
                 description: "",
-                amount: ""
+                amount: "",
+                rating: ""
             },
             zoom: [17],
             center: [-87.63097788775872, 41.767174164037044]
         };
         this.updateShowScreamInputForm = this.updateShowScreamInputForm.bind(this);
         this._onClickMap = this._onClickMap.bind(this);
+        this.addScream = this.addScream.bind(this);
+        this._onMouseMoveMap = this._onMouseMoveMap.bind(this);
     }
 
     updateShowScreamInputForm(newShow) {
@@ -40,6 +74,8 @@ class App extends Component {
     _onMouseMoveMap(map, e) {
         let features = map.queryRenderedFeatures(e.point, {layers: ['layer_id']});
         map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+        this.setState({center:[map.getCenter().lng, map.getCenter().lat]});
+        console.log(this.state.center);
     }
 
     _onClickMap(map, e) {
@@ -58,47 +94,47 @@ class App extends Component {
                           scream: {
                               title: feature.properties.title,
                               description: feature.properties.description,
-                              amount: feature.properties.amount
+                              amount: feature.properties.amount,
+                              rating: feature.properties.rating,
                           }
                       });
     }
 
-    render() {
-        const json = {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": [{
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [-77.03238901390978, 38.913188059745586]
-                    },
-                    "properties": {
-                        "title": "Tordlo",
-                        "description": "Bring me the best tordlo in the Universe",
-                        "amount": "14.88 ETH (3000 USD)"
-                    }
-                }, {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [-122.414, 37.776]
-                    },
-                    "properties": {
-                        "title": "Dick Suck",
-                        "description": "Sucking a dick for 5 hours",
-                        "amount": "0 ETH (0 USD)"
-                    }
-                }]
-            }
-        };
+    addScream(title, description, amount) {
 
+        console.log(title);
+        console.log(description);
+        console.log(amount);
+        console.log(this.state.center);
+        console.log(Object.keys(Map));
+        let prev = this.state;
+
+        prev.screams.data.features = [...this.state.screams.data.features,
+            {
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: this.state.center,
+                },
+                properties: {
+                    title: title,
+                    description: description,
+                    amount: amount,
+                    rating: "4.95"
+                }
+            }
+        ];
+
+        this.setState({screams: prev.screams});
+        console.log(this.state.screams);
+    }
+
+    render() {
         return (
             <div>
                 <Map
                     key={"map"}
-                    style={"mapbox://styles/romakatsa/cjnrxz3yh0qa12rpsbne9h43s"}
+                    style={"mapbox://styles/romakatsa/cjnsma1oq31xf2stevzztlyrw"}
                     onClick={this._onClickMap}
                     onMouseMove={this._onMouseMoveMap}
                     containerStyle={{
@@ -110,10 +146,11 @@ class App extends Component {
                 >
                     <ScaleControl/>
                     <ZoomControl/>
-                    <MapPin jsonData={json}/>
+                    <MapPin jsonData={this.state.screams}/>
                 </Map>
                 <ScreamBar showScreamInputForm={this.state.showScreamInputForm}
                            updateShowScreamInputForm={this.updateShowScreamInputForm}
+                           handleScreamClick={this.addScream}
                 />
                 {this.state.showPopup ? <PinPopup key={1} scream={this.state.scream}/> : ""}
                 {this.state.newScream ? <PinMarker/> : ""}

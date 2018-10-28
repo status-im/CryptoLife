@@ -26,8 +26,8 @@ module.exports = {
 		development: {
 			provider: function () {
 				const wallet = new HDWalletProvider(
-					"***12 words***",
-					"https://rinkeby.infura.io/***key***"
+					"goddess bundle miss dance loop arm want life asthma leader coin describe",
+					"https://rinkeby.infura.io/9A7EpV9S7shj1LWKy1s2"
 				);
 				const nonceTracker = new NonceTrackerSubprovider();
 				wallet.engine._providers.unshift(nonceTracker);
@@ -41,8 +41,8 @@ module.exports = {
 		poa: {
 			provider: function () {
 				const wallet = new HDWalletProvider(
-					"***12 words***",
-					"https://rinkeby.infura.io/***key***"
+					"goddess bundle miss dance loop arm want life asthma leader coin describe",
+					"https://rinkeby.infura.io/9A7EpV9S7shj1LWKy1s2"
 				);
 				const nonceTracker = new NonceTrackerSubprovider();
 				wallet.engine._providers.unshift(nonceTracker);

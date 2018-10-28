@@ -1,6 +1,16 @@
 import React, {Component} from "react";
 
 export class ScreamBar extends Component {
+
+    constructor(props) {
+        super(props);
+        this.titleInput = null;
+        this.descriptionInput = null;
+        this.amountInput = null;
+        this.statusImLink = null;
+    }
+
+
     render() {
         return (
             <div style={this.props.showScreamInputForm
@@ -12,23 +22,46 @@ export class ScreamBar extends Component {
                            style={ScreamBar.styles.textInput}
                            placeholder="What do you scream for?"
                            onFocus={() => this.props.updateShowScreamInputForm(true)}
+                           ref={(ref) => {
+                               this.titleInput = ref;
+                           }}
                     />
                     {this.props.showScreamInputForm
                         ? (
                             <div>
+                                <input type="text"
+                                       style={ScreamBar.styles.textInput}
+                                       placeholder="What's your Status.im userlink?"
+                                       onFocus={() => this.props.updateShowScreamInputForm(true)}
+                                       ref={(ref) => {
+                                           this.statusImLink = ref;
+                                       }}
+                                />
                                 <textarea style={ScreamBar.styles.textArea}
                                           placeholder="Please provide the details of your emergency"
+                                          ref={(ref) => {
+                                              this.descriptionInput = ref;
+                                          }}
                                 />
                                 <input type="number"
+                                       step="0.0000001"
                                        style={ScreamBar.styles.textInput}
                                        placeholder="Amount in ETH you are willing to pay for it"
+                                       ref={(ref) => {
+                                           this.amountInput = ref;
+                                       }}
                                 />
                             </div>
 
                         )
                         : null}
                 </div>
-                <button style={ScreamBar.styles.topBarButton}>SCREAM</button>
+                <button style={ScreamBar.styles.topBarButton}
+                        onClick={() => this.props.handleScreamClick(this.titleInput.value,
+                                                                    this.descriptionInput.value,
+                                                                    this.amountInput.value,
+                                                                    this.statusImLink.value)}>
+                    SCREAM</button>
             </div>
         )
     }
@@ -108,7 +141,7 @@ ScreamBar.styles = {
         "left": "50%",
         "transform": "translate(-50%)",
         "width": "80%",
-        "height": "9rem",
+        "height": "12rem",
         "display": "flex",
         "justifyContent": "space-between",
         "alignItems": "center",
