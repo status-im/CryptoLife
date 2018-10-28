@@ -45,7 +45,7 @@ This hack extends "invite link" functionality to "Universal Login" [EIP1077](htt
 8) Alice’s identity contract creates an identity contract for Bob and sends a Robot
 9) Bob is now onboarded to Ethereum and owns a robot that he can play with!
 
-## Steps to Follow
+## Install steps to Follow
 
 
 ### App
