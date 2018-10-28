@@ -39,8 +39,8 @@ class HomeView extends Component {
 			})
 			.then(() => this.Bookings.methods.canCheckIn().call({ from: this.props.accounts[0] }))
 			.then(result => this.setState({ canCheckIn: result }))
-			.then(() => this.Bookings.methods.canCheckOut().call({ from: this.props.accounts[0] }))
-			.then(result => this.setState({ canCheckOut: result }))
+			.then(() => this.Bookings.methods.checkedInGuest().call({ from: this.props.accounts[0] }))
+			.then(addr => this.setState({ canCheckOut: addr == this.props.accounts[0] }))
 			.catch(err => {
 				this.setState({ myBookingDate: null })
 				message.warn("The availability status could not be checked")

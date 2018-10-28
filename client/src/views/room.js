@@ -32,8 +32,8 @@ class RoomView extends Component {
 	}
 
 	fetchCanCheckOut() {
-		return this.Bookings.methods.canCheckOut().call({ from: this.props.accounts[0] })
-			.then(result => this.setState({ canCheckOut: result }))
+		return this.Bookings.methods.checkedInGuest().call({ from: this.props.accounts[0] })
+			.then(addr => this.setState({ canCheckOut: addr == this.props.accounts[0] }))
 			.catch(err => {
 				this.setState({ canCheckOut: false })
 				message.error("Unable to check the status")
@@ -78,13 +78,20 @@ class RoomView extends Component {
 
 	onOpen() {
 		const web3 = getWeb3()
+		const timestamp = String(Date.now())
 
 		web3.eth.getAccounts()
 			.then(accounts => {
-				const timestamp = String(Date.now())
-				const signature = web3.eth.sign('0x' + toHex(timestamp), accounts[0])
+				return new Promise((resolve) => {
+					// whchever works
+					// web3.eth.sign('0x' + toHex(timestamp), accounts[0]).then(resolve)
+					web3.eth.personal.sign('0x' + toHex(timestamp), accounts[0]).then(resolve)
+				})
+			})
+			.then(signature => {
+alert(timestamp + "\n--" + signature)
 
-				return fetch("http://localhost:8080/access/request", {
+				return fetch("https://dhotel-sign.herokuapp.com/access/request", {
 					method: 'POST',
 					body: JSON.stringify({
 						timestamp,

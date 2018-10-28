@@ -1,5 +1,6 @@
 const express = require("express")
 const bodyParser = require("body-parser")
+const cors = require('cors')
 const fs = require("fs")
 const path = require("path")
 const Web3 = require("web3")
@@ -24,6 +25,7 @@ const Validator = new web3.eth.Contract(validatorAbi, VALIDATOR_CONTRACT_ADDRESS
 const server = express()
 
 server.use(bodyParser.json({ limit: "50kb" }))
+app.use(cors())
 
 server.post("/access/request", async (req, res) => {
 	const result = { ok: false }

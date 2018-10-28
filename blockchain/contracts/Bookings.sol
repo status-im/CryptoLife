@@ -122,9 +122,10 @@ contract Bookings {
     }
 
     function checkOut() public payable {
-        uint16 year = DateTime.getYear(now);
-        uint8 month = DateTime.getMonth(now);
-        uint8 day = DateTime.getDay(now);
+        uint prevDay = now - 60 * 60 * 24; // yesterday
+        uint16 year = DateTime.getYear(prevDay);
+        uint8 month = DateTime.getMonth(prevDay);
+        uint8 day = DateTime.getDay(prevDay);
 
         require(checkedInGuest != 0x0, "Nobody is checked in");
         // require(spentAmount < deposit, "Invalid spentAmount");

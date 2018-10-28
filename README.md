@@ -7,10 +7,6 @@ cd blockchain
 make init
 ```
 
-```
-WEB3_PROVIDER_URI=https://ropsten.infura.io/---YOUR-API-KEY-HERE--- node scripts/deploy
-```
-
 Note the contract's address for later use.
 
 ## Client
