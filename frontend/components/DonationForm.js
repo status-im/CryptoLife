@@ -17,18 +17,22 @@ const TransactionContainer = styled.div`
 const TransactionForm = styled.form`
   display: grid;
   grid-template-rows: auto auto;
-  grid-gap: 0.5rem;
+  grid-gap: 0.7rem;
   padding: 1rem;
 `
 
-export default class DonationForm extends PureComponent {
+const Input = styled.input`
+  border-radius: 0.2rem;
+  padding: 0.3rem;
+`
 
-  constructor(props){
-    super();
+export default class DonationForm extends PureComponent {
+  constructor(props) {
+    super()
     this.state = {
       netId: 3,
       thanks: false,
-    }  
+    }
   }
 
   handleDonate = event => {
@@ -43,22 +47,25 @@ export default class DonationForm extends PureComponent {
     if (this.state.netId === this.props.donationNetworkID) {
       return myweb3.eth.getAccounts().then(accounts => {
         return myweb3.eth
-          .sendTransaction({
-            from: accounts[0],
-            to: this.props.address,
-            value: donateWei,
-            gas: 150000 + extraGasNeeded,
-            data: message,
-          },(err,hash)=>{
-            //debugger;
-            console.log('tx hash', hash);
-            form.elements['message'].value = "";
-            form.elements['amount'].value = "";
-            this.setState({
-              thanks: true,
-              donateenabled: true,
-            })
-          })
+          .sendTransaction(
+            {
+              from: accounts[0],
+              to: this.props.address,
+              value: donateWei,
+              gas: 150000 + extraGasNeeded,
+              data: message,
+            },
+            (err, hash) => {
+              //debugger;
+              console.log('tx hash', hash)
+              form.elements['message'].value = ''
+              form.elements['amount'].value = ''
+              this.setState({
+                thanks: true,
+                donateenabled: true,
+              })
+            }
+          )
           .catch(e => {
             console.log(e)
           })
@@ -154,8 +161,8 @@ export default class DonationForm extends PureComponent {
           <TransactionContainer>
             <h4>Send a transaction via Metamask to this address: </h4>
             <TransactionForm onSubmit={this.handleDonate}>
-              <input type="text" placeholder="ETH to send" name="amount" />
-              <input type="text" placeholder="message" name="message" />
+              <Input type="text" placeholder="ETH to send" name="amount" />
+              <Input type="text" placeholder="message" name="message" />
               <Button primary>Send</Button>
             </TransactionForm>
           </TransactionContainer>
@@ -163,9 +170,7 @@ export default class DonationForm extends PureComponent {
           <br />
         )}
         {/* <img src="/img/placeholder-qr.svg" className="qr-code" /> */}
-        {(this.state.thanks) && (
-          <div>WELL THANKS BUDDY</div>
-        )}
+        {this.state.thanks && <div>WELL THANKS BUDDY</div>}
       </Container>
     )
   }

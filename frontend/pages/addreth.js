@@ -7,11 +7,11 @@ import axios from 'axios'
 import abiDecoder from 'abi-decoder'
 import { Router, Link } from '../routes'
 
-import Button from '../components/Button'
 import Leaderboard from '../components/Leaderboard'
 import DonationForm from '../components/DonationForm'
 import NotAnAddreth from '../components/NotAnAddreth'
 import Utils from '../utils'
+import Button from '../components/Button'
 
 const Container = styled.div`
   max-width: 100vw;
@@ -66,9 +66,14 @@ const Brand = styled.img`
   cursor: pointer;
 `
 
-const Title = styled.h1`
-  color: #03dac6;
-  font-weight: 300;
+const Title = styled.input`
+  border-radius: 0.2rem;
+  padding: 0.3rem;
+`
+
+const Description = styled.textarea`
+  border-radius: 0.2rem;
+  padding: 0.3rem;
 `
 
 const ContentWrapper = styled.div`
@@ -76,6 +81,7 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
+
 const Input = styled.input`
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -93,7 +99,14 @@ const Input = styled.input`
   }
 `
 
-const Description = styled.textarea``
+const EditContainer = styled.div`
+  display: grid;
+  grid-gap: 1rem;
+`
+
+const ClaimContainer = styled.div`
+  padding-top: 1rem;
+`
 
 export default class Addreth extends Component {
   state = {
@@ -432,8 +445,8 @@ export default class Addreth extends Component {
                 </>
               )}
               {editMode && (
-                <>
-                  <Input
+                <EditContainer>
+                  <Title
                     type="text"
                     placeholder="Enter your title!"
                     onChange={e =>
@@ -449,16 +462,18 @@ export default class Addreth extends Component {
                   <Button light onClick={this.saveData}>
                     Save
                   </Button>
-                </>
+                </EditContainer>
               )}
               {!editMode &&
                 isOwner && (
-                  <Button
-                    primary
-                    onClick={() => this.setState({ editMode: true })}
-                  >
-                    {ipfsPayload ? 'Edit' : 'Claim your address!'}
-                  </Button>
+                  <ClaimContainer>
+                    <Button
+                      light
+                      onClick={() => this.setState({ editMode: true })}
+                    >
+                      {ipfsPayload || claimed ? 'Edit' : 'Claim now!'}
+                    </Button>
+                  </ClaimContainer>
                 )}
             </ContentWrapper>
           </div>
