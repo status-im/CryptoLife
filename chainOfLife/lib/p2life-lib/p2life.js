@@ -82,6 +82,23 @@ export default class P2life {
     return rsp;
   }
 
+  getWinner(dish = this.dish) {
+    let a = 0;
+    let b = 0;
+    for (let i = 0; i < dish.length; i++) {
+      for (let j = 0; j < dish.length; j++) {
+        if (dish[i][j] == 1) {
+          a++;
+        } else if (dish[i][j] == 2) { 
+          b++;
+        }
+      }
+    }
+    if (a === b)
+      return 0;
+    return (a > b) ? 1 : 2;
+  }
+
   countNeighbours(row, col, dish = this.dish) {
     const rowAbove = (row == 0) ? dish.length - 1 : row - 1;
     const rowBelow = (row == dish.length - 1) ? 0 : row + 1;

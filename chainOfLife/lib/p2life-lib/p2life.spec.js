@@ -48,6 +48,10 @@ describe('P2life', () => {
       '0x0000000000000000000000000000000000000000000000000000000000000002',
       '0x0000000000000000000000000000000000000000000000000000000000000002'
     ]);
+    assert.equal(p2life.getWinner(nextGen), 1);
+    console.log(p2life.getHalf(0, nextGen));
+    console.log(p2life.getHalf(1, nextGen));
+
   })
 
 });
