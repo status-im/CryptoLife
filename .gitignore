@@ -1,0 +1,5 @@
+contracts/build/
+node_modules/
+setup/node_modules/
+contracts/node_modules/
+frontend/node_modules/

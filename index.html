@@ -1,0 +1,70 @@
+<style>
+#map {
+    height: 500px;
+    width: 80%;
+}
+</style>
+
+<div id="map"></div>
+
+<script>
+	 	// We’ll add a tile layer to add to our map, in this case it’s a OSM tile layer.
+	 	// Creating a tile layer usually involves setting the URL template for the tile images
+	 	var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+	 	    osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	 	    osm = L.tileLayer(osmUrl, {
+	 	        maxZoom: 18,
+	 	        attribution: osmAttrib
+	 	    });
+        
+
+	 	// initialize the map on the "map" div with a given center and zoom
+	 	var map = L.map('map').setView([19.04469, 72.9258], 12).addLayer(osm);
+
+	 	// Script for adding marker on map click
+	 	function onMapClick(e) {
+
+	 	    var marker = L.marker(e.latlng, {
+	 	        draggable: true,
+	 	        title: "Resource location",
+	 	        alt: "Resource Location",
+	 	        riseOnHover: true
+	 	    }).addTo(map)
+	 	        .bindPopup(e.latlng.toString()).openPopup();
+
+	 	    // Update marker on changing it's position
+	 	    marker.on("dragend", function (ev) {
+
+	 	        var chagedPos = ev.target.getLatLng();
+	 	        this.bindPopup(chagedPos.toString()).openPopup();
+
+	 	    });
+	 	}
+
+	 	map.on('click', onMapClick);
+    
+    map.on('moveend', function(e) {
+   var bounds = map.getBounds();
+   alert("!"+map.getCenter());
+});
+
+
+function ParseDMS(input) {
+    var parts = input.split(/[^\d\w\.]+/);
+    var lat = ConvertDMSToDD(parts[0], parts[1], parts[2], parts[3]);
+    var lng = ConvertDMSToDD(parts[4], parts[5], parts[6], parts[7]);
+    
+    alert(lat+" "+lng);
+}
+
+function ConvertDMSToDD(degrees, minutes, seconds, direction) {
+    var dd = Number(degrees) + Number(minutes)/60 + Number(seconds)/(60*60);
+
+    if (direction == "S" || direction == "W") {
+        dd = dd * -1;
+    } // Don't do anything for N or E
+    return dd;
+}
+
+ParseDMS("30°12'23''s 20°45'56''w");
+</script>

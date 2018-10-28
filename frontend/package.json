@@ -1,0 +1,16 @@
+{
+    "name": "geography_frontend",
+    "version": "0.0.1",
+    "description": "",
+    "scripts": {
+        "serve": "lite-server",
+        "watch": "watchify -o js/bundle.js -e src/Data.js -s Data",
+        "build": "browserify -o js/bundle.js -e src/Data.js -s Data"
+    },
+    "dependencies": {
+        "browserify": "^16.2.3",
+        "eth-ens-namehash": "^2.0.8",
+        "lite-server": "^2.4.0",
+        "watchify": "^3.11.0"
+    }
+}
