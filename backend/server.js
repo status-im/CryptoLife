@@ -18,6 +18,8 @@ app.use(cors({ credentials: true, origin: 'http://localhost:4200' }))
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 
+let paymentId;
+
 /**
  *  {shopperId, walletAddress, itemName, price} 
  */
@@ -30,8 +32,9 @@ app.post('/api/payment', async (req, res, next) => {
         let shopperEmail = (new Date().getTime()) + shopperData.email;
         let limePayShopper = await LimePayService.createShopper(shopperData.firstName, shopperData.lastName, shopperEmail, req.body.walletAddress);
 
-        let token = await LimePayService.createPayment(limePayShopper._id, bodyData.itemName, bodyData.price);
-        res.json(token);
+        let result = await LimePayService.createPayment(limePayShopper._id, bodyData.itemName, bodyData.price);
+        paymentId = result.paymentID;
+        res.json(result.token);
     } catch (error) {
         console.log(error);
         next(error);

@@ -27,6 +27,12 @@ class LimePayService {
         return LimePayService.instance;
     }
 
+    async getPayment(id) {
+        let url = PAYMENT_URL + "/" + id;
+        let result = await executeGET(url);
+
+    }
+
     async createPayment(shopperID, itemName, itemPrice) {
 
         let gasPrice = await getGasPrice();
@@ -36,7 +42,7 @@ class LimePayService {
 
         try {
             let result = await executePOST(PAYMENT_URL, data);
-            return result.headers["x-lime-token"];
+            return { token: result.headers["x-lime-token"], paymentID: result._id };
         } catch (error) {
             console.log(`An error occured while creating payment.Details:\n ${JSON.stringify(error.response.data)}`);
             throw error;
@@ -101,3 +107,10 @@ let executePOST = async function (url, data) {
     });
 }
 
+let executeGET = async function (url) {
+    return axios({
+        method: "GET",
+        url: url,
+        headers: buildHeaders()
+    });
+}
