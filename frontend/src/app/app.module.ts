@@ -1,3 +1,5 @@
+import { ReceiptService } from './receipt.service';
+import { SocketService } from './socket.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -36,7 +38,7 @@ import { ShopperStoreService } from './shopper-store.service';
 		InlineSVGModule,
 		HttpClientModule
 	],
-	providers: [InlineSVGService, DetsyStoreService, BloomListenService, WaitingModeService, ShopperStoreService],
+	providers: [InlineSVGService, DetsyStoreService, BloomListenService, WaitingModeService, ShopperStoreService, SocketService, ReceiptService],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
