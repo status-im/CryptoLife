@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="TCAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#0a4178</item>
+        <item name="colorAccent">@color/md_blue_600</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="TCToolBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/md_white_1000</item>
+        <item name="android:textColor">#0a4178</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+</resources>
