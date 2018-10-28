@@ -1,0 +1,66 @@
+{meta {:name          "Cryptoteka"
+       :description   "Voting extension"
+       :documentation "Votes for a song to be played at event, and presents a list of songs that can be voted for"}
+
+ views/vote-preview
+ (let [{{{id :id} :params} :content} properties]
+   [text "You voted for ${id}"])
+
+ views/vote-short-preview
+ (let [{{{id :id} :params} :content} properties]
+   [text "You voted for a song"])
+
+ views/song-preview
+ (let [{{{[a b c d] :result name :name symbol :symbol token :token tx-hash :tx-hash} :params} :content} properties]
+   [text "The following songs are up for voting: ${a} ${b} ${c} ${d}"])
+
+ views/song-short-preview
+ (let [{{{name :name} :params} :content} properties]
+   [text "Potential playlist songs are..."])
+
+ events/candidate-log-success
+ (let [{[a b c d] :result} properties]
+   [alert {:value "Candidates are: ${a} ${b} ${c} ${d} candidates loaded! If the judges are reading this, pick us!"}])
+
+ events/cat-candidates
+ (let [{[_ description] :result} properties]
+   [ipfs/cat {:hash description :on-success [candidate-log-success]}])
+
+ events/load-candidates
+ (let [{{{id :id} :params} :content} properties]
+   [ethereum/call {:to "0x4abdfa122d59333112dee0ace0a7e8c9cea18d6b"
+                   :method    "sort()"
+                   :outputs   ["uint256" "uint256" "uint256" "uint256"]
+                   :on-result [candidate-log-success]}])
+
+ events/vote-success
+ (let [{a :a} properties]
+   [log {:value "vote sent!"}])
+
+ events/vote-transaction
+ (let [{{{id :id} :params} :content} properties]
+   [ethereum/send-transaction {:to "0x4abdfa122d59333112dee0ace0a7e8c9cea18d6b"
+                               :gas "50"
+                               :gas-limit "300000"
+                               :value "100000"
+                               :method "voteUp()"
+                               :params [:params]
+                               :on-result [vote-success]}])
+
+ hooks/commands.teka-vote
+ {:description   "lets customers submit a vote for their favorite song"
+  :scope         #{:personal-chats :public-chats}
+  :preview       [vote-preview]
+  :short-preview [vote-short-preview]
+  :on-send       [vote-transaction]
+  :parameters    [{:id          :name
+                   :type        :text
+                   :placeholder "1"}]}
+
+ hooks/commands.teka-candidates
+ {:description   "queries songs for candidates to vote"
+  :scope         #{:personal-chats :public-chats}
+  :preview       [song-preview]
+  :short-preview [song-short-preview]
+  :on-send       [load-candidates]
+  :parameters    []}}
