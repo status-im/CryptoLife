@@ -1,0 +1,3 @@
+[submodule "daipos"]
+	path = daipos
+	url = https://github.com/rpavlovs/daipos.git
