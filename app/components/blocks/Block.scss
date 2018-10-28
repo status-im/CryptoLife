@@ -1,0 +1,63 @@
+@import '../../styles/variables.scss';
+
+.block {
+  margin: 20px;
+  padding: 20px;
+  background: linear-gradient(#F5F9FA, white 50px);
+
+  .block-header {
+    font-family: $f-bold;
+    font-size: 18px;
+    color: #191919;
+    display: flex;
+
+    &.registry {
+      margin-bottom: 20px;
+    }
+
+    .name {
+      flex-grow: 1;
+      line-height: 34px;
+
+      .svg-inline--fa {
+        font-size: 22px;
+      }
+    }
+    
+    .minimize {
+      font-size: 22px;
+      padding: 6;
+      cursor: pointer;
+    }
+
+    .minimize:hover {
+      background: #CFE9EA;
+    }
+  }
+
+  &.minimized {
+    margin-bottom: 5px;
+    padding: 5px 20px;
+
+    &:not(:first-child) {
+      margin-top: 5px;
+    }
+
+    .block-header {
+      font-size: 14px;
+  
+      .name {
+        line-height: 30px;
+
+        .svg-inline--fa {
+          font-size: 18px;
+        }
+      }
+    }     
+    .minimize {
+      font-size: 18px;
+      padding: 6;
+      cursor: pointer;
+    }
+  }
+}

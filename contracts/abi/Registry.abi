@@ -1,0 +1,872 @@
+[
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "challenges",
+      "outputs": [
+        {
+          "name": "rewardPool",
+          "type": "uint256"
+        },
+        {
+          "name": "challenger",
+          "type": "address"
+        },
+        {
+          "name": "resolved",
+          "type": "bool"
+        },
+        {
+          "name": "totalTokens",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "listings",
+      "outputs": [
+        {
+          "name": "ids_position",
+          "type": "uint256"
+        },
+        {
+          "name": "ipfs_hash",
+          "type": "bytes"
+        },
+        {
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "name": "state",
+          "type": "uint8"
+        },
+        {
+          "name": "applicationExpiry",
+          "type": "uint256"
+        },
+        {
+          "name": "proposed_ipfs_hash",
+          "type": "bytes"
+        },
+        {
+          "name": "proposal_author",
+          "type": "address"
+        },
+        {
+          "name": "challengeID",
+          "type": "uint256"
+        },
+        {
+          "name": "exitTime",
+          "type": "uint256"
+        },
+        {
+          "name": "exitTimeExpiry",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "parameterizer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "ids",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "token",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "voting",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "name": "_voting",
+          "type": "address"
+        },
+        {
+          "name": "_parameterizer",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "deposit",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "appEndDate",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "ipfs_hash",
+          "type": "bytes"
+        },
+        {
+          "indexed": true,
+          "name": "applicant",
+          "type": "address"
+        }
+      ],
+      "name": "_Application",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "deposit",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "appEndDate",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "ipfs_hash",
+          "type": "bytes"
+        },
+        {
+          "indexed": true,
+          "name": "applicant",
+          "type": "address"
+        }
+      ],
+      "name": "_EditApplication",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "challengeID",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "commitEndDate",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "revealEndDate",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "challenger",
+          "type": "address"
+        }
+      ],
+      "name": "_Challenge",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "added",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "newTotal",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "_Deposit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "withdrew",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "newTotal",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "_Withdrawal",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "_ApplicationWhitelisted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "_EditApplicationWhitelisted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "_ApplicationRemoved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "_ListingRemoved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "_ListingWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "_TouchAndRemoved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "name": "challengeID",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "rewardPool",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "totalTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "_ChallengeFailed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "name": "challengeID",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "rewardPool",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "totalTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "_ChallengeSucceeded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "challengeID",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "reward",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "voter",
+          "type": "address"
+        }
+      ],
+      "name": "_RewardClaimed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listingHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "exitTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "exitDelayEndDate",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "_ExitInitialized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "listing_id",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "name": "new_state",
+          "type": "uint8"
+        }
+      ],
+      "name": "_StateChanged",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "ipfs_hash",
+          "type": "bytes"
+        }
+      ],
+      "name": "apply",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        },
+        {
+          "name": "new_ipfs_hash",
+          "type": "bytes"
+        }
+      ],
+      "name": "edit",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "init_exit",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "deposit_size",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "list",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "get_info",
+      "outputs": [
+        {
+          "name": "state",
+          "type": "uint256"
+        },
+        {
+          "name": "is_challenged",
+          "type": "bool"
+        },
+        {
+          "name": "status_can_be_updated",
+          "type": "bool"
+        },
+        {
+          "name": "ipfs_hash",
+          "type": "bytes"
+        },
+        {
+          "name": "proposed_ipfs_hash",
+          "type": "bytes"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "can_update_status",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "update_status",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        },
+        {
+          "name": "state_check",
+          "type": "uint256"
+        }
+      ],
+      "name": "challenge",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "challenge_status",
+      "outputs": [
+        {
+          "name": "challenge_id",
+          "type": "uint256"
+        },
+        {
+          "name": "is_commit",
+          "type": "bool"
+        },
+        {
+          "name": "is_reveal",
+          "type": "bool"
+        },
+        {
+          "name": "votesFor",
+          "type": "uint256"
+        },
+        {
+          "name": "votesAgainst",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        },
+        {
+          "name": "secret_hash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "commit_vote",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        },
+        {
+          "name": "vote_option",
+          "type": "uint256"
+        },
+        {
+          "name": "vote_stake",
+          "type": "uint256"
+        },
+        {
+          "name": "salt",
+          "type": "uint256"
+        }
+      ],
+      "name": "reveal_vote",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "challenge_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "claim_reward",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_voter",
+          "type": "address"
+        },
+        {
+          "name": "_challengeID",
+          "type": "uint256"
+        }
+      ],
+      "name": "voterReward",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "challengeExists",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "listing_id",
+          "type": "bytes32"
+        }
+      ],
+      "name": "challengeCanBeResolved",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_challengeID",
+          "type": "uint256"
+        }
+      ],
+      "name": "determineReward",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_challengeID",
+          "type": "uint256"
+        },
+        {
+          "name": "_voter",
+          "type": "address"
+        }
+      ],
+      "name": "tokenClaims",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+]
+

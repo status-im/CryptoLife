@@ -1,0 +1,21 @@
+@import '../../styles/variables.scss';
+
+.table-row {
+  display: flex;
+  min-height: 70px;
+  align-items: center;
+  border-bottom: 1px solid #E5E9F1;
+
+  > div {
+    flex: 1;
+  }
+
+  &.table-row-header {
+    font-family: $f-medium;
+    font-size: 14px;
+    color: #171718;
+    border-bottom: 2px solid #191919;
+    padding: 14px 0 10px;
+    min-height: inherit;
+  }
+}

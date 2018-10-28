@@ -1,0 +1,30 @@
+{
+  "$comment": "ontology module: various classifications for the DApp, describing DApp place in ecosystem, giving various hints",
+
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "additionalProperties": false,
+
+  "properties": {
+    "categories": {
+	  "title": "Categories of Dapp",
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+
+    "tags": {
+	  "title": "Tags",
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+    
+	"other_projects_dependencies": {
+	  "title": "Dependencies fro other projects",
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}

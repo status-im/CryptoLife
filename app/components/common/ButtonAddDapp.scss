@@ -1,0 +1,15 @@
+@import '../../styles/variables.scss';
+
+.add-dapp {
+  color: white;
+  font-size: 20px;
+  font-family: $f-medium;
+  background: linear-gradient(#4FAFBF, #17748C);
+  border: 0;
+  padding: 15px 35px;
+  cursor: pointer;
+
+  &:hover {
+    background: linear-gradient(#4FAFBF, #11596b);
+  }
+}

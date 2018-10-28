@@ -1,0 +1,92 @@
+@import '../../styles/variables.scss';
+
+.dapp-status {
+  display: flex;
+  align-items: center;
+  margin-left: 35px;
+  flex-grow: 2 !important;
+
+
+  .update {
+    display: flex;
+    align-items: center;
+    height: 70px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .stage {
+    font-size: 12px;
+    font-family: $f-medium;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 8px;
+    color: #191919;
+    white-space: nowrap;
+
+    &.active {
+      background: #F2F3F7;
+    }
+
+    &.future {
+      color: rgba(23, 23, 24, .3)
+    }
+
+    .finish {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &.registry div:not(:first-child) {
+    margin-left: 8px;
+  }
+
+  .progress-bar {
+    flex-grow: 1;
+    height: 1px;
+    padding: 0 8px;
+    display: flex;
+
+    .filled {
+      background: #191919;
+    }
+
+    .empty {
+      background: #D6D6E0;
+    }
+  }
+
+  .progress-bar-fork {
+    display: flex;
+    flex-direction: column;
+    margin-left: -8px;
+
+    .top, .middle, .bottom {
+      border-style: solid;
+      border-color: #D6D6E0;
+      width: 5px;
+
+      &.filled {
+        border-color: #191919;
+      }
+    }
+
+    .top {
+      border-width: 1px 0 0 1px;
+      height: 10px;
+    }
+
+    .middle {
+      height: 1px;
+      border-width: 0 0 0 1px;
+    }
+
+    .bottom {
+      border-width: 0 0 1px 1px;
+      height: 10px;
+    }
+  }
+}

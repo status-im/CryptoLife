@@ -1,0 +1,171 @@
+@import '../../styles/variables.scss';
+
+.modal-dapp {
+  width: 600px;
+  max-height: 78vh;
+  margin-top: 26px;
+  overflow: auto;
+  padding: 0 26px;
+
+  .modal-h {
+    color: #0E1418;
+    font-family: $f-bold;
+    font-size: 24px;
+    margin-bottom: 26px;
+
+    &.challenge, &.reject, &.remove {
+      color: #C73638;
+    }
+
+    &.approve, &.reveal, &.get-reward, &.update {
+      color: #247F92;
+    }
+  }
+
+  .rjsf > p {
+    background: #CED6E0;
+    margin: 0 -26px -26px;
+    padding: 14px 26px 26px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    button {
+      color: white;
+      font-size: 20px;
+      font-family: $f-medium;
+      background: linear-gradient(#4FAFBF, #17748C);
+      border: 0;
+      padding: 15px 35px;
+
+      &:hover {
+        background: linear-gradient(#4FAFBF, #11596b);
+      }
+    }
+  }
+
+  input[type="text"] {
+    font-size: 20px;
+    color: #0E1418;
+    background: #E5E9F0;
+    border: 0;
+    height: 50px;
+    padding: 0 20px;
+    line-height: 50px;
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  input[type="file"] {
+    font-size: 16px;
+
+  }
+
+  .field-string div p + p {
+    max-width: 500px;
+    overflow: auto;
+    font-family: $f-regular;
+  }
+
+  .control-label {
+    font-family: $f-bold;
+    color: black;
+    font-size: 15px;
+  }
+
+  legend {
+    color: black;
+    font-family: $f-bold;
+    font-size: 20px;
+    margin: 32px 0 10px;
+  }
+
+  .form-group {
+    margin-bottom: 22px;
+  }
+
+  .row {
+    margin: 0;
+
+    .array-item {
+      display: flex;
+      width: 100%;
+
+      .col-xs-9 {
+        flex-grow: 1;
+      }
+
+      .array-item-toolbox {
+        margin-left: 10px;
+        display: flex;
+        justify-content: flex-end;
+
+        .btn {
+          padding: 0 !important;
+          flex: 1 0 0 !important;
+          width: 26px !important;
+          height: 26px !important;
+          border: 0;
+          position: relative;
+          margin: 12px 4px 0 0;
+          border-radius: 4px;
+          font-size: 16px;
+          cursor: pointer;
+
+          i {
+            display: none;
+          }  
+
+          &:after {
+            line-height: 20px;
+            position: absolute;
+            top: 3px;
+            left: 7px;
+          }
+        }
+
+        .btn-danger {
+          background: tomato;
+          color: white;
+        }
+      }
+
+      .array-item-move-up:after {
+        content: '\25b2';
+      }
+
+      .array-item-move-down:after {
+        content: '\25bc';
+      }
+
+      .array-item-remove:after {
+        content: '\2715';
+      }
+    }
+  }
+
+  .btn-add {
+    width: 26px;
+    height: 26px;
+    position: relative;
+    margin-top: -10px;
+    border: 0;
+    margin: 12px 4px 0 0;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    background: forestgreen;
+    color: white;
+
+    i {
+      display: none;
+    }
+
+    &:after {
+      content: '\FF0B';
+      line-height: 20px;
+      position: absolute;
+      top: 2px;
+      left: 4px;
+    }
+  }
+}

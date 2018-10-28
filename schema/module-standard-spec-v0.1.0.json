@@ -1,0 +1,25 @@
+{
+  "$comment": "standard module: standards supported by the DApp",
+
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "additionalProperties": false,
+
+  "properties": {
+    "standards": {
+      "$comment": "encouraging to use EIP-820-like introspection and not to copy-paste metainformation here",
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/standard"}
+    }
+  },
+
+  "definitions": {
+    "standard": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    }
+  }
+}

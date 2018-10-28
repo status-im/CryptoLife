@@ -1,0 +1,55 @@
+{
+  "$comment": "contact module: various DApp-related contacts",
+
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "additionalProperties": false,
+
+  "properties": {
+    "general": {
+      "$ref": "#/definitions/contact_list"
+    },
+    "founders": {
+      "$ref": "#/definitions/contact_list"
+    },
+    "developers": {
+      "$ref": "#/definitions/contact_list"
+    },
+    "support": {
+      "$ref": "#/definitions/contact_list"
+    },
+    "press": {
+      "$ref": "#/definitions/contact_list"
+    },
+    "partnership": {
+      "$ref": "#/definitions/contact_list"
+    },
+    "sales": {
+      "$ref": "#/definitions/contact_list"
+    }
+  },
+
+  "definitions": {
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": {"type": "string"},
+        "github": {"type": "string"},
+        "telegram": {"type": "string"},
+        "phone": {"type": "string"},
+        "reddit": {"type": "string"},
+        "facebook": {"type": "string"},
+        "twitter": {"type": "string"},
+        "discord": {"type": "string"},
+        "peepeth": {"type": "string"}
+      }
+    },
+
+    "contact_list": {
+      "type": "array",
+	  "minItems": 1, 
+      "items": {"$ref": "#/definitions/contact"}
+    }
+  }
+}
