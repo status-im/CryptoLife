@@ -1,0 +1,31 @@
+{
+  "name": "addreth",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "abi-decoder": "^1.2.0",
+    "axios": "^0.18.0",
+    "domain-name-parser": "^2.3.0",
+    "ethjs-ens": "^2.0.1",
+    "ethjs-provider-http": "^0.1.6",
+    "express": "^4.16.3",
+    "ipfs-mini": "^1.1.2",
+    "next": "^7.0.1",
+    "next-routes": "^1.4.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-emojione": "^5.0.0",
+    "react-icons": "^3.2.2",
+    "styled-components": "^3.2.5",
+    "styled-normalize": "^8.0.1",
+    "web3": "^1.0.0-beta.36"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.5.1"
+  }
+}
