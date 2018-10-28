@@ -50,6 +50,10 @@ def add_media(nft_uri, nonce_inc=0):
     ' register new file '
     return single_arg('addNewToken', nft_uri, nonce_inc)
 
+def songPlayed(idx, nonce_inc=0):
+    ' reset votes, transfer x-DAI to creator '
+    return single_arg('songPlayed', idx, nonce_inc)
+
 def send_xdai(dest, amount_wei, nonce_inc=0):
     ' Send xdai away '
     signed_txn = network.WEB3.eth.account.signTransaction(dict(
