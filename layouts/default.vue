@@ -9,7 +9,6 @@
         <Profile v-if="$nuxt.$route.name !== ''"/>
         <nuxt />
       </v-container>
-        <Snackbar></Snackbar>
     </v-content>
       <v-bottom-nav
               :active.sync="bottomNav"
@@ -37,7 +36,6 @@
 
 <script>
   import Profile from '../components/Profile'
-  import Snackbar from '../components/Snackbar'
   export default {
     data () {
       return {
@@ -52,8 +50,7 @@
       }
     },
     components: {
-      Profile,
-      Snackbar
+      Profile
     }
   }
 </script>
