@@ -89,6 +89,7 @@ export default class Addreth extends Component {
     isAddrethValidated: false,
     editMode: false,
     claimed: false,
+    dataloaded: false,
   }
 
   static async getInitialProps({ query }) {
@@ -298,7 +299,7 @@ export default class Addreth extends Component {
                 acc[cur.name] = cur.value
                 return acc
               }, {})
-              this.setState({ ipfsPayload: arrayToObject })
+              this.setState({ dataloaded:true, ipfsPayload: arrayToObject })
             }
           })
         }
@@ -373,6 +374,7 @@ export default class Addreth extends Component {
       editMode,
       ipfsPayload,
       claimed,
+      dataloaded,
     } = this.state
 
     const isOwner = account === addreth.toLowerCase()
@@ -430,7 +432,7 @@ export default class Addreth extends Component {
                 </>
               )}
               {!editMode &&
-                isOwner && (
+                isOwner && dataloaded && (
                   <button onClick={() => this.setState({ editMode: true })}>
                     {ipfsPayload || claimed ? 'Edit' : 'Claim now!'}
                   </button>
