@@ -102013,6 +102013,7 @@ var DoorSimulator = function (_React$Component) {
 
 		_this.state = {
 			open: false,
+			readError: false,
 			receivedPayload: ""
 
 			// Clean if only partial content was received
@@ -102075,19 +102076,25 @@ var DoorSimulator = function (_React$Component) {
 	}, {
 		key: "checkPayload",
 		value: function checkPayload(payload) {
+			var _this3 = this;
+
 			try {
 				payload = JSON.parse(payload);
 				if (payload && payload.signature && payload.timestamp) {
 					this.verifySignature(payload.signature, payload.timestamp);
 				}
 			} catch (err) {
+				this.setState({ open: false, receivedPayload: "", readError: true });
+				setTimeout(function () {
+					return _this3.setState({ readError: false });
+				}, 4000);
 				console.error("There was an error while parsing the response", payload);
 			}
 		}
 	}, {
 		key: "verifySignature",
 		value: function verifySignature(signature, timestamp) {
-			var _this3 = this;
+			var _this4 = this;
 
 			// recover the public key of the sender
 			signature = signature.substr(2);
@@ -102107,21 +102114,33 @@ var DoorSimulator = function (_React$Component) {
 				console.log("SERVER", serverPublicKey);
 
 				if (!signerPublicKey || !signerPublicKey.toLowerCase || signerPublicKey == "0x0") {
+					_this4.setState({ open: false, receivedPayload: "", readError: true });
+					setTimeout(function () {
+						return _this4.setState({ readError: false });
+					}, 4000);
 					return alert("Invalid signature");
 				}
 
 				// compare address with blockchain data
 				if (signerPublicKey.toLowerCase() != serverPublicKey.toLowerCase()) {
+					_this4.setState({ open: false, receivedPayload: "", readError: true });
+					setTimeout(function () {
+						return _this4.setState({ readError: false });
+					}, 4000);
 					return alert("Invalid signature");
 				}
 
-				_this3.setState({ open: true, receivedPayload: "" });
+				_this4.setState({ open: true, receivedPayload: "" });
 
 				// Close after a while
 				setTimeout(function () {
-					_this3.setState({ open: false });
+					_this4.setState({ open: false });
 				}, 5000);
 			}).catch(function (err) {
+				_this4.setState({ open: false, receivedPayload: "", readError: true });
+				setTimeout(function () {
+					return _this4.setState({ readError: false });
+				}, 4000);
 				console.error("There was en error while validating the server signature");
 			});
 		}
@@ -102130,7 +102149,7 @@ var DoorSimulator = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				"div",
-				{ id: "main", className: this.state.open ? "door-open" : "door-closed" },
+				{ id: "main", className: this.state.readError ? "door-error" : this.state.open ? "door-open" : "door-closed" },
 				_react2.default.createElement(
 					"div",
 					null,
@@ -102139,7 +102158,11 @@ var DoorSimulator = function (_React$Component) {
 						null,
 						"Door simulator"
 					),
-					_react2.default.createElement(
+					this.state.readError ? _react2.default.createElement(
+						"h2",
+						null,
+						"The payload could not be fully decoded"
+					) : _react2.default.createElement(
 						"h2",
 						null,
 						"The door is currently ",
@@ -102154,7 +102177,7 @@ var DoorSimulator = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(DoorSimulator, null), document.getElementById("root"));
-},{"react":7,"react-dom":8,"../../client/src/contracts/bookings.js":9,"../../client/src/contracts/validator.js":10}],453:[function(require,module,exports) {
+},{"react":7,"react-dom":8,"../../client/src/contracts/bookings.js":9,"../../client/src/contracts/validator.js":10}],455:[function(require,module,exports) {
 
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -102323,5 +102346,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[453,3])
+},{}]},{},[455,3])
 //# sourceMappingURL=/src.e177532f.map

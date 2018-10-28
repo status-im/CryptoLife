@@ -26,3 +26,8 @@ body {
 	background-color: #efe;
 	color: #444;
 }
+
+.door-error {
+	background-color: #fcc;
+	color: #744;
+}

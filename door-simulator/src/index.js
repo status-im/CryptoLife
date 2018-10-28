@@ -15,6 +15,7 @@ class DoorSimulator extends React.Component {
 
 		this.state = {
 			open: false,
+			readError: false,
 			receivedPayload: ""
 		}
 
@@ -70,6 +71,8 @@ class DoorSimulator extends React.Component {
 			}
 		}
 		catch (err) {
+			this.setState({ open: false, receivedPayload: "", readError: true })
+			setTimeout(() => this.setState({readError: false}), 4000)
 			console.error("There was an error while parsing the response", payload)
 		}
 	}
@@ -94,11 +97,15 @@ class DoorSimulator extends React.Component {
 				console.log("SERVER", serverPublicKey)
 
 				if (!signerPublicKey || !signerPublicKey.toLowerCase || signerPublicKey == "0x0") {
+					this.setState({ open: false, receivedPayload: "", readError: true })
+					setTimeout(() => this.setState({readError: false}), 4000)
 					return alert("Invalid signature")
 				}
 
 				// compare address with blockchain data
 				if (signerPublicKey.toLowerCase() != serverPublicKey.toLowerCase()) {
+					this.setState({ open: false, receivedPayload: "", readError: true })
+					setTimeout(() => this.setState({readError: false}), 4000)
 					return alert("Invalid signature")
 				}
 
@@ -110,15 +117,21 @@ class DoorSimulator extends React.Component {
 				}, 5000)
 			})
 			.catch(err => {
+				this.setState({ open: false, receivedPayload: "", readError: true })
+				setTimeout(() => this.setState({readError: false}), 4000)
 				console.error("There was en error while validating the server signature")
 			})
 	}
 
 	render() {
-		return <div id="main" className={this.state.open ? "door-open" : "door-closed"}>
+		return <div id="main" className={this.state.readError ? "door-error" : (this.state.open ? "door-open" : "door-closed")}>
 			<div>
 				<h1>Door simulator</h1>
-				<h2>The door is currently {this.state.open ? "open" : "closed"}</h2>
+				{
+					this.state.readError ?
+					<h2>The payload could not be fully decoded</h2> :
+						<h2>The door is currently {this.state.open ? "open" : "closed"}</h2>
+				}
 			</div>
 		</div>
 	}
