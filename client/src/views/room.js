@@ -26,8 +26,8 @@ class RoomView extends Component {
 		Quiet.addReadyCallback(() => {
 			// SENDER
 			this.transmit = Quiet.transmitter({
-				// profile: "audible",
-				profile: "ultrasonic-experimental",
+				profile: "audible",
+				// profile: "ultrasonic-experimental",
 				onFinish: () => console.log("sent"),
 				clampFrame: false
 			})

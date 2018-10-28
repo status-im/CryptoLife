@@ -1,0 +1,28 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-align: center;
+}
+
+#main {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#main > div {
+	padding-top: 60px;
+}
+
+.door-closed {
+	background-color: #444;
+	color: white;
+}
+
+.door-open {
+	background-color: #efe;
+	color: #444;
+}

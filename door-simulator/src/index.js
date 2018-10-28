@@ -29,8 +29,8 @@ class DoorSimulator extends React.Component {
 		Quiet.addReadyCallback(() => {
 			// RECEIVER
 			Quiet.receiver({
-				// profile: "audible",
-				profile: "ultrasonic-experimental",
+				profile: "audible",
+				// profile: "ultrasonic-experimental",
 				onReceive: payload => this.gotPayload(Quiet.ab2str(payload)),
 				onCreateFail: reason => console.error("failed to create quiet receiver: " + reason),
 				onReceiveFail: () => console.error("RCV FAIL")
@@ -38,8 +38,8 @@ class DoorSimulator extends React.Component {
 
 			// SENDER
 			const transmit = Quiet.transmitter({
-				// profile: "audible",
-				profile: "ultrasonic-experimental",
+				profile: "audible",
+				// profile: "ultrasonic-experimental",
 				onFinish: () => console.log("sent"),
 				clampFrame: false
 			});
