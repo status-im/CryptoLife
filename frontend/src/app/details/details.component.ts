@@ -23,6 +23,7 @@ export class DetailsComponent implements OnInit {
 	public activateLimePay: boolean;
 	public wallet;
 	public userEmail: string;
+	public processing = false;
 
 	constructor(private activeRoute: ActivatedRoute,
 		private router: Router,
@@ -63,12 +64,16 @@ export class DetailsComponent implements OnInit {
 		});
 
 		const limeToken = result.data;
+		const self = this;
 
 		const limePayConfig = {
 			URL: 'http://test-limepay-api.eu-west-1.elasticbeanstalk.com',
 			eventHandler: {
 				onSuccessfulSubmit: function () {
-					alert('Your payment was send for processing');
+					setTimeout(() => {
+						self.waitingService.pushWaitingSubject(false);
+						self.processing = true;
+					}, 0);
 					// Implement some logic
 				},
 				onFailedSubmit: function (err) {
@@ -94,6 +99,7 @@ export class DetailsComponent implements OnInit {
 	}
 
 	async onProcessPayment() {
+		this.waitingService.pushWaitingSubject(true);
 		const cardHolderInformation = {
 			name: 'George Spasov',
 			countryCode: 'bg',

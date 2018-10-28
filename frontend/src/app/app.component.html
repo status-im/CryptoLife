@@ -1,4 +1,8 @@
 <div class="content">
 	<dapp-header [showWaitingComponent]="showWaitingComponent"></dapp-header>
+	<div class="alert alert-success alert-dismissible" *ngFor="let receipt of receipts">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<strong>Transaction succesful</strong> <a href="http://ropsten.etherscan.io/tx/{{receipt}}" class="alert-link" target="_blank">Click here to see it in etherscan.</a>
+	</div>
 	<router-outlet></router-outlet>
 </div>
