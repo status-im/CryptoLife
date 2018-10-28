@@ -7,6 +7,7 @@ import axios from 'axios'
 import abiDecoder from 'abi-decoder'
 import { Router, Link } from '../routes'
 
+import Button from '../components/Button'
 import Leaderboard from '../components/Leaderboard'
 import DonationForm from '../components/DonationForm'
 import NotAnAddreth from '../components/NotAnAddreth'
@@ -389,6 +390,14 @@ export default class Addreth extends Component {
               <p>{addreth}</p>
             </>
           )}
+          <Button primary onClick={async () => {
+              try {
+                const address = await Utils.getMyAddress()
+                Router.push(`/address/${address}`)
+              } catch (e) {}
+            }}>
+            Go to my addreth
+          </Button>
         </Navbar>
         <Container>
           <div>
