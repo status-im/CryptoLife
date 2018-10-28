@@ -38,6 +38,21 @@ module.exports = {
 			gas: 4500000,
 			gasPrice: 21000000000 // 21 GWei
 		},
+		poa: {
+			provider: function () {
+				const wallet = new HDWalletProvider(
+					"***12 words***",
+					"https://rinkeby.infura.io/***key***"
+				);
+				const nonceTracker = new NonceTrackerSubprovider();
+				wallet.engine._providers.unshift(nonceTracker);
+				nonceTracker.setEngine(wallet.engine);
+				return wallet;
+			},
+			network_id: "*", // Match any network (determined by provider)
+			gas: 4500000,
+			gasPrice: 21000000000 // 21 GWei
+		},
 		test: {
 			host: "localhost",
 			network_id: "*",
