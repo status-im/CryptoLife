@@ -1,0 +1,31 @@
+{meta {:name          "iScream"
+       :description   "Peer-to-Peer Marketplace"
+       :documentation "Allows to sign the contract and pay according to its terms"}
+ 
+ events/show-result
+ (let [{result :result} properties]
+   [alert {:value "Contract Signed and Submitted"}])
+
+ events/call-contract
+ (let [{address :address} properties]
+   [ethereum/send-transaction {:to address
+                               :method "submitSignedContract(uint256,address,address,uint64,uint64,uint32,uint32,uint8,bytes32,bytes32)"
+                               :params [1 "0x692cf56761ef0b6739796db3fcd610228c0f1119" "0xea10a324b3afd5d784f77ee9652f9d31a6734c68" 22000000000000000 1540764000 3600 3600 27 "0x40af11abd528ecdfbb027818b0731bc8b15b9cf6e63644887b2efd35fb55b905" "0xea2496c7fe82efc6f3c0c5600e8b914a08c1184d1fcdbbe39e8b2b43cbc19777"]
+                               :value "22000000000000000"
+                               :on-result [show-result]}])
+ 
+ views/preview
+ [view 
+  [text "My Pug needs a Hug\nSun, Oct 28 at 6PM\nnáměstí 14. října 82/16\n"]
+  [button {:on-click [call-contract {:address "0xB8c357a9b6D188C4d15A84d60E8f948429F5ccc7"}]}
+   "For 100 Kč"]]
+
+ views/short-preview
+ [text "Submit the Contract"]
+
+ hooks/commands.submitContract
+ {:description   "signs and submits the contract"
+  :scope         #{:personal-chats}
+  :preview       [preview]
+  :short-preview [short-preview]
+  :parameters    []}}                    
