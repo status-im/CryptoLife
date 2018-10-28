@@ -1,5 +1,8 @@
 pragma solidity ^0.4.24;
 
+// Contract by Camilo Soto
+// <cmsvalenzuela@gmail.com>
+
 import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol';
 import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 
