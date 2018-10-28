@@ -3,9 +3,11 @@
   padding: 40px 50px;
   .item-name {
     font-weight: bold;
+    margin-left: 15px;
   }
   .description {
     padding: 15px 0px 30px 0px;
+    margin-left: 15px;
   }
   img.details-image {
     width: 100%;
@@ -21,6 +23,113 @@
       &:hover {
         background-color: darken(#fd9729, 10%);
       }
+    }
+  }
+  hr {
+    margin-bottom: 0;
+  }
+  .item-price {
+    font-weight: bold;
+  }
+}
+
+.payment {
+  margin: 0;
+  margin-top: 20px;
+  .payment-type-holder {
+    &.dai {
+      .dai-logo {
+        height: 120px;
+        margin-top: 30px;
+        margin-bottom: 35px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("../../assets/images/dai.png");
+      }
+    }
+    &.lime-pay {
+      .lime-logo {
+        height: 120px;
+        margin-top: 30px;
+        margin-bottom: 35px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url("../../assets/images/lime-pay.png");
+      }
+    }
+    button {
+      outline: none;
+      cursor: pointer;
+      border-radius: 5px;
+      min-width: 200px;
+      min-height: 35px;
+      background-color: white;
+      img.payment-icon {
+        display: inline-block;
+        max-height: 22px;
+        vertical-align: middle;
+      }
+      &.dai-button {
+        color: #58B99D;
+        border: 1px solid #58B99D;
+        &:hover {
+          color: darken(#58B99D, 10%);
+          border: 1px solid darken(#58B99D, 10%);
+        }
+      }
+
+      &.limepay-button {
+        color: #66D3E8;
+        border: 1px solid #66D3E8;
+        &:hover {
+          color: darken(#66D3E8, 10%);
+          border: 1px solid darken(#66D3E8, 10%);
+        }
+      }
+    }
+  }
+}
+
+.lime-pay-wrapper {
+  img {
+    float: right;
+    height: 38px;
+  }
+  #submit-button {
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 395px;
+    left: 186px;
+  }
+  .card-holder {
+    width: 500px;
+    margin-top: 20px;
+    padding: 40px;
+    position: absolute;
+    border: 1px solid #66D3E8;
+    border: none;
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    background-color: lighten(#66D3E8, 30%);
+    label {
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .card-cvv {
+      display: inline-block;
+      width: 48%;
+    }
+    .card-exp {
+      display: inline-block;
+      width: 48%;
+      float: right;
     }
   }
 }

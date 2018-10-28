@@ -10,7 +10,7 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
-					<div class="description" *ngIf="showDescription">
+					<div class="description">
 						{{ etsyItem.description }}
 					</div>
 				</div>
@@ -20,11 +20,76 @@
 					<img class="details-image" [src]="etsyItem.imagePath">
 				</div>
 				<div class="col-md-6">
-					<p>In order to purchase please Login below:</p>
-					<hr>
-					<div class="button-holder" *ngIf="showBloomAuthentication">
-						<dapp-bloom-button [itemId]='itemId'></dapp-bloom-button>
+					<div *ngIf="showBloomAuthentication; else payment;">
+						<p>In order to purchase please Login below:</p>
+						<hr>
+						<div class="button-holder">
+							<dapp-bloom-button [itemId]='itemId' (loginSuccess)="startPayment()"></dapp-bloom-button>
+						</div>
 					</div>
+					<ng-template #payment>
+						<span class="item-price">Price: ${{etsyItem.price}}</span>
+						<hr>
+						<div class="row payment">
+							<div class="col-md-6 text-center payment-type-holder">
+								<button type="button" class="dai-button"><img class="payment-icon" src="assets/images/dai.png"> Pay with DAI</button>
+							</div>
+							<div class="col-md-6 text-center payment-type-holder">
+								<button type="button" class="limepay-button" (click)="onPayWithLimePay()"><img class="payment-icon" src="assets/images/lime-pay.png"> Pay with LimePay</button>
+							</div>
+						</div>
+						<hr>
+						<div [ngClass]="{'invisible': !activateLimePay}" class="lime-pay-wrapper">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<div id="circularG" class="heading-line" style="display: none;">
+										<div id="circularG_1" class="circularG"></div>
+										<div id="circularG_2" class="circularG"></div>
+										<div id="circularG_3" class="circularG"></div>
+										<div id="circularG_4" class="circularG"></div>
+										<div id="circularG_5" class="circularG"></div>
+										<div id="circularG_6" class="circularG"></div>
+										<div id="circularG_7" class="circularG"></div>
+										<div id="circularG_8" class="circularG"></div>
+									</div>
+								</div>
+
+								<form class="panel-body" id="checkout-form" action="#">
+									<div class="row bank-card">
+
+										<div class="card-holder">
+											<!--Hosted Payment Field for CC number-->
+											<div class="form-group col-xs-9 card-number">
+												<label for="card-number">Card Number</label>
+												<div class="input-group">
+													<div class="form-control" id="card-number" data-bluesnap="ccn"></div>
+													<div id="card-logo" class="input-group-addon">
+														<img src="https://files.readme.io/d1a25b4-generic-card.png" height="20px">
+													</div>
+												</div>
+												<span class="helper-text" id="ccn-help"></span>
+											</div>
+
+											<!--Hosted Payment Field for CC CVV-->
+											<div class="form-group col-xs-3 card-cvv">
+												<label for="cvv">CVV</label>
+												<div class="form-control" id="cvv" data-bluesnap="cvv"></div>
+												<span class="helper-text" id="cvv-help"></span>
+											</div>
+
+											<!--Hosted Payment Field for CC EXP-->
+											<div class="form-group col-xs-6 card-exp">
+												<label for="exp-date">Exp. (MM/YY)</label>
+												<div class="form-control" id="exp-date" data-bluesnap="exp"></div>
+												<span class="helper-text" id="exp-help"></span>
+											</div>
+										</div>
+									</div>
+									<button class="btn btn-raised btn-info btn-lg col-md-4" type="submit" id="submit-button">Pay Now</button>
+								</form>
+							</div>
+						</div>
+					</ng-template>
 				</div>
 
 			</div>

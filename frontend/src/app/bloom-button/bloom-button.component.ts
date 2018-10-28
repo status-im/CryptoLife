@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { createRequestQRCode, removeRequestQRCode, RequestData, Action } from '@bloomprotocol/share-kit';
 import { UUID } from 'angular2-uuid';
 import { BloomListenService } from '../bloom-listen-service.service';
@@ -17,6 +17,7 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 	public qrShown: boolean;
 	@ViewChild('qrContainer') qrContainer: ElementRef;
 	@Input() itemId: string;
+	@Output() loginSuccess = new EventEmitter<boolean>();
 
 	public subscription: Subscription;
 
@@ -46,7 +47,7 @@ export class BloomButtonComponent implements OnInit, OnDestroy {
 				console.log(data);
 				this.shopperStoreService.setShopperId(data.personData.shopperId);
 				this.subscription.unsubscribe();
-				this.router.navigate(['/payment', this.itemId]);
+				this.loginSuccess.emit(true);
 			}
 		});
 		this.qrShown = true;
