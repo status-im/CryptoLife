@@ -56,6 +56,7 @@ class Input extends Component {
   async registerGame() {
     const boolConfig = this.state.config;
     const account = (await this.props.eth.web3.eth.getAccounts())[0];
+    const config = encodeConfigBytes32Array(boolConfig);
     const gameId = getConfigHash(boolConfig);
     await this.props.eth.contract.methods.register(gameId).send({
       from: account
@@ -72,12 +73,12 @@ class Input extends Component {
       ...this.state,
       gameId: gameId
     });
+    window.localStorage.setItem(gameId, JSON.stringify(config));
   }
 
   async joinGame() {
     const boolConfig = this.state.config;
     const account = (await this.props.eth.web3.eth.getAccounts())[0];
-    console.log(encodeConfigBytes32Array(boolConfig));
     await this.props.eth.contract.methods.join(this.props.gameId, encodeConfigBytes32Array(boolConfig)).send({
       from: account
     });

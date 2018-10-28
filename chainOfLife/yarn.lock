@@ -4129,6 +4129,19 @@ ethereumjs-util@^5.0.0, ethereumjs-util@^5.0.1, ethereumjs-util@^5.1.1, ethereum
     safe-buffer "^5.1.1"
     secp256k1 "^3.0.1"
 
+ethereumjs-utils@^5.2.5:
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/ethereumjs-utils/-/ethereumjs-utils-5.2.5.tgz#76db76d021beb00f7d3f2fa9708a080444f079ea"
+  integrity sha512-IkXL26c21kUKT5NQO4NFgeuYwXtqCD4dmiSWc/vivGNGwfYhEn2lYwmVIcbqVKS9yJfVEmrolWnQBuxEmTinIg==
+  dependencies:
+    bn.js "^4.11.0"
+    create-hash "^1.1.2"
+    ethjs-util "^0.1.3"
+    keccak "^1.0.2"
+    rlp "^2.0.0"
+    safe-buffer "^5.1.1"
+    secp256k1 "^3.0.1"
+
 ethereumjs-vm@2.3.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/ethereumjs-vm/-/ethereumjs-vm-2.3.4.tgz#f635d7cb047571a1840a6e9a74d29de4488f8ad6"
@@ -9824,7 +9837,7 @@ uniqs@^2.0.0:
     ethereum-waffle "^0.2.3"
     express "^4.16.3"
     openzeppelin-solidity "^1.12.0"
-    universal-login-contracts "file:../../../Library/Caches/Yarn/v2/universal-login-contracts"
+    universal-login-contracts "file:../../../../../Library/Caches/Yarn/v2/universal-login-contracts"
     web3 "^1.0.0-beta.34"
 
 "universal-login-sdk@file:lib/universal-login-sdk":
@@ -9832,7 +9845,7 @@ uniqs@^2.0.0:
   dependencies:
     deep-equal "^1.0.1"
     ethers "^3.0.27"
-    universal-login-contracts "file:../../../Library/Caches/Yarn/v2/universal-login-contracts"
+    universal-login-contracts "file:../../../../../Library/Caches/Yarn/v2/universal-login-contracts"
 
 unorm@^1.3.3:
   version "1.4.1"
