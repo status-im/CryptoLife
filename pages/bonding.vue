@@ -21,13 +21,17 @@
                 </v-list-tile>
                 <v-flex style="margin: 20px">
                     <v-text-field
+                            @change="() => {$store.dispatch('priceToMint', buySellTokens) &&
+                                $store.dispatch('rewardForBurn', buySellTokens)}"
+                            v-model="buySellTokens"
                             label="Buy/Sell Tokens"
                             placeholder="1000"
                             outline
                     ></v-text-field>
                 </v-flex>
-                <v-btn color="orange">{{`Buy`}}</v-btn>
-                <v-btn v-if="$store.state.userBalance > 0" color="orange">{{`Sell`}}</v-btn>
+
+                <v-btn color="orange">{{`Buy ${buySellTokens >= 5 ? buySellTokens : 5} for ${$store.state.priceToMint}`}}</v-btn>
+                <v-btn v-if="$store.state.userBalance >= buySellTokens" color="orange">{{`Sell ${buySellTokens >= 5 ? buySellTokens : 5} for ${$store.state.rewardForBurn}`}}</v-btn>
             </v-card>
         </v-flex>
     </v-layout>
@@ -35,9 +39,16 @@
 <script>
   import LineChart from '../components/line-chart'
   export default {
+    mounted () {
+      this.$store.dispatch('configureWeb3').then(() => {
+        this.$store.dispatch('priceToMint', this.buySellTokens)
+        this.$store.dispatch('rewardForBurn', this.buySellTokens)
+      })
+    },
     data () {
       return {
-        meetupAddress: ''
+        meetupAddress: '',
+        buySellTokens: 5
       }
     },
     async asyncData ({ env, store }) {
