@@ -346,7 +346,7 @@ export default class Addreth extends Component {
         <Container>
           <AddrethLink href={`https://blockscout.com/eth/ropsten/address/${this.props.addreth}`} target="_blank">
           </AddrethLink>
-          <DonationForm address={this.props.addreth} donationNetworkID={4} />
+          <DonationForm address={this.props.addreth} donationNetworkID={3} />
           <LeaderboardContainer>
             <Leaderboard address={this.props.addreth} />
           </LeaderboardContainer>
