@@ -23,10 +23,10 @@ class Root extends Component {
           return (<GameList eth={this.props.eth}/>);
         }}/>
         <Route path='/create' render={props => {
-          return (<Input size={1024} eth={this.props.eth}/>);
+          return (<Input size={512} eth={this.props.eth}/>);
         }}/>
         <Route path='/join/:gameId' render={props => {
-          return (<Input size={1024} eth={this.props.eth} gameId={props.match.params.gameId}/>);
+          return (<Input size={512} eth={this.props.eth} gameId={props.match.params.gameId}/>);
         }}/>
         <Route path='/waiting/:gameId' render={props => {
           return (<Waiting eth={this.props.eth} gameId={props.match.params.gameId}/>);
