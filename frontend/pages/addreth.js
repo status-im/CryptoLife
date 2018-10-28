@@ -17,7 +17,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: (auto-fill, 1fr);
   justify-content: center;
-  align-content: center;
+  align-content: start;
   padding: 2rem;
   min-height: 100vh;
   color: white;
