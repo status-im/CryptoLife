@@ -18,12 +18,10 @@ export default class {
 
   static getEthereumHttpProvider() {
     this.setWeb3()
-    if (typeof window === 'object' && typeof window.web3 !== 'undefined') {
-      return web3.currentProvider
-    } else {
-      const provider = new HttpProvider('https://mainnet.infura.io');
-      return provider
-    }
+    // FIXME: hack to force ENS resolver to read from mainnet
+    // TODO: use window web3.provider instead, possibly fallign back
+    const provider = new HttpProvider('https://mainnet.infura.io');
+    return provider
   }
 
   static async getMyAddress() {
