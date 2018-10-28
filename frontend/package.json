@@ -20,6 +20,7 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-emojione": "^5.0.0",
+    "react-icons": "^3.2.2",
     "styled-components": "^3.2.5",
     "styled-normalize": "^8.0.1",
     "web3": "^1.0.0-beta.36"

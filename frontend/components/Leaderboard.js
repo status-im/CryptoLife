@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Web3 from 'web3'
 import Emojify from 'react-emojione'
 import axios from 'axios';
+import { FaBeer } from 'react-icons/fa';
 
 const LeaderboardContainer = styled.div`
   display: grid;
@@ -127,7 +128,8 @@ export default class Leaderboard extends PureComponent {
                 href={`https://blockscout.com/eth/ropsten/tx/${hash}`}
                 target="_blank"
               >
-                [{index + 1}]
+                {/* [{index + 1}] */}
+                <FaBeer />
               </TxLink>
             ))}
           </TxLinkContainer>
