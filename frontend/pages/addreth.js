@@ -410,7 +410,7 @@ export default class Addreth extends Component {
               <p>{addreth}</p>
             </>
           )}
-          <Button primary onClick={async () => {
+          <Button light onClick={async () => {
               try {
                 const address = await Utils.getMyAddress()
                 Router.push(`/address/${address}`)
