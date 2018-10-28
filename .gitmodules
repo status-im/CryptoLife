@@ -1,3 +1,6 @@
 [submodule "UniversalLoginRelayer"]
 	path = UniversalLoginRelayer
 	url = https://github.com/LinumLabs/UniversalLoginRelayer.git
+[submodule "ProteaV2Contracts"]
+	path = ProteaV2Contracts
+	url = https://github.com/LinumLabs/ProteaV2Contracts.git
