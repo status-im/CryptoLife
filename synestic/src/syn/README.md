@@ -1,0 +1,43 @@
+### Syn Data format
+
+All values are 1 byte and most of them decode to a 0 - 0.99 modifier (except the `track states` which encodes on/off on bits)
+
+- `bytes[0-15]`: pattern random seed
+- `bytes[16]`: bpm modifier
+- `bytes[17]`: swing modifier
+- `bytes[18]`: track states:
+    - v & 1: kick track
+    - v & 2: hat track
+    - v & 4: pad track
+    - v & 8: melody/perc track 1
+    - v & 16: melody/perc track 2
+- `bytes[19-28]`: kick track params with pairings:
+    - (20, 21) - min / max pair
+    - (22, 23)
+    - (24, 25)
+    - (26, 27)
+    - 28 - independent
+- `bytes[29-38]`: hat track params with pairings:
+    - (30, 31)
+    - (32, 33)
+    - (34, 35)
+    - (36, 37)
+    - 38
+- `bytes[39-51]`: pad track params with pairings:
+    - (40, 41)
+    - (42, 43)
+    - (44, 45)
+    - (46, 47)
+    - 48, 49, 50, 51
+- `bytes[52-62]`: melody/perc 1 track params with pairings:
+    - (53, 54)
+    - (55, 56)
+    - (57, 58)
+    - (59, 60)
+    - 61, 62
+- `bytes[63-73]`: melody/perc 2 track params with pairings:
+    - (64, 65)
+    - (66, 67)
+    - (68, 69)
+    - (70, 71)
+    - 72, 72
