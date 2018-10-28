@@ -1,31 +1,29 @@
-# CryptoLife
-A repo for all the #CryptoLife Hackathon submissions, The National House Smichov, Prague, 26-28th October 2018.
+# FLIGHT PLAN - Universal Login
 
-You can read more about the meaning behind the event [here](https://our.status.im/why-name-the-status-hackathon-cryptolife-what-does-that-actually-mean/).
+THE OBJECTIVE
+At this hackathon we focussed on building integration for Flight Plan's platform to Universal Login.
 
-The [EthMagicians](https://our.status.im/magic-internet-people/) will be in full attendance!
+EXISTING CODE
+Flight Plan creates full stack Dapp instances, and we used a use case called Mallow that is currently in POC on our platform.
 
-You can check out the #CryptoLife Master List [here](https://our.status.im/your-cryptolife-masterlist/).
+SUMMARY OF OUTCOME
+We have deployed Universal Login to Ropsten Testnet. Based on the Universal Login example dapp, we have created UX patterns that blend heuristcs and popular patterns that users are familiar with from Web2 world and we have applied Web3 specific UX patterns. This recognises the need for adoption focus and lowering the learning curve for new users while surfacing the values and uniqueness of Web3 world (transprency/trust/authenticity/etc) into the user experience.
 
-# Submit Your Hack To This Repo
+VISION
+Using Universal Login in the Mallow use cases enables a new level of trust in the authenticity for independent fashion designers, coupled with blockchain characteristics around scarcity (limited edition styles) creates a unique and rare garment.
+Mallow is one use case heading towards MVP launch on Mainnet with a real garment (beanie called "Incognito"). Integrating with Flight Plan means that other use cases built on our platform can leverage Universal Login
 
-**Reminder:** In line with our principles at Status, all code that is submitted during the #CryptoLife Hackathon is considered completely open source and under the same license as this repo - the Mozilla Public License 2.0.
+KEY POINTS
+We have used Ropsten because it's slow and we need to deal with that UX in an elegant way (which we have through user flow and a toast message). We have used familar UX Patterns such as Google's profile and authentication for the Universal ID, and Amazon's signup for UI. Plus Airbnb's reputation UI to show verification of ENS on the provenance of garments.
+BUT we have also blended in some Web3 patterns like ENS and blockies.
+There has been a particular focus on copy, aesthetic and information architecture to create a non-intimidating experience that's easy to understand.
 
-## Steps to Follow
+SCREENSHOTS
+Refer to "Screenshots" directory to see content of overview diagrams of UX design process, user flows and code snippets.
 
-1. Fork the repo to your own profile or orgnaization by using the button in the top right of this page.
-2. `git clone <your_git_repo_here>`
-3. `cd <your_git_repo>`
-4. Create a new branch in your forked version of the repo and add your code to it. Use the naming convention suggested by placing your team name first, and your project name after (if there is one).
-    
-    `git checkout -b <team-name_project-name>`
+TECHNICAL OVERVIEW
+We have looked at utilising code from the Universal Login repository (https://github.com/EthWorks/UniversalLoginSDK) and deployed a set of smart contracts on Ropsten creating the ENS-related Registries, Public Resolver and identity wallet. Code for checking and creating identities were obtained from the universal-login-example sample application provided in the repository, where we utilised the IdentityService interface to trigger the SDK calls for interacting with the smart contracts.
 
-5. Add, commit and push your changes to your new branch in your forked repo:
-
-    ```shell
-    git add .
-    git commit -m "<team_name> Submission for CryptoLife" 
-    git push
-    ```
-
-6. Go to your forked repo in the browser and submit a PR using the green button there.
+SOME LINKS:
+- Ropsten smart contract deployments and transactions - See: https://ropsten.etherscan.io/address/0x2ef6575148d341b225744e75469903e86de82d52
+- Ropsten transactions from Mallow use case Dapp triggered by user - See: https://ropsten.etherscan.io/address/0xf0f6c0bdc4d90ff44ed4e73a00200ba67a85e836
