@@ -4,59 +4,46 @@ import ujson
 import addr
 import network
 
-def main():
-    ' main f '
+GAS_PRICE = int(1e9 * 10) # Do not hardcode.
 
-    ctk = network.contract(address=network.to_checksum(addr.NFT_CONTRACT), abi=open('cryptotk.abi').read().strip())
-    gasPrice = int(1e9 * 10)
+def get_nft():
+    return network.contract(address=network.to_checksum(addr.NFT_CONTRACT), abi=open('cryptotk.abi').read().strip())
 
-    # Send function
+def wait_for_tx(tx_hash):
+    ' Wait for tx - ignore return value '
+    network.WEB3.eth.waitForTransactionReceipt(tx_hash)
 
-    #x = ctk.functions.voteUp(0)
-    x = ctk.encodeABI(fn_name='voteUp', args=[0])
-    print(x)
-    _to = network.to_checksum(addr.PUB)
-    _value = 1
+def vote(method, media_id, nonce_inc=0):
+    ' upvote. method=voteUp or voteDown. '
+    data_to_encode = get_nft().encodeABI(fn_name=method, args=[media_id])
     signed_txn = network.WEB3.eth.account.signTransaction(dict(
-        nonce = network.WEB3.eth.getTransactionCount(network.to_checksum(addr.PUB)),
-        gasPrice = gasPrice,
-        data=x,
+        nonce = network.WEB3.eth.getTransactionCount(network.to_checksum(addr.PUB)) + nonce_inc,
+        gasPrice = GAS_PRICE,
+        data=data_to_encode,
         gas = 100000,
         to = network.to_checksum(addr.NFT_CONTRACT),
-        #value = _value,
         ), addr.PRIV)
-    print(signed_txn)
     tx_hash = network.WEB3.eth.sendRawTransaction(signed_txn.rawTransaction)
-    print(tx_hash.hex())
-    # Ignoring result.
-    network.WEB3.eth.waitForTransactionReceipt(tx_hash)
-    return 0
+    return tx_hash
 
-    #dict(
-    #    nonce = network.WEB3.eth.getTransactionCount(network.to_checksum(addr.PUB)),
-    #    gasPrice = gasPrice,
-    #    gas = 25000,
-    #    to = _to,
-    #    value = _value,
-    #    ), addr.PRIV)
-    
-    # Send to Myself for tests!
-    _to = network.to_checksum(addr.PUB)
-    _value = 1
+def send_xdai(dest, amount_wei, nonce_inc=0):
+    ' Send xdai away '
     signed_txn = network.WEB3.eth.account.signTransaction(dict(
         nonce = network.WEB3.eth.getTransactionCount(network.to_checksum(addr.PUB)),
         gasPrice = gasPrice,
         gas = 25000,
-        to = _to,
-        value = _value,
+        to = network.to_checksum(dest),
+        value = amount_wei,
         ), addr.PRIV)
-    print(signed_txn)
-    tx_hash = network.WEB3.eth.sendRawTransaction(signed_txn.rawTransaction)
-    print(tx_hash.hex())
-    # Ignoring result.
-    network.WEB3.eth.waitForTransactionReceipt(tx_hash)
+    return network.WEB3.eth.sendRawTransaction(signed_txn.rawTransaction)
 
-    #ctk.functions.vote(0).transact({'from': eth.accounts[1], 'gas': 100000})
+def test_vote():
+  ' send a vote '
+  wait_for_tx(vote('voteUp', 0))
+
+def main():
+  ' main '
+  # test_vote() # OK
 
 if __name__ == "__main__":
     main()
