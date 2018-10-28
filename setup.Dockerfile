@@ -9,6 +9,10 @@ RUN apk --no-cache add git openssh python make gcc g++ && rm -rf /var/cache/apk/
 WORKDIR /setup
 COPY ./setup /setup
 COPY ./contracts /setup/contracts
+WORKDIR /setup/contracts
 RUN yarn
+WORKDIR /setup
+RUN yarn
+
 
 CMD ["yarn", "setup", "http://ganache:8545"]
