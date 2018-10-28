@@ -22,7 +22,18 @@ class PinMarker extends Component {
                 width:"60px",
                 height:"60px",
             }}>
-                <span>Where to scream?</span>
+                <div style={{backgroundColor:"white",
+                    opacity:"0.9",
+                    padding:"3px 5px",
+                    position:"absolute",
+                    top:"-40px",
+                    borderRadius:"5px",
+                    textAlign:"center",
+                    left:"50%",
+                    width:"150px",
+                    // margin:"auto",
+                    transform: "translate(-50%)"
+                }}>Where to scream?</div>
             <img src={Icon} style={{width:"60px", height:"60px"}}/>
             </div>
                 );
