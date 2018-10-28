@@ -10,7 +10,7 @@ import getWeb3 from './util/getWeb3';
 
 const start = async () => {
   const web3 = getWeb3();
-  const contract = new web3.eth.Contract(colAbi.abi, '0x5f8f936d96ac8729ecde01c79bd493560d673917');
+  const contract = new web3.eth.Contract(colAbi.abi, '0x242f41e39edaed739e7215490125288a4dfbcdef');
   const eventEmitter = await contract.events.allEvents();
   const eth = {
     web3: web3,

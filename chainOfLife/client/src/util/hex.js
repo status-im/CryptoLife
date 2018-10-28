@@ -1,5 +1,9 @@
 import getWeb3 from './getWeb3';
 
+import Buffer from 'buffer';
+
+Buffer = Buffer.Buffer;
+
 const binToHex = {
   '0000' : '0',
   '0001' : '1',
@@ -37,7 +41,7 @@ function encodeConfig(boolArray) {
 
 function encodeConfigBytes32Array(boolArray) {
   const str = encodeConfig(boolArray).replace('0x', '');
-  return splitIntoSubArray(str, 64).map(bytes32 => '0x' + bytes32);
+  return splitIntoSubArray(str, 32).map(bytes32 => '0x' + bytes32);
 }
 
 function splitIntoSubArray(arr, count) {
@@ -52,6 +56,7 @@ function splitIntoSubArray(arr, count) {
 }
 
 function unpack(packed, size = 8) {
+  console.log(Buffer);
   const rsp = [];
   for (var i = 0; i < packed.length; i++) {
     const buf = Buffer.from(packed[i].replace('0x', ''), 'hex');
