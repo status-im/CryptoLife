@@ -187,7 +187,7 @@ class RoomView extends Component {
 
 			{
 				this.state.loading ?
-					<p className="margin-top">Please wait... <Spin /></p> : null
+					<p className="margin-top white">Please wait... <Spin /></p> : null
 			}
 		</div>
 	}

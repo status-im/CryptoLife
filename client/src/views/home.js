@@ -161,7 +161,7 @@ class HomeView extends Component {
 
 			{
 				this.state.bookingLoading ?
-					<p className="margin-top">Please wait... <Spin /></p> : null
+					<p className="margin-top white">Please wait... <Spin /></p> : null
 			}
 		</div>
 	}
