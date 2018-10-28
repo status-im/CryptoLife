@@ -290,11 +290,13 @@ export default class Addreth extends Component {
             if (err) {
               console.log(err)
             }
-            let arrayToObject = result.payload.reduce((acc, cur) => {
-              acc[cur.name] = cur.value
-              return acc
-            }, {})
-            this.setState({ ipfsPayload: arrayToObject })
+            if (result && result.payload) {
+              let arrayToObject = result.payload.reduce((acc, cur) => {
+                acc[cur.name] = cur.value
+                return acc
+              }, {})
+              this.setState({ ipfsPayload: arrayToObject })
+            }
           })
         }
       })

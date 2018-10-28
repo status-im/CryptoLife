@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Web3 from 'web3'
 import Emojify from 'react-emojione'
 import axios from 'axios';
-import { FaBeer } from 'react-icons/fa';
+import { FaBolt } from 'react-icons/fa';
 
 const LeaderboardContainer = styled.div`
   display: grid;
@@ -129,7 +129,7 @@ export default class Leaderboard extends PureComponent {
                 target="_blank"
               >
                 {/* [{index + 1}] */}
-                <FaBeer />
+                <FaBolt />
               </TxLink>
             ))}
           </TxLinkContainer>
