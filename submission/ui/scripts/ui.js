@@ -73,13 +73,14 @@ async function submit(_event) {
 
 		let image = await getImgDataUrl();
 		console.log('image', image);
+
 		let encrypted = await secret.encrypt(ADDRESS, image);
 		let store = await storeItForever(encrypted);
 
 		console.log('encrypted data', encrypted);
 		console.log('store', store)
 
-		document.querySelector("p#stored-ipfs-hash").html = store.hash;
+		document.querySelector("p#stored-ipfs-hash small").html = "store.hash";
 
 	} catch(_error) {
 		console.log("error", _error)

@@ -11,16 +11,20 @@
 		<body>
 			<h1><img id="logo" src="./img/logo.svg"></h1>
 			<form id="send-bid">
-				<p><img src="http://placehold.it/200x200" alt="{ipfs_hash}" id="bob_decrypted_data"></p>
+				<p><img src="https://media.giphy.com/media/5H8bRxo2JgskE/giphy.gif" alt="66566d14b2387ebbf79b83c3e5f044abdb0424195eb8eab58649925a3acef799" id="bob_decrypted_data"></p>
+				<label>
+					<h3><strong>Once Upon a Time in Shaolin</strong></h3>
+					<p><em>don't buy if you're a douche</em></p>
+				</label>
 				<label>
 					<h3>Bid Amount</h3>
-					<p><input type="text" id="bid_price" value="{bid_price}" required disabled></p>
+					<p><input type="text" id="bid_price" value="50" required disabled></p>
 				</label>
 
 				<p><input type="submit" value="Send Bid"></p>
 				<hr>
-				<p class="center"><small>{bob_address}</small></p>
-				<p class="center"><small>{bob_balance}</small></p>
+				<p class="center"><small>0xd3b6A6e652CCcf92672f9FeCd16BC49FeB74f7b8</small></p>
+				<p class="center"><small>100 ETH</small></p>
 			</form>
 			<script>
 				const ABI = [

@@ -17,6 +17,7 @@ form {
 	background-color: #FFF;
 	border-radius: 3px;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.24);
+	overflow: hidden;
 }
 h3 {
 	text-transform: uppercase;
