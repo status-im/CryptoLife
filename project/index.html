@@ -1,0 +1,67 @@
+<html>
+  <head><title>loading...</title></head>
+  <body><div id="output" style="font-family: monospace; font-size: 18px; padding: 20px; white-space: pre;"></div></body>
+  <script src="./dist/ethers-app.js"></script>
+  <script>
+    (function() {
+      function log(message) {
+          document.getElementById('output').textContent += message + "\n";
+      }
+
+      function getName(host) {
+          let comps = host.split(':')[0].split('.');
+          if (comps.length !== 3 || comps[1] !== 'meeseeks' || comps[2] !== 'app') {
+              log("This domain is not supported. :'(");
+              return;
+          }
+          return comps[0] + ".eth";
+      }
+
+      function getMeeseeks(name) {
+          let provider = ethers.getDefaultProvider();
+          return provider.getNetwork().then(function(network) {
+              let namehash = ethers.utils.namehash(name);
+              let contract = new ethers.Contract(network.ensAddress, [
+                  "function resolver(bytes32) view returns (address)"
+              ], provider);
+              return contract.resolver(namehash).then((resolver) => {
+                  let contract = new ethers.Contract(resolver, [
+                      "function text(bytes32,string) view returns (string)"
+                  ], provider);
+                  return contract.text(namehash, "vnd.app.meeseeks");
+              });
+          });
+      }
+
+      function loadHtml(htmlCode) {
+        document.open("text/html", "replace");
+        document.write(htmlCode);
+        document.close();
+        if (window.app) { setTimeout(() => { window.app.emit('ready'); }, 0); }
+      };
+
+      let readyPromise = new Promise(function(resolve) {
+        window.addEventListener('DOMContentLoaded', resolve, false);
+      });
+
+      log("Look at me. I'm Mr. Meeseeks.app!");
+      let name = getName(location.host);
+      log("Found name: " + name);
+      getMeeseeks(name).then((setup) => {
+        log('Found ENS Entry: ' + setup);
+        log("Fetching and Verifying IPFS Content...");
+        return Promise.all([
+          app.fetchIpfs(setup),
+          readyPromise
+        ]).then((results) => {
+           log("Verified!");
+           log("Existance is pain! Good-Bye!");
+           setTimeout(function() {
+               loadHtml(ethers.utils.toUtf8String(results[0], true));
+           }, 2000);
+        });
+      });
+
+    })();
+  </script>
+</html>

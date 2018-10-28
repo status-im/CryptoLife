@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Peeping Example</title>
+    </head>
+    <body>
+        <h1>Wiretap</h1>
+        <hr />
+        <div>
+            <b>Address:</b>
+            <div id="address">one second please...</div>
+        </div>
+        <hr />
+        <div>
+            <b>Local Storage:</b>
+            <div id="count">one second please...</div>
+        </div>
+        <hr />
+        <script>
+            if (window.web3) {
+                setTimeout(function() {
+                    window.web3.currentProvider.enable().then((accounts) => {
+                        document.getElementById('address').textContent = accounts.join(', ');
+                    });
+                }, 100);
+            } else {
+                setTimeout(function() {
+                    document.getElementById('address').textContent = 'no web3';
+                }, 100);
+            }
+
+            let value = window.localStorage.getItem('count') || '0';
+            document.getElementById('count').textContent = value;
+            window.localStorage.setItem('count', parseInt(value) + 1);
+        </script>
+    </body>
+</html>

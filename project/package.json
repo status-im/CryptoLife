@@ -1,0 +1,33 @@
+{
+  "name": "ethers-meeseeks",
+  "version": "0.0.1",
+  "description": "Safe IPFS in-place HTML loader.",
+  "main": "index.js",
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "ethers": "^4.0.0",
+    "ethers-cli": "5.0.0-beta.1",
+    "ipfs-api": "^25.0.0",
+    "ipfs-unixfs": "^0.1.16",
+    "ipld-dag-pb": "^0.14.11",
+    "uglify-es": "^3.3.9"
+  },
+  "scripts": {
+    "build": "browserify ./ethers-app.js | uglifyjs > ./dist/ethers-app.js && python3 flatten.py",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "IPFS",
+    "Ethereum",
+    "ENS"
+  ],
+  "author": "Team RicLoo",
+  "contributors": [
+    "Richard Moore <me@ricmoo.com>",
+    "Yuet Loo Wong <yuet.wong@gmail.com>"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0"
+  }
+}
