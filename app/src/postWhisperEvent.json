@@ -1,0 +1,17 @@
+{
+    "type": "event",
+    "name": "PostWhisper",
+    "inputs": [
+        {
+            "type": "string",
+            "name": "topic",
+            "indexed": false
+        },
+        {
+            "type": "string",
+            "name": "payload",
+            "indexed": false
+        }
+    ],
+    "anonymous": false
+}
