@@ -240,7 +240,7 @@ contract('ChainOfLife', (accounts) => {
       });
       it("should allow Bob finalization before after timeout", async () => {
         const tx = await game.finalize(gameId,{from: bob}).should.be.fulfilled;
-        assert.equal(tx.receipt.logs[1].topics[2], gameId);
+        assert.equal(tx.receipt.logs[2].topics[1], gameId);
         assert.equal(parseInt(tx.receipt.logs[2].topics[2]), 0);
         const rsp = await game.games(gameId);
         assert.equal(rsp[0], 0);

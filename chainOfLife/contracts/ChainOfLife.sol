@@ -49,35 +49,35 @@ contract ChainOfLife {
   }
 
   function setTokenAddress (address _tokenAddr) public {
-    require(msg.sender == owner, "Not sent by contract owner");
+    require(msg.sender == owner, "Not called by contract owner");
     token = ERC20(_tokenAddr);
   }
   
   function register(bytes32 _hash) public {
-    require(token != address(0), "Token contract address not set");
+    require(token != address(0) || stake == 0, "Token contract address not set");
     require(games[_hash].alice == address(0), "Game with the same initial field already exists");
     games[_hash] = Game(msg.sender, 0, 0, 0, block.number);
-    token.transferFrom(msg.sender,address(this),stake);
+    if (stake > 0) token.transferFrom(msg.sender,address(this),stake);
     
     emit StartGame(_hash, msg.sender);
   }
 
   function join(bytes32 _gameId, bytes32[] _field) public {
-    require(token != address(0), "Token contract address not set");
+    require(token != address(0) || stake == 0, "Token contract address not set");
     Game storage game = games[_gameId];
     require(game.alice != address(0), "Game doesn't exist");
-    require(game.state == 0);
+    require(game.state == 0, "Wrong game state");
     game.state = 1;
     game.bob = msg.sender;
     game.bobHash = keccak256(abi.encodePacked(_field));
     game.time = block.number;
-    token.transferFrom(msg.sender,address(this),stake);
+    if (stake > 0) token.transferFrom(msg.sender,address(this),stake);
     
     emit JoinGame(_gameId, msg.sender, _field);
   }
 
   function resolve(bytes32 _gameId, bytes32[] _field, uint256 _outcome) public {  //_outcome: 0 - Alice wins; 1 - Bob wins; 2 - Draw
-    require(token != address(0), "Token contract address not set");
+    require(token != address(0) || stake == 0, "Token contract address not set");
     require(_outcome == 0 || _outcome == 1 || _outcome == 2, "Not calid outcome");
     bytes32 fieldHash = keccak256(abi.encodePacked(_field));
     require(_gameId == fieldHash, "Alice hashes do not match");
@@ -104,11 +104,11 @@ contract ChainOfLife {
   }
 
   function finalize(bytes32 _gameId) public {
-    require(token != address(0), "Token contract address not set");
+    require(token != address(0) || stake == 0, "Token contract address not set");
     Game storage game = games[_gameId];
     if(game.state == 0 && msg.sender == game.alice) {
       games[_gameId] = Game(0,0,0,0,0);
-      token.transfer(msg.sender,stake);
+      if (stake > 0) token.transfer(msg.sender,stake);
       emit CancelGame(_gameId);
       return;      
     }
@@ -147,14 +147,14 @@ contract ChainOfLife {
       players[game.bob].games.add(1);
       message = "Draw";
       games[_gameId] = Game(0,0,0,0,0);
-      token.transfer(winner,stake);
-      token.transfer(bob,stake);
+      if (stake > 0) token.transfer(winner,stake);
+      if (stake > 0) token.transfer(bob,stake);
 
       emit FinalizeGame(_gameId, address(0),message);
       return; 
     }
     games[_gameId] = Game(0,0,0,0,0);
-    token.transfer(winner,stake * 2);
+    if (stake > 0) token.transfer(winner,stake * 2);
 
     emit FinalizeGame(_gameId, winner,message);    
   }
