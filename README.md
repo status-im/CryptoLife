@@ -58,6 +58,7 @@ This hack extends "invite link" functionality to "Universal Login" [EIP1077](htt
 
 - In order to build the front-end, clone and run the robowars-app with yarn/build in parent folder & yarn/start in the sub folder client
 
+
 ### Relayer 
 
 - In order to build smart-contracts and relayer you need to follow the instructions in relayer/readme.md
