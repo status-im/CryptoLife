@@ -32,8 +32,11 @@ app.post('/api/payment', async (req, res, next) => {
         let shopperEmail = (new Date().getTime()) + shopperData.email;
         let limePayShopper = await LimePayService.createShopper(shopperData.firstName, shopperData.lastName, shopperEmail, req.body.walletAddress);
 
-        let token = await LimePayService.createPayment(limePayShopper._id, bodyData.itemName, bodyData.price, bodyData.tokenPrice);
+        let result = await LimePayService.createPayment(limePayShopper._id, bodyData.itemName, bodyData.price, bodyData.tokenPrice);
         paymentId = result.paymentID;
+
+        listenForPayment(paymentId);
+
         res.json(result.token);
     } catch (error) {
         console.log(error);
@@ -50,3 +53,23 @@ app.use((err, request, response, next) => {
 http.listen(9090, () => {
     console.log("Marketplace app listening at http://localhost:" + 9090);
 });
+
+let listenForPayment = function (paymentId) {
+
+    setTimeout(async () => {
+        let result = await LimePayService.getPayment(paymentId);
+        if (result.status == "SUCCESSFUL") {
+            let txHashes = [];
+            txHashes.push(result.fundTxData.transactionHash);
+            txHashes.push(result.genericTransactions[0].transactionHash);
+            txHashes.push(result.genericTransactions[1].transactionHash);
+
+            io.emit('receipt', txHashes);
+        } else {
+            listenForPayment(paymentId);
+        }
+
+    }, 1000)
+
+
+}
