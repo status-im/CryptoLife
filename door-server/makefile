@@ -15,6 +15,7 @@ info:
 	@echo "  $$ run info    Shows this text"
 	@echo
 	@echo "  $$ run dev     Start the server with dev env variables"
+	@echo "  $$ run run     Run Node"
 	@echo
 
 ###############################################################################
@@ -23,3 +24,6 @@ info:
 
 dev: 
 	@nodemon server
+
+run:
+	@node server

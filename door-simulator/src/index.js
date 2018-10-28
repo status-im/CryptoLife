@@ -4,6 +4,8 @@ import ReactDOM from "react-dom"
 import getBookingsInstance from "../../client/src/contracts/bookings.js"
 import getValidatorInstance from "../../client/src/contracts/validator.js"
 
+const serverPublicKey = "0xbda352aeb022a1d8e847ee6372795d02dcbf53f8"
+
 const Bookings = getBookingsInstance()
 const Validator = getValidatorInstance()
 
@@ -20,11 +22,6 @@ class DoorSimulator extends React.Component {
 		setInterval(() => {
 			this.setState({ receivedPayload: "" })
 		}, 5000)
-
-		// Close after a while
-		setInterval(() => {
-			this.setState({ open: false })
-		}, 10000)
 	}
 
 	componentDidMount() {
@@ -35,7 +32,7 @@ class DoorSimulator extends React.Component {
 				// profile: "audible",
 				profile: "ultrasonic-experimental",
 				onReceive: payload => this.gotPayload(Quiet.ab2str(payload)),
-				onCreateFail: reason => alert("failed to create quiet receiver: " + reason),
+				onCreateFail: reason => console.error("failed to create quiet receiver: " + reason),
 				onReceiveFail: () => console.error("RCV FAIL")
 			});
 
@@ -58,9 +55,10 @@ class DoorSimulator extends React.Component {
 
 	gotPayload(str) {
 		if (!str) return
-		this.setState({ receivedPayload: this.state.receivedPayload + str })
+		const newPayload = this.state.receivedPayload + str
+		this.setState({ receivedPayload: newPayload })
 		if (str.length < 100) {
-			this.checkPayload(this.state.receivedPayload + str)
+			this.checkPayload(newPayload)
 		}
 	}
 
@@ -72,7 +70,7 @@ class DoorSimulator extends React.Component {
 			}
 		}
 		catch (err) {
-			alert("There was an error while parsing the response")
+			console.error("There was an error while parsing the response", payload)
 		}
 	}
 
@@ -92,23 +90,27 @@ class DoorSimulator extends React.Component {
 		Validator.methods.verify(r, s, v_decimal, hashedTimestamp).call()
 			.then(signerPublicKey => {
 				// get the checked in guest
-				return Bookings.methods.checkedInGuest().call().then(currentGuestAddress => {
-					console.log("RECEIVED", signerPublicKey, currentGuestAddress)
+				console.log("RECEIVED", signerPublicKey)
+				console.log("SERVER", serverPublicKey)
 
-					if (!currentGuestAddress || !currentGuestAddress.toLowerCase || currentGuestAddress == "0x0") {
-						return alert("Invalid signature")
-					}
+				if (!signerPublicKey || !signerPublicKey.toLowerCase || signerPublicKey == "0x0") {
+					return alert("Invalid signature")
+				}
 
-					// compare address with blockchain data
-					if (signerPublicKey.toLowerCase() != currentGuestAddress.toLowerCase()) {
-						return alert("Invalid signature")
-					}
+				// compare address with blockchain data
+				if (signerPublicKey.toLowerCase() != serverPublicKey.toLowerCase()) {
+					return alert("Invalid signature")
+				}
 
-					this.setState({ open: true })
-				})
+				this.setState({ open: true, receivedPayload: "" })
+
+				// Close after a while
+				setTimeout(() => {
+					this.setState({ open: false })
+				}, 5000)
 			})
 			.catch(err => {
-				alert("There was en error while validating the server signature")
+				console.error("There was en error while validating the server signature")
 			})
 	}
 

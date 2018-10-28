@@ -13,10 +13,11 @@ info:
 	@echo
 	@echo "  $$ run         Runs 'run info' by default"
 	@echo "  $$ run info    Shows this text"
+	@echo "  $$ run init    Install dependencies"
 	@echo
-	@echo "  $$ run styles  Compile the styles"
-	@echo "  $$ run media   Arrange images and fonts"
-	@echo "  $$ run build   Build your project"
+	@echo "  $$ run test    Run the test suite"
+	@echo "  $$ run build   Compile the contracts"
+	@echo "  $$ run deploy  Deploy locally"
 	@echo
 
 ###############################################################################
