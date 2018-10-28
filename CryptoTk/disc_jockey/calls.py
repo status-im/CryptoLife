@@ -4,7 +4,7 @@ import ujson
 import addr
 import network
 
-GAS_PRICE = int(1e9 * 10) # Do not hardcode.
+GAS_PRICE = int(1e9 * 10) # Do not hardcode. x-DAI is still cheap anyway.
 
 def get_nft():
     return network.contract(address=network.to_checksum(addr.NFT_CONTRACT), abi=open('cryptotk.abi').read().strip())
