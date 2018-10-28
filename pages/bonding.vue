@@ -10,28 +10,44 @@
                         <line-chart :data="chartData" :options="chartOptions" />
                     </div>
                 </v-layout>
-                <v-list-tile @click="">
+                <v-list-tile>
                     <v-list-tile-action>
                         <v-icon color="orange">money</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>Token Balance</v-list-tile-title>
-                        <v-list-tile-sub-title>{{$store.state.userBalance}}</v-list-tile-sub-title>
+                        <v-list-tile-sub-title>{{$store.state.balanceOf}}</v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-flex style="margin: 20px">
                     <v-text-field
-                            @change="() => {$store.dispatch('priceToMint', buySellTokens) &&
-                                $store.dispatch('rewardForBurn', buySellTokens)}"
+                            @change="() => {
+                                $store.dispatch('balanceOf', $store.state.userAddress) &&
+                                $store.dispatch('priceToMint', buySellTokens) &&
+                                $store.dispatch('rewardForBurn', buySellTokens <= $store.state.balanceOf ? buySellTokens : $store.state.balanceOf) &&
+                                $store.dispatch('totalSupply') &&
+                                $store.dispatch('purchaseTax', buySellTokens) }"
                             v-model="buySellTokens"
                             label="Buy/Sell Tokens"
                             placeholder="1000"
                             outline
                     ></v-text-field>
                 </v-flex>
-
-                <v-btn color="orange">{{`Buy ${buySellTokens >= 5 ? buySellTokens : 5} for ${$store.state.priceToMint}`}}</v-btn>
-                <v-btn v-if="$store.state.userBalance >= buySellTokens" color="orange">{{`Sell ${buySellTokens >= 5 ? buySellTokens : 5} for ${$store.state.rewardForBurn}`}}</v-btn>
+                <v-list-tile>
+                    <v-list-tile-action>
+                        <v-icon color="orange">pan_tool</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Community Added Tax (CAT)</v-list-tile-title>
+                        <v-list-tile-sub-title>{{$store.state.purchaseTax}}</v-list-tile-sub-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-btn :disabled="!$store.state.priceToMint" color="orange" @click="() => {$store.dispatch('mint', buySellTokens)}">
+                    {{`Buy ${buySellTokens} for ${$store.state.priceToMint ? $store.state.priceToMint : '...'}`}}
+                </v-btn>
+                <v-btn :disabled="!$store.state.rewardForBurn" v-if="$store.state.userBalance >= buySellTokens" color="orange" @click="() => {$store.dispatch('burn', buySellTokens)}">
+                    {{`Sell ${buySellTokens <= $store.state.balanceOf ? buySellTokens : $store.state.balanceOf} for ${$store.state.rewardForBurn}`}}
+                </v-btn>
             </v-card>
         </v-flex>
     </v-layout>
@@ -43,6 +59,9 @@
       this.$store.dispatch('configureWeb3').then(() => {
         this.$store.dispatch('priceToMint', this.buySellTokens)
         this.$store.dispatch('rewardForBurn', this.buySellTokens)
+        this.$store.dispatch('totalSupply')
+        this.$store.dispatch('purchaseTax', this.buySellTokens)
+        this.$store.dispatch('balanceOf', this.$store.state.userAddress)
       })
     },
     data () {
@@ -52,14 +71,16 @@
       }
     },
     async asyncData ({ env, store }) {
+      // await store.dispatch('totalSupply')
+      // console.log(this.$store.state.totalSupply)
       return {
         chartData: {
-          labels: [...Array(11).keys()].map(n => n * 1000),
+          labels: [...Array(11).keys()],
           datasets: [
             {
               label: 'Community Bonding Curve',
               backgroundColor: '#f87979',
-              data: [...[...Array(11).keys()].map(n => n * 1000).map(x => store.state.curveParamA + Math.pow(store.state.curveParamB, x))],
+              data: [...[...Array(11).keys()].map(x => store.state.curveParamA + Math.pow(store.state.curveParamB, x))],
               pointRadius: 0,
               cubicInterpolationMode: 'default'
             }
@@ -71,7 +92,7 @@
             yAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Price ($)'
+                labelString: 'Price'
               }
             }],
             xAxes: [{

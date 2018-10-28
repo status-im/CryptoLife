@@ -13,441 +13,444 @@ export const state = () => ({
   meetupStake: 200,
   meetupParticipants: 3,
   meetupParticipantLimit: 10,
-  priceToMint: 0,
-  rewardForBurn: 0,
+  priceToMint: null,
+  rewardForBurn: null,
+  purchaseTax: null,
+  balanceOf: 0,
+  totalSupply: 0,
   curveParamA: 0,
-  curveParamB: 1.00016,
+  curveParamB: 2,
   showSnackbar: false,
   snackbarMessage: 'Snacky bar',
   communityTokenContract: null,
-  communityTokenAddress: '0xae5eb03b0f89ff229735b1390ff49a79ec234feb',
-  communityTokenABI: [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"rewardManager","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_rewardManager","type":"address"},{"name":"_rewardPotTax","type":"uint8"},{"name":"_name","type":"string"},{"name":"_decimals","type":"uint8"},{"name":"_symbol","type":"string"},{"name":"_exponent","type":"uint8"},{"name":"_slope","type":"uint32"},{"name":"_hash","type":"bytes32"},{"name":"_hashFunction","type":"uint8"},{"name":"_size","type":"uint8"}],"name":"initContract","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"burn","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"exponent","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"slope","outputs":[{"name":"","type":"uint32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"poolBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"mint","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"priceToMint","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"},{"name":"_data","type":"bytes"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"purchaseTax","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"rewardForBurn","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"rewardPotTax","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"data","type":"bytes"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"totalCost","type":"uint256"}],"name":"Minted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"reward","type":"uint256"}],"name":"Burned","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"hash","type":"bytes32"},{"indexed":false,"name":"hashFunction","type":"uint8"},{"indexed":false,"name":"size","type":"uint8"},{"indexed":false,"name":"account","type":"address"}],"name":"CommentLog","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"hash","type":"bytes32"},{"indexed":false,"name":"hashFunction","type":"uint8"},{"indexed":false,"name":"size","type":"uint8"}],"name":"StoreHash","type":"event"}]
-  // communityTokenABI: [
-  //   {
-  //     "constant": true,
-  //     "inputs": [],
-  //     "name": "name",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "string"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [],
-  //     "name": "rewardManager",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "address"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [],
-  //     "name": "decimals",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint8"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [],
-  //     "name": "exponent",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint8"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [],
-  //     "name": "symbol",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "string"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [],
-  //     "name": "poolBalance",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [],
-  //     "name": "rewardPotTax",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "inputs": [
-  //       {
-  //         "name": "_rewardManager",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "name": "_rewardPotTax",
-  //         "type": "uint8"
-  //       },
-  //       {
-  //         "name": "_name",
-  //         "type": "string"
-  //       },
-  //       {
-  //         "name": "_decimals",
-  //         "type": "uint8"
-  //       },
-  //       {
-  //         "name": "_symbol",
-  //         "type": "string"
-  //       },
-  //       {
-  //         "name": "_exponent",
-  //         "type": "uint8"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "nonpayable",
-  //     "type": "constructor"
-  //   },
-  //   {
-  //     "anonymous": false,
-  //     "inputs": [
-  //       {
-  //         "indexed": true,
-  //         "name": "owner",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "indexed": true,
-  //         "name": "spender",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "indexed": false,
-  //         "name": "value",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "Approval",
-  //     "type": "event"
-  //   },
-  //   {
-  //     "anonymous": false,
-  //     "inputs": [
-  //       {
-  //         "indexed": true,
-  //         "name": "from",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "indexed": true,
-  //         "name": "to",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "indexed": false,
-  //         "name": "value",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "Transfer",
-  //     "type": "event"
-  //   },
-  //   {
-  //     "anonymous": false,
-  //     "inputs": [
-  //       {
-  //         "indexed": true,
-  //         "name": "from",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "indexed": true,
-  //         "name": "to",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "indexed": false,
-  //         "name": "value",
-  //         "type": "uint256"
-  //       },
-  //       {
-  //         "indexed": false,
-  //         "name": "data",
-  //         "type": "bytes"
-  //       }
-  //     ],
-  //     "name": "Transfer",
-  //     "type": "event"
-  //   },
-  //   {
-  //     "anonymous": false,
-  //     "inputs": [
-  //       {
-  //         "indexed": false,
-  //         "name": "amount",
-  //         "type": "uint256"
-  //       },
-  //       {
-  //         "indexed": false,
-  //         "name": "totalCost",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "Minted",
-  //     "type": "event"
-  //   },
-  //   {
-  //     "anonymous": false,
-  //     "inputs": [
-  //       {
-  //         "indexed": false,
-  //         "name": "amount",
-  //         "type": "uint256"
-  //       },
-  //       {
-  //         "indexed": false,
-  //         "name": "reward",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "Burned",
-  //     "type": "event"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [
-  //       {
-  //         "name": "_owner",
-  //         "type": "address"
-  //       }
-  //     ],
-  //     "name": "balanceOf",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [],
-  //     "name": "totalSupply",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": false,
-  //     "inputs": [
-  //       {
-  //         "name": "_from",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "name": "_to",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "name": "_value",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "transferFrom",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "bool"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "nonpayable",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [
-  //       {
-  //         "name": "numTokens",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "priceToMint",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [
-  //       {
-  //         "name": "numTokens",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "rewardForBurn",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": true,
-  //     "inputs": [
-  //       {
-  //         "name": "numTokens",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "purchaseTax",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "view",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": false,
-  //     "inputs": [
-  //       {
-  //         "name": "numTokens",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "burn",
-  //     "outputs": [],
-  //     "payable": false,
-  //     "stateMutability": "nonpayable",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": false,
-  //     "inputs": [
-  //       {
-  //         "name": "numTokens",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "mint",
-  //     "outputs": [],
-  //     "payable": true,
-  //     "stateMutability": "payable",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": false,
-  //     "inputs": [
-  //       {
-  //         "name": "_to",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "name": "_value",
-  //         "type": "uint256"
-  //       }
-  //     ],
-  //     "name": "transfer",
-  //     "outputs": [
-  //       {
-  //         "name": "",
-  //         "type": "bool"
-  //       }
-  //     ],
-  //     "payable": false,
-  //     "stateMutability": "nonpayable",
-  //     "type": "function"
-  //   },
-  //   {
-  //     "constant": false,
-  //     "inputs": [
-  //       {
-  //         "name": "_to",
-  //         "type": "address"
-  //       },
-  //       {
-  //         "name": "_value",
-  //         "type": "uint256"
-  //       },
-  //       {
-  //         "name": "_data",
-  //         "type": "bytes"
-  //       }
-  //     ],
-  //     "name": "transfer",
-  //     "outputs": [],
-  //     "payable": false,
-  //     "stateMutability": "nonpayable",
-  //     "type": "function"
-  //   }
-  // ]
+  communityTokenAddress: '0x148efbcb37d71f976cdc52f510fbf8d6dfbd78a8',
+  // communityTokenABI: [{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"rewardManager","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_rewardManager","type":"address"},{"name":"_rewardPotTax","type":"uint8"},{"name":"_name","type":"string"},{"name":"_decimals","type":"uint8"},{"name":"_symbol","type":"string"},{"name":"_exponent","type":"uint8"},{"name":"_slope","type":"uint32"},{"name":"_hash","type":"bytes32"},{"name":"_hashFunction","type":"uint8"},{"name":"_size","type":"uint8"}],"name":"initContract","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"burn","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"exponent","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"slope","outputs":[{"name":"","type":"uint32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"poolBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"mint","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"priceToMint","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_value","type":"uint256"},{"name":"_data","type":"bytes"}],"name":"transfer","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"purchaseTax","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"numTokens","type":"uint256"}],"name":"rewardForBurn","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"rewardPotTax","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"data","type":"bytes"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"totalCost","type":"uint256"}],"name":"Minted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"reward","type":"uint256"}],"name":"Burned","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"hash","type":"bytes32"},{"indexed":false,"name":"hashFunction","type":"uint8"},{"indexed":false,"name":"size","type":"uint8"},{"indexed":false,"name":"account","type":"address"}],"name":"CommentLog","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"hash","type":"bytes32"},{"indexed":false,"name":"hashFunction","type":"uint8"},{"indexed":false,"name":"size","type":"uint8"}],"name":"StoreHash","type":"event"}]
+  communityTokenABI: [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "rewardManager",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "exponent",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "poolBalance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "rewardPotTax",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_rewardManager",
+          "type": "address"
+        },
+        {
+          "name": "_rewardPotTax",
+          "type": "uint8"
+        },
+        {
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "name": "_decimals",
+          "type": "uint8"
+        },
+        {
+          "name": "_symbol",
+          "type": "string"
+        },
+        {
+          "name": "_exponent",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "totalCost",
+          "type": "uint256"
+        }
+      ],
+      "name": "Minted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "reward",
+          "type": "uint256"
+        }
+      ],
+      "name": "Burned",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "numTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "priceToMint",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "numTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "rewardForBurn",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "numTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "purchaseTax",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "numTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "burn",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "numTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "mint",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_value",
+          "type": "uint256"
+        },
+        {
+          "name": "_data",
+          "type": "bytes"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
 })
 
 export const actions = {
@@ -467,6 +470,68 @@ export const actions = {
     let contract = new window.web3.eth.Contract(state.communityTokenABI, state.communityTokenAddress)
     contract.methods.rewardForBurn(payload).call((error, result) => {
       commit('setRewardForBurn', result)
+    })
+  },
+  async purchaseTax ({ dispatch, commit, state }, payload) {
+    console.log('Func: purchaseTax')
+    await dispatch('configureWeb3')
+    console.log('Sending method call')
+    let contract = new window.web3.eth.Contract(state.communityTokenABI, state.communityTokenAddress)
+    contract.methods.purchaseTax(payload).call((error, result) => {
+      commit('setPurchaseTax', result)
+    })
+  },
+  async balanceOf ({ dispatch, commit, state }, payload) {
+    console.log('Func: balanceOf')
+    await dispatch('configureWeb3')
+    console.log('Sending method call')
+    let contract = new window.web3.eth.Contract(state.communityTokenABI, state.communityTokenAddress)
+    contract.methods.balanceOf(payload).call((error, result) => {
+      commit('setBalanceOf', result)
+    })
+  },
+  async mint ({ dispatch, commit, state }, payload) {
+    console.log('Func: mint')
+    await dispatch('configureWeb3')
+    console.log('Sending method call')
+    let contract = new window.web3.eth.Contract(state.communityTokenABI, state.communityTokenAddress)
+    const priceToMint = await contract.methods.priceToMint(payload).call((error, result) => result)
+    contract.methods.mint(payload).send({from: window.web3.eth.defaultAccount, value: priceToMint})
+      .on('transactionHash', function (hash) {
+        console.log(hash)
+      })
+      .on('receipt', function (receipt) {
+        console.log(receipt)
+      })
+      .on('confirmation', function (confirmationNumber, receipt) {
+        console.log(confirmationNumber)
+      })
+      .on('error', console.error)
+  },
+  async burn ({ dispatch, commit, state }, payload) {
+    console.log('Func: burn')
+    await dispatch('configureWeb3')
+    console.log('Sending method call')
+    let contract = new window.web3.eth.Contract(state.communityTokenABI, state.communityTokenAddress)
+    contract.methods.burn(payload).send({from: window.web3.eth.defaultAccount})
+      .on('transactionHash', function (hash) {
+        console.log(hash)
+      })
+      .on('receipt', function (receipt) {
+        console.log(receipt)
+      })
+      .on('confirmation', function (confirmationNumber, receipt) {
+        console.log(confirmationNumber)
+      })
+      .on('error', console.error)
+  },
+  async totalSupply ({ dispatch, commit, state }) {
+    console.log('Func: totalSupply')
+    await dispatch('configureWeb3')
+    console.log('Sending method call')
+    let contract = new window.web3.eth.Contract(state.communityTokenABI, state.communityTokenAddress)
+    contract.methods.totalSupply().call((error, result) => {
+      commit('setTotalSupply', result)
     })
   },
   configureWeb3 ({ commit, state }) {
@@ -528,6 +593,15 @@ export const mutations = {
   },
   setRewardForBurn (state, payload) {
     state.rewardForBurn = payload
+  },
+  setPurchaseTax (state, payload) {
+    state.purchaseTax = payload
+  },
+  setBalanceOf (state, payload) {
+    state.balanceOf = payload
+  },
+  setTotalSupply (state, payload) {
+    state.totalSupply = payload
   },
   SET_AUTH (state, auth) {
     state.auth = auth
