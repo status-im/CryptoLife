@@ -22,3 +22,6 @@ Once the whole payment is processed:
 - The producer gets DAI tokens for his item
 - The Shopper pays in fiat, while in the background executes transactions as if he has DAI tokens and ether 
 - Detsy charges small comissions in DAI from the producer
+
+
+[YouTube demo](https://www.youtube.com/watch?v=7X1x3JH35Pc&feature=youtu.be)
