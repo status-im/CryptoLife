@@ -1,0 +1,27 @@
+{
+  "type": "event",
+  "name": "SendEmail",
+  "inputs": [
+    {
+        "type": "string",
+        "name": "to",
+        "indexed": false
+    },
+    {
+        "type": "string",
+        "name": "from",
+        "indexed": false
+    },
+    {
+        "type": "string",
+        "name": "subject",
+        "indexed": false
+    },
+    {
+        "type": "string",
+        "name": "body",
+        "indexed": false
+    }
+  ],
+  "anonymous": false
+}
