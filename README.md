@@ -1,31 +1,85 @@
-# CryptoLife
-A repo for all the #CryptoLife Hackathon submissions, The National House Smichov, Prague, 26-28th October 2018.
+# GEO STATUS
 
-You can read more about the meaning behind the event [here](https://our.status.im/why-name-the-status-hackathon-cryptolife-what-does-that-actually-mean/).
+Augmented Reality and Blockchain
 
-The [EthMagicians](https://our.status.im/magic-internet-people/) will be in full attendance!
+## TARGET PROBLEM
 
-You can check out the #CryptoLife Master List [here](https://our.status.im/your-cryptolife-masterlist/).
+Squat the world, augment it, make it accessible, make it "smart", create communities, communicate and transact via map.
 
-# Submit Your Hack To This Repo
+## INVOLVED TECH
 
-**Reminder:** In line with our principles at Status, all code that is submitted during the #CryptoLife Hackathon is considered completely open source and under the same license as this repo - the Mozilla Public License 2.0.
+Ethereum + ENS + Status + Aragon = Unstoppable Augmented Reality!
 
-## Steps to Follow
+## DESCRIPTION
 
-1. Fork the repo to your own profile or orgnaization by using the button in the top right of this page.
-2. `git clone <your_git_repo_here>`
-3. `cd <your_git_repo>`
-4. Create a new branch in your forked version of the repo and add your code to it. Use the naming convention suggested by placing your team name first, and your project name after (if there is one).
-    
-    `git checkout -b <team-name_project-name>`
+## Step 1: SQUAT THE WORLD
 
-5. Add, commit and push your changes to your new branch in your forked repo:
+Imagine the world, imagine to split it with a grid into plots. Each plot refers to a standard coordinates set defined by the grid resolution. Example plot coordinates: 44°32'7.6"N 11°32'1.64"E
 
-    ```shell
-    git add .
-    git commit -m "<team_name> Submission for CryptoLife" 
-    git push
-    ```
+We all love the ENS and the way you squat domain names (domain names are strings).
 
-6. Go to your forked repo in the browser and submit a PR using the green button there.
+Now let's transform a plot coordinates into a string:
+
+44°32'7.6"N11°32'1.64"E ---> 0443207N0113201E
+
+We are now ready to exploit the ENS ledger as official squatting layer for the world!
+
+0443207N0113201E ---> 0443207n0113201e.eth
+
+This will incentivate the use of ENS, and ENS will grant unique ownership (and all the squatting tech needed!)
+
+## Step 2: AUGMENTING THE WORLD WITH STATUS
+
+Whenever you click on a plot, by referring to the coordinates you can open the related Status channel.
+
+Example https://get.status.im/chat/public/44°32'7.6"N11°32'1.64"E
+
+This grid/squatting strategy allows to transform Status into a geography based chatting system.
+
+Use cases:
+
+A) You want to contact the owner of a plot, you click on the map, you open the related staus channel and you make a deal chatting in real time.
+
+B) You are a journalist, there is an earthquake on the other side of the world, you reach it via map, and you can interact with the locals via Status.
+
+C) You walk around the world, and you can talk with all people in that plot in real time.
+
+## Step 3: MAKE THE WORLD "SMART"
+
+Once you squat a plot you can apply a smart contract to the related ENS record.
+
+This opens infinte possibilities.
+
+Use cases:
+
+A) Ask money to third party for publishing in your plot (text, links, feeds, 3D object, dapps...)
+
+B) Ask money for adding virtual layers
+
+C) Split the plot into subplots and sell/rent-out the parcels
+
+By default the business will be made with DAI, squatters can decide to use custom tokens.
+
+## Step 4: CREATE COMMUNITIES
+
+Once you own a plot you can tokenize it!
+
+Use cases:
+
+A) tokenize the plot and make it ruled by a DAO via the newly created token
+
+B) create an utility token to rule activities inside the plot, may they be real activities or virtual
+
+## FURTHER TRICKS
+
+Use Status extensions to facilitate deals and interaction between users/travellers and plot owners.
+
+
+# DEMO:
+
+```
+docker-compose up --build
+```
+
+then go on http://localhost
+

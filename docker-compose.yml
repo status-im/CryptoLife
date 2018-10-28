@@ -1,0 +1,56 @@
+version: '3'
+services:
+
+  reverse-proxy:
+    image: traefik # The official Traefik docker image
+    command: --api --docker  --defaultentrypoints=http --entryPoints='Name:ethereum Address::8545 Compress:true' --entryPoints='Name:http Address::80' --entryPoints='Name:https Address::443 TLS'
+    ports:
+      - "8545:8545" # port for ethereum node
+      - "80:80"     # The HTTP port
+      - "8080:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+    networks:
+      - internal
+
+  ganache:
+    labels:
+      - "traefik.frontend.rule=Host:localhost"
+      - "traefik.port=8545"
+      - "traefik.frontend.entryPoints=ethereum"
+    image: "trufflesuite/ganache-cli:v6.1.0"
+    command: ["-a", "10" , "-b", "3", "-s", "seed_to_use_same_data"]
+    networks:
+      - internal
+
+  setup:
+    build: 
+      context: ./
+      dockerfile: ./setup.Dockerfile
+    networks:
+      - internal
+    depends_on:
+      - ganache
+    volumes:
+      - ./setup:/setup
+      - /setup/node_modules/ # allow to not use host node_modules
+
+      - ./contracts:/setup/contracts
+      - /setup/contracts/node_modules/ # allow to not use host node_modules
+      - /setup/contracts/build/ # allow to not use host node_modules
+
+  frontend:
+    labels:
+      - "traefik.frontend.rule=Host:localhost"
+      - "traefik.port=3000"
+    build: ./frontend
+    networks:
+      - internal
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules/ # allow to not use host node_modules
+  
+networks:
+  internal:
+    driver: bridge
+
