@@ -1,0 +1,12 @@
+const { randomBytes } = require('crypto');
+
+const secp256k1 = require('secp256k1');
+
+let private_key
+do {
+	private_key = randomBytes(32);
+} while (!secp256k1.privateKeyVerify(private_key));
+
+const public_key = secp256k1.publicKeyCreate(private_key);
+
+console.log(private_key.toString("utf8"), ' ', parseInt(public_key, 16));

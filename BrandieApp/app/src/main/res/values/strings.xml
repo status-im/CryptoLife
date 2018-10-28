@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Brandie</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="settings">Settings</string>
+    <string name="contact_and_faq"><![CDATA[Contact & FAQ]]></string>
+    <string name="do_something_less_awesome">Do something less awesome</string>
+    <string name="avalaible_seed_token_packs">Avalaible Seed Token Packs</string>
+    <string name="collected_tokens">Collected Tokens</string>
+    <string name="twitter">Twitter</string>
+    <string name="facebook">Facebook</string>
+    <string name="share">Share</string>
+    <string name="tokens_earned">Tokens earned</string>
+    <string name="boom">BOOM</string>
+    <string name="token_earned_msg">I just earned 1000 Tokens</string>
+</resources>

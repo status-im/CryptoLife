@@ -1,0 +1,20 @@
+{
+  "name": "brandie-js",
+  "homepage": "./",
+  "version": "0.1.2",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "web3": "1.0.0-beta.35"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --mode development",
+    "build": "webpack --mode production",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "dev": "webpack --mode development"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@skale-labs/web3project",
+  "version": "0.0.1",
+  "description": "",
+  "main": "",
+  "scripts": {},
+  "dependencies": {
+    "bignumber.js": "^7.2.1",
+    "secp256k1": "^3.5.2",
+    "ultduint": "0.0.3",
+    "web3": "1.0.0-beta.35"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GalacticExchange/skale-api.git"
+  },
+  "author": "",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {}
+}

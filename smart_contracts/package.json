@@ -1,0 +1,9 @@
+{
+    "name": "BrandieSolidity",
+    "dependencies": {
+        "truffle-hdwallet-provider": "0.0.6",
+        "truffle-privatekey-provider": "0.1.0",
+        "web3": "1.0.0-beta.36"
+    },
+    "author": "Artem Payvin artem.payvin@skalelabs.com"
+}

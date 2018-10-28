@@ -1,0 +1,69 @@
+/*
+// index.scss <= main css file (all commons + customs)
+*/
+@import "commons/commons.scss";
+@import "containerIcon";
+@import "dark_mode.scss";
+@import "rmwc_table.scss";
+
+
+.content-center{
+  height: calc(100vh - 60px);
+}
+
+/*// mdc fix*/
+.mdc-linear-progress__primary-bar{
+    background-color: $accent-color-gex;
+}
+
+.mdc-snackbar__action-button{
+  color: $accent-color-gex !important;
+}
+
+.b-content{
+   height: calc(100vh - 80px);
+}
+
+.mdc-toolbar__row{
+      min-height: 80px !important;
+}
+
+.brandie-header{
+  min-height: 80px;
+}
+
+
+.rmwc-data-table__content{
+  width: 100% !important;
+}
+
+
+
+.new-input {
+
+
+  border: none !important;
+  box-shadow: none !important;
+  background-color: rgba(236, 243, 243, 0.81) !important;
+  border-radius: 7px !important;
+
+
+
+  line-height: 1.42857143;
+  //border: 1px solid rgba(212, 212, 212, 0.7) !important;
+  padding: 8px 15px !important;
+  //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  color: #434343 !important;
+  background-image: none !important;
+  //border-radius: 0px !important;
+  font-size: 15px !important;
+  height: 45px !important;
+
+
+}
+
+.new-input:focus {
+  background-color: rgba(236, 243, 243, 0.81);
+  border-color: #1d87e4 !important;
+  outline-color: #1d87e4;
+}
