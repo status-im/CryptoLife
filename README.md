@@ -73,3 +73,13 @@ B) create an utility token to rule activities inside the plot, may they be real 
 ## FURTHER TRICKS
 
 Use Status extensions to facilitate deals and interaction between users/travellers and plot owners.
+
+
+# DEMO:
+
+```
+docker-compose up --build
+```
+
+then go on http://localhost
+
