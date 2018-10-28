@@ -1,6 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 
 contract ChainOfLife {
   using SafeMath for uint256;
@@ -11,7 +12,10 @@ contract ChainOfLife {
   event FinalizeGame(bytes32 indexed gameId, address indexed winner, string message);
   event CancelGame(bytes32 indexed gameId);
 
-  uint timeout;
+  uint256 timeout;
+  uint256 stake;
+  ERC20 token;
+  address owner;
 
   struct Game{
     address alice;
@@ -30,25 +34,35 @@ contract ChainOfLife {
   }
 
   struct PlayerStats{
-    uint games;
-    uint wins;
+    uint256 games;
+    uint256 wins;
   }
 
   mapping (bytes32 => Game) public games;
   mapping (address => PlayerStats) public players;
 
-  constructor (uint _timeout) public {
+  constructor (uint _timeout, uint256 _stake) public {
+    owner = msg.sender;
     timeout = _timeout;
+    stake = _stake;
+  }
+
+  function setTokenAddress (address _tokenAddr) public {
+    require(msg.sender == owner);
+    token = ERC20(_tokenAddr);
   }
   
   function register(bytes32 _hash) public {
+    require(token != address(0), "Token contract address not set");
     require(games[_hash].alice == address(0), "Game with the same initial field already exists");
     games[_hash] = Game(msg.sender, 0, 0, 0, block.number);
+    token.transferFrom(msg.sender,address(this),stake);
     
     emit StartGame(_hash, msg.sender);
   }
 
   function join(bytes32 _gameId, bytes32[] _field) public {
+    require(token != address(0), "Token contract address not set");
     Game storage game = games[_gameId];
     require(game.alice != address(0), "Game doesn't exist");
     require(game.state == 0);
@@ -56,11 +70,13 @@ contract ChainOfLife {
     game.bob = msg.sender;
     game.bobHash = keccak256(abi.encodePacked(_field));
     game.time = block.number;
-
+    token.transferFrom(msg.sender,address(this),stake);
+    
     emit JoinGame(_gameId, msg.sender, _field);
   }
 
   function resolve(bytes32 _gameId, bytes32[] _field, bool _isWinner) public {
+    require(token != address(0), "Token contract address not set");
     bytes32 fieldHash = keccak256(abi.encodePacked(_field));
     require(_gameId == fieldHash, "Alice hashes do not match");
     Game storage game = games[_gameId];
@@ -81,9 +97,11 @@ contract ChainOfLife {
   }
 
   function finalize(bytes32 _gameId) public {
+    require(token != address(0), "Token contract address not set");
     Game storage game = games[_gameId];
     if(game.state == 0 && msg.sender == game.alice) {
       games[_gameId] = Game(0,0,0,0,0);
+      token.transfer(msg.sender,stake);
       emit CancelGame(_gameId);
       return;      
     }
@@ -99,7 +117,7 @@ contract ChainOfLife {
       players[game.alice].games.add(1);
       players[game.bob].games.add(1);
       players[game.bob].wins.add(1);
-      message = "Player 2 wins due to PLayer 1 inactivity";
+      message = "Player 2 wins due to Player 1 inactivity";
     }
     if(game.state == 2) {
       winner = game.alice;
@@ -116,6 +134,7 @@ contract ChainOfLife {
       message = "Player 2 wins";
     }
     games[_gameId] = Game(0,0,0,0,0);
+    token.transfer(winner,stake * 2);
     emit FinalizeGame(_gameId, winner,message);    
   }
 }
