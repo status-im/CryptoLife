@@ -16,6 +16,7 @@ info:
 	@echo
 	@echo "  $$ run init    Install dependencies"
 	@echo "  $$ run build   Compile assets"
+	@echo "  $$ run www     Serve a production build"
 	@echo "  $$ run dev     Debug locally"
 	@echo
 

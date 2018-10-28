@@ -13,7 +13,8 @@ class RoomView extends Component {
 		this.state = {
 			canCheckIn: false,
 			canCheckOut: false,
-			loading: false
+			loading: false,
+			emittablePayload: null
 		}
 	}
 
@@ -29,10 +30,10 @@ class RoomView extends Component {
 				profile: "ultrasonic-experimental",
 				onFinish: () => console.log("sent"),
 				clampFrame: false
-			});
+			})
 		}, err => {
 			console.log("ERR", err)
-		});
+		})
 	}
 
 	fetchCanCheckIn() {
@@ -119,7 +120,8 @@ class RoomView extends Component {
 
 					// EMIT SOUND
 					const payload = JSON.stringify(response)
-					this.transmit.transmit(Quiet.str2ab(payload));
+					this.setState({ emittablePayload: payload })
+					this.transmit.transmit(Quiet.str2ab(payload))
 				}
 				else message.error("You are not authorized to enter the room")
 			})
@@ -127,6 +129,11 @@ class RoomView extends Component {
 				this.setState({ loading: false })
 				message.error('Error:' + error.message)
 			})
+	}
+
+	onReplay() {
+		if (!this.state.emittablePayload) return
+		this.transmit.transmit(Quiet.str2ab(this.state.emittablePayload))
 	}
 
 	renderCheckIn() {
@@ -144,7 +151,11 @@ class RoomView extends Component {
 			<Card>
 				You are checked in to the room
 			</Card>
-			<Button type="primary" className="width-100 margin-top" onClick={() => this.onOpen()}>Unlock the door</Button>
+			{
+				this.state.emittablePayload ?
+					<Button type="primary" className="width-100 margin-top" onClick={() => this.onReplay()}>Try again</Button> :
+					<Button type="primary" className="width-100 margin-top" onClick={() => this.onOpen()}>Unlock the door</Button>
+			}
 			<Button type="danger" className="width-100 margin-top" onClick={() => this.onCheckOut()}>Check Out</Button>
 			<Button className="width-100 margin-top" onClick={() => this.props.history.goBack()}>Go back</Button>
 		</div>

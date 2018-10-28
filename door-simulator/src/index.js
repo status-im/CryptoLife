@@ -59,7 +59,7 @@ class DoorSimulator extends React.Component {
 	gotPayload(str) {
 		if (!str) return
 		this.setState({ receivedPayload: this.state.receivedPayload + str })
-		if (str.length == 100) {
+		if (str.length < 100) {
 			this.checkPayload(this.state.receivedPayload + str)
 		}
 	}
