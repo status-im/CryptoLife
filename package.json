@@ -4,6 +4,7 @@
   "description": "## Blockchain",
   "main": "fake-door/index.js",
   "scripts": {
+    "postinstall": "cd door-server ; npm install",
     "start": "node door-server/server.js"
   },
   "repository": {
