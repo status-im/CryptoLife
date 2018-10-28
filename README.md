@@ -1,31 +1,58 @@
-# CryptoLife
-A repo for all the #CryptoLife Hackathon submissions, The National House Smichov, Prague, 26-28th October 2018.
+# Project Title
 
-You can read more about the meaning behind the event [here](https://our.status.im/why-name-the-status-hackathon-cryptolife-what-does-that-actually-mean/).
+Redlit is a dating DAPP on the Ethereum network that allows users to stake the relationships with LIT tokens. 
 
-The [EthMagicians](https://our.status.im/magic-internet-people/) will be in full attendance!
+## Getting Started
 
-You can check out the #CryptoLife Master List [here](https://our.status.im/your-cryptolife-masterlist/).
+### Prerequisites
 
-# Submit Your Hack To This Repo
+You need lates version of [yarn](https://yarnpkg.com/) installed.
 
-**Reminder:** In line with our principles at Status, all code that is submitted during the #CryptoLife Hackathon is considered completely open source and under the same license as this repo - the Mozilla Public License 2.0.
+### Installing & build
 
-## Steps to Follow
+To install dependencies and build the project run following commands from the main project directory:
 
-1. Fork the repo to your own profile or orgnaization by using the button in the top right of this page.
-2. `git clone <your_git_repo_here>`
-3. `cd <your_git_repo>`
-4. Create a new branch in your forked version of the repo and add your code to it. Use the naming convention suggested by placing your team name first, and your project name after (if there is one).
-    
-    `git checkout -b <team-name_project-name>`
+```sh
+yarn && yarn build
+```
 
-5. Add, commit and push your changes to your new branch in your forked repo:
+## Running the app
 
-    ```shell
-    git add .
-    git commit -m "<team_name> Submission for CryptoLife" 
-    git push
-    ```
+Join redlit dapp directory and run the dapp.
 
-6. Go to your forked repo in the browser and submit a PR using the green button there.
+```sh
+cd redlit-dapp
+yarn dev:start
+```
+
+## Built With
+
+* [React](https://reactjs.org/)
+* [Bootstrap](https://getbootstrap.com/) 
+* [Universal Login](https://github.com/EthWorks/UniversalLoginSDK) 
+
+## Contributing
+
+
+## Versioning
+
+
+## Authors
+
+*  [Franco](https://github.com/fMercury)
+*  [Kyle](https://github.com/Kyrrui)
+*  [Lili](https://www.lililashka.com/)
+*  [Augusto](https://github.com/AugustoL)
+*  [Matias](https://github.com/MatiasOS)
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Hat tip to anyone whose code was used
+* Inspiration
+* etc
+
