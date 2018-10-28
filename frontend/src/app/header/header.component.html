@@ -1,0 +1,11 @@
+<div class="dapp-header">
+	<div *ngIf="showWaitingComponent">
+		<dapp-waiting></dapp-waiting>
+	</div>
+	<div class="row">
+		<div class="logo-holder text-center">
+			<div class="d-letter"></div>
+			<div class="status-logo" (click)="goHome()" [inlineSVG]="'/assets/images/status-logo.svg'"></div>
+		</div>
+	</div>
+</div>

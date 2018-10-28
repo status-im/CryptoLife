@@ -1,0 +1,16 @@
+.content {
+  height: 100%;
+  background-image: url("../assets/images/background.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.billboard {
+  margin-top: 20px;
+  background-color: cyan;
+  background-color: rgba($color: cyan, $alpha: 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 32px;
+
+}

@@ -1,31 +1,27 @@
-# CryptoLife
-A repo for all the #CryptoLife Hackathon submissions, The National House Smichov, Prague, 26-28th October 2018.
+Detsy
+============
 
-You can read more about the meaning behind the event [here](https://our.status.im/why-name-the-status-hackathon-cryptolife-what-does-that-actually-mean/).
+## Info
 
-The [EthMagicians](https://our.status.im/magic-internet-people/) will be in full attendance!
+Detsy is a decentralized e-commerce website focused on handmade or vintage items. 
+The main purpose of the platform is to enable individuals to be able to sell their handmade items, while being paid in DAI tokens. 
 
-You can check out the #CryptoLife Master List [here](https://our.status.im/your-cryptolife-masterlist/).
+The platform connects the producers with large amount of buyers due to the fact that the buyers can be non-tech savvy and pay with their credit cards, while still using the properties of the blockchain to record the authenticity of the transactions.
 
-# Submit Your Hack To This Repo
+The producer receives their money instantly in the form of DAI. The shopper has the option to pay with DAI (if is crypto-savy) or with credit card (if non-cypto-savy or does not want to go through the hassle)
 
-**Reminder:** In line with our principles at Status, all code that is submitted during the #CryptoLife Hackathon is considered completely open source and under the same license as this repo - the Mozilla Public License 2.0.
+The platform uses the Bloom protocol to authenticate the shoppers, making the experience smooth and seamless. Once the shopper is authenticated he can choose whether to buy the goods with DAI or with credit card. If he chooses to buy with credit card, 3rd party service named LimePay is used to provide the solution.
 
-## Steps to Follow
+The things that happend behind the scenes when paying with Credit Card:
+1. Detsy generates new wallet for the shopper (if he is first time user)
+2. The shopper signs the required blockchain transactions that he would otherwise do if he is buying with DAI
+3. The transactions and additional information is sent to LimePay.
+4. LimePay emulates automicity of the transactions between Detsy, the shopper and the producer
 
-1. Fork the repo to your own profile or orgnaization by using the button in the top right of this page.
-2. `git clone <your_git_repo_here>`
-3. `cd <your_git_repo>`
-4. Create a new branch in your forked version of the repo and add your code to it. Use the naming convention suggested by placing your team name first, and your project name after (if there is one).
-    
-    `git checkout -b <team-name_project-name>`
+Once the whole payment is processed:
+- The producer gets DAI tokens for his item
+- The Shopper pays in fiat, while in the background executes transactions as if he has DAI tokens and ether 
+- Detsy charges small comissions in DAI from the producer
 
-5. Add, commit and push your changes to your new branch in your forked repo:
 
-    ```shell
-    git add .
-    git commit -m "<team_name> Submission for CryptoLife" 
-    git push
-    ```
-
-6. Go to your forked repo in the browser and submit a PR using the green button there.
+[YouTube demo](https://www.youtube.com/watch?v=7X1x3JH35Pc&feature=youtu.be)

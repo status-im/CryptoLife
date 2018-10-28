@@ -1,0 +1,27 @@
+.bloom-btn {
+  cursor: pointer;
+  color: #6067f1;
+  border: 1px solid;
+  border-radius: 8px;
+  outline: none;
+  padding: 8px;
+  &:hover {
+    border-color: darken(#6067f1, 15%);
+    color: darken(#6067f1, 15%);
+    background-color: darken(white, 5%);
+  }
+  .bloom-logo {
+    position: relative;
+    display: inline-block;
+    top: -2px;
+    height: 20px;
+    width: 80px;
+    color: #6067f1;
+    margin: 0;
+    vertical-align: middle;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../assets/images/bloom.svg");
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "etherlime-project",
+  "version": "1.0.0",
+  "description": "This is the default package.json generated for your project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bs58": "^4.0.1",
+    "etherlime": "^0.9.11",
+    "ethers": "^4.0.7",
+    "openzeppelin-solidity": "1.12.0"
+  }
+}
