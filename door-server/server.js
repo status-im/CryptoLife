@@ -6,9 +6,9 @@ const Web3 = require("web3")
 const { toHex } = require("../lib/sign")
 const config = require("./config.json")
 
-const bookingsAbiStr = fs.readFileSync(path.resolve(__dirname, "contracts", "bookings.json")).toString()
+const bookingsAbiStr = fs.readFileSync(path.resolve(__dirname, "..", "blockchain", "build", "__contracts_Bookings_sol_Bookings.abi")).toString()
 const bookingsAbi = JSON.parse(bookingsAbiStr)
-const validatorAbiStr = fs.readFileSync(path.resolve(__dirname, "contracts", "validator.json")).toString()
+const validatorAbiStr = fs.readFileSync(path.resolve(__dirname, "..", "blockchain", "build", "__contracts_Validator_sol_Validator.abi")).toString()
 const validatorAbi = JSON.parse(validatorAbiStr)
 
 const WEB3_PROVIDER = process.env.WEB3_PROVIDER || config.WEB3_PROVIDER
