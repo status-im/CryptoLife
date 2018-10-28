@@ -6,15 +6,29 @@ import { Web3Store } from '../stores'
 // TODO: Allow configuring mainnet/ropsten
 
 export default class {
-  static async setWeb3() {
+  static async initMetaMask() {
     if (window.ethereum) {
-      await ethereum.enable()
-    }
-    if (window.ethereum || window.web3) {
-      window.web3 = new Web3(ethereum)
+      await window.ethereum.enable()
     } else {
-      console.error("Non-Ethereum browser detected. You should consider trying MetaMask!")
+      throw new Error("Non-Ethereum browser detected. You should consider trying MetaMask!")
     }
+  }
+
+  static async setWeb3() {
+    await this.initMetaMask()
+    if (Web3Store.web3) {
+      console.log("Web3 already set up.");
+      return
+    }
+    // Modern dapp browsers
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+    }
+    // Legacy dapp browsers
+    else {
+      window.web3 = new Web3(window.web3.currentProvider)
+    }
+    Web3Store.web3 = window.web3
     console.log("Web3 set up!");
   }
 
