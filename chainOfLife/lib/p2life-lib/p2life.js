@@ -65,14 +65,14 @@ export default class P2life {
   }
 
   // trinary
-  getHalf(half = 0) {
+  getHalf(half = 0, dish = this.dish) {
     const rsp = [];
-    for(let row = 0; row < this.dish.length / 2; row++) {
-      const buf = Buffer.alloc(32);
+    for(let row = 0; row < dish.length / 2; row++) {
+      const buf = Buffer.alloc(32, 0);
       const intBuffer = new Uint8Array(32);
-      for(let ints = 0; ints < buf.length; ints++) {
+      for(let ints = 0; ints < dish.length / 8; ints++) {
         for (let bits = 0; bits < 8; bits++) {
-          let bit = this.dish[row + (this.dish.length / 2) * half][ints * 8 + bits];
+          let bit = dish[row + (dish.length / 2) * half][ints * 8 + bits];
           setBit(intBuffer, ints, bits, (bit === 2) ? 1 : bit);
         }
         buf.writeUInt8(intBuffer[ints], buf.length - ints - 1);
@@ -105,7 +105,18 @@ export default class P2life {
     return [numA, numB];
   }
 
-
+  convertRowToBuf(dish, row) {
+    const buf = Buffer.alloc(32);
+    const intBuffer = new Uint8Array(32);
+    for(let ints = 0; ints < 32; ints++) {
+      for (let bits = 0; bits < 8; bits++) {
+        let bit = dish[row][ints * 8 + bits];
+        setBit(intBuffer, ints, bits, (bit === 2) ? 1 : bit);
+      }
+      buf.writeUInt8(intBuffer[ints], buf.length - ints - 1);
+    }
+    return buf;
+  }
 
   getNextGeneration(dish = this.dish) {
     let nextGen = [];
@@ -119,17 +130,12 @@ export default class P2life {
           if (neighbours[0] === 3) {
             if (neighbours[1] == 3) {
               // random
-              const intBuffer = new Uint8Array(32);
-              for(let ints = 0; ints < 32; ints++) {
-                for (let bits = 0; bits < 8; bits++) {
-                  let bit = dish[i][j];
-                  setBit(intBuffer, ints, bits, (bit === 2) ? 1 : bit);
-                }
-                buf.writeUInt8(intBuffer[ints], buf.length - ints - 1);
-              }
-              console.log('rand: ', buf);
-
-              utils.sha3([buffer1, buffer2]);
+              const buf1 = this.convertRowToBuf(dish, dish.length / 4);
+              const buf2 = this.convertRowToBuf(dish, dish.length / 2);
+              const rsp = utils.sha3([buf1, buf2]);
+              const int = new Uint8Array(1);
+              int[0] = rsp.readUInt8(j / 8 + 1);
+              nextGen[i][j] = readBit(int, 0, j % 8) + 1;
             } else {
               nextGen[i][j] = 1;
             }
