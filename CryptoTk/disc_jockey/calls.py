@@ -30,9 +30,9 @@ def vote(method, media_id, nonce_inc=0):
     ' upvote. method=voteUp or voteDown. '
     return single_arg(method, media_id, nonce_inc)
 
-def add_media(method, nft_uri, nonce_inc=0):
+def add_media(nft_uri, nonce_inc=0):
     ' register new file '
-    return single_arg(method, nft_uri, nonce_inc)
+    return single_arg('addNewToken', nft_uri, nonce_inc)
 
 def send_xdai(dest, amount_wei, nonce_inc=0):
     ' Send xdai away '
