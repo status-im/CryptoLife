@@ -1,31 +1,22 @@
-# CryptoLife
-A repo for all the #CryptoLife Hackathon submissions, The National House Smichov, Prague, 26-28th October 2018.
+### SYNESTIC
 
-You can read more about the meaning behind the event [here](https://our.status.im/why-name-the-status-hackathon-cryptolife-what-does-that-actually-mean/).
+#### Summary
 
-The [EthMagicians](https://our.status.im/magic-internet-people/) will be in full attendance!
+SYNESTIC is an experiment in crypto-powered procedurally generated music loops backed by NFTs.
+A `SYN` is an audio loop with up to five instrument tracks/layers. Two SYNs can be combined to produce a third, potentially more complex SYN.
 
-You can check out the #CryptoLife Master List [here](https://our.status.im/your-cryptolife-masterlist/).
+### Abstract
 
-# Submit Your Hack To This Repo
 
-**Reminder:** In line with our principles at Status, all code that is submitted during the #CryptoLife Hackathon is considered completely open source and under the same license as this repo - the Mozilla Public License 2.0.
+Interest and understanding of music is a fundamental part of being human. No other beings, that we know of, share our understanding of it. It's value is tangible and linked to the inner workings of human consciousness, as far as history shows. Humans have clustered around it and musical currents have always been in the sidelines of revolutions and paradigm shifts. What better medium to showcase relative value.
 
-## Steps to Follow
+A SYN is a non-fungible token with 74 bytes of metadata, at the time of this writing. The metadata initially based on the inherent entropy in the blockchain, provides the basis of a simple sound loop. Two SYNs can combine and give birth to a new one.
 
-1. Fork the repo to your own profile or orgnaization by using the button in the top right of this page.
-2. `git clone <your_git_repo_here>`
-3. `cd <your_git_repo>`
-4. Create a new branch in your forked version of the repo and add your code to it. Use the naming convention suggested by placing your team name first, and your project name after (if there is one).
-    
-    `git checkout -b <team-name_project-name>`
+### SYN Lifecycle
 
-5. Add, commit and push your changes to your new branch in your forked repo:
+Gen0 SYNs are minted automatically every block. You can find some you like, buy them for a small fee and combine them to get something more. You are the curator. 
+By creating this economy we will be able to see how genres may emerge, and analyse the tree that gave birth to a loop.
 
-    ```shell
-    git add .
-    git commit -m "<team_name> Submission for CryptoLife" 
-    git push
-    ```
+### SYN Remixing
 
-6. Go to your forked repo in the browser and submit a PR using the green button there.
+Currently remixing is done in our contract but we intend to abstract that to a separate contract and publish the spec. Then allow anybody to specify a `remixer contract address` when initiating a remix, it will need to only turn two 76 byte arrays into a 3rd.
