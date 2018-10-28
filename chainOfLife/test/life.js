@@ -66,6 +66,21 @@ contract('Life', (accounts) => {
       state = await life.life(state).should.be.fulfilled;
     }
     assert.deepEqual(state, expected);
+  });
 
+  it('should create randomnes', async () => {
+    const initField = [z, z, 
+      '0x0000000000000000000000000000000000000000000000000000000000000004',
+      '0x0000000000000000000000000000000000000000000000000000000000000011',
+      '0x000000000000000000000000000000000000000000000000000000000000002a',
+      z, z, z ];
+    let state = await life.life(initField).should.be.fulfilled;
+    state = await life.life(state).should.be.fulfilled;
+    const expected =  [z, z, 
+      '0x0000000000000000000000000000000000000000000000000000000000000002',
+      '0x0000000000000000000000000000000000000000000000000000000000000005',
+      '0x0000000000000000000000000000000000000000000000000000000000000005',
+      z, z, z ];
+    assert.deepEqual(state, expected);
   });
 });

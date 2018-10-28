@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { encodeConfigBytes32Array, unpack } from './hex';
+import { encodeConfigBytes32Array, unpack, getConfigHash } from './hex';
 
 describe('Hex', () => {
 
@@ -11,5 +11,14 @@ describe('Hex', () => {
       '0x000000000000000000000000000000000000000000000000435f233d004d46ed',
       '0x0000000000000000000000000000000000000000000000008351fe1b89b4a843' ]
     );
+  });
+
+  it('should hash', () => {
+  	const data = [true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false];
+  	const packed = encodeConfigBytes32Array(data);
+  	const unpacked = unpack(packed);
+  	console.log(unpacked);
+  	const rsp = getConfigHash(data);
+  	console.log(rsp);
   });
 });
