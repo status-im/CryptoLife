@@ -7,7 +7,7 @@
                             <v-spacer></v-spacer>
                         </v-toolbar>
                         <v-card-text>
-                            Protea is a meetup management and community building application.
+                            Protea is a community building and meetup management dApp, allowing users to stake their attendance to meetups and invest in community tokens, backed by DAI - incentivizing the positive growth of their community.
                         </v-card-text>
                     </v-card>
                 </v-flex>

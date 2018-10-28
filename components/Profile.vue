@@ -16,9 +16,9 @@
 
                         <v-spacer></v-spacer>
 
-                        <v-card-title class="white--text pl-5 pt-5">
-                            <div class="display-1">Mr. Sniffles</div>
-                        </v-card-title>
+                        <!--<v-card-title class="white&#45;&#45;text pl-5 pt-5">-->
+                            <!--<div class="display-1">Mr. Sniffles</div>-->
+                        <!--</v-card-title>-->
                     </v-layout>
                 </v-img>
 
