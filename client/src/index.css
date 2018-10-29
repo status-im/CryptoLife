@@ -1,0 +1,5 @@
+@import './styles/resets.css';
+@import '../node_modules/antd/dist/antd.css';
+@import './styles/global.css';
+@import './styles/views.css';
+@import './styles/widgets.css';

@@ -1,0 +1,28 @@
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	background-image: url(../media/hotel1.jpeg);
+	background-size: cover;
+}
+
+.light {
+	font-weight: 300;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.width-100 {
+	width: 100%;
+}
+
+.margin-top {
+	margin-top: 15px;
+}
+.margin-bottom {
+	margin-bottom: 15px;
+}
+
+.ant-layout-header {
+	background: #eeec !important;
+}

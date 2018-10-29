@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="./index.css">
+
+	<script>
+		// Load legacy JS dependencies (audio)
+		document.write('<script type="text/javascript" src="quiet.js"></scr' + 'ipt>')
+		document.write('<script async type="text/javascript" src="quiet-emscripten.js"></scr' + 'ipt>')
+
+		document.addEventListener("DOMContentLoaded", () => {
+			Quiet.init({ profilesPrefix: "./", memoryInitializerPrefix: "./", libfecPrefix: "./" });
+		})
+	</script>
+
+	<title>Door Simulator</title>
+</head>
+
+<body>
+	<div id="root"></div>
+	<script type="text/javascript" src="./index.js"></script>
+</body>
+
+</html>
