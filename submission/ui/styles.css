@@ -1,0 +1,76 @@
+body {
+	font-family: sans-serif;
+	color: #505050;
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 0.2rem 1rem 1rem;
+	background: #1A3938;
+}
+.center {
+	text-align: center;
+}
+#logo {
+	width: 128px;
+}
+form {
+	padding: 1rem;
+	background-color: #FFF;
+	border-radius: 3px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.24);
+	overflow: hidden;
+}
+h3 {
+	text-transform: uppercase;
+	margin-bottom: 0.2rem;
+	font-size: 0.9rem;
+	font-weight: normal;
+	opacity: 0.72;
+}
+input[type=submit] {
+	width: 100%;
+	background-color: #000000;
+	color: #FFF;
+	border: none;
+	border-radius: 2px;
+	line-height: 1.5rem;
+	padding: 8px;
+	font-size: 1rem;
+	box-sizing: border-box;
+	cursor: pointer;
+	margin-top: 1rem;
+	box-shadow: 0 3px 0 #F9F9F9;
+	text-transform: uppercase;
+}
+img {
+	width: 100%;
+}
+
+input[type=text],
+input[type=number],
+textarea {
+	width: 100%;
+	border: 1px solid #CCC;
+	border-radius: 2px;
+	line-height: 1.5rem;
+	padding: 8px;
+	font-size: 1rem;
+	box-sizing: border-box;
+	background-color: #F9F9F9;
+	box-shadow: 0 3px 0 #F9F9F9;
+	font-family: sans-serif;
+}
+
+input[type=text]:focus,
+input[type=number]:focus,
+textarea:focus {
+	border-color: #AAA;
+	background-color: #FFF;
+}
+
+label {
+	display: block;
+	margin-bottom: 1rem;
+}
+label p {
+	margin-top: 0.2rem;
+}
