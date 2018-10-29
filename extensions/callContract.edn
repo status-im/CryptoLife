@@ -1,0 +1,31 @@
+{meta {:name          "Contract Invoker"
+       :description   "Invokes contract on test network"
+       :documentation "Invokes contract on test network"}
+ 
+ events/show-result
+ (let [{result :result} properties]
+   [alert {:value result}])
+
+ events/call-contract
+ (let [{address :address} properties]
+   [ethereum/call {:to address
+                   :method "greetings(uint256)"
+                   :params [0]
+                   :on-result [show-result]}])
+ 
+ views/preview
+ [view 
+  [text "Contract control panel"]
+  [button {:on-click [call-contract {:address "0xe0baa70944fc5b29edc1968acaae001f599e8a1a"}]}
+                                                  
+   "Call"]]
+
+ views/short-preview
+ [text "Contract control panel"]
+
+ hooks/commands.getControl
+ {:description   "Opens contract control panel"
+  :scope         #{:personal-chats}
+  :preview       [preview]
+  :short-preview [short-preview]
+  :parameters    []}}
