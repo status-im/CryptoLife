@@ -1,0 +1,77 @@
+@import '../../styles/variables.scss';
+
+.actions {
+  margin-left: 45px;
+  font-size: 14px;
+  font-family: $f-medium;
+
+  .commit, .challenge, .reveal {
+    display: flex;
+    align-items: center;
+    height: 70px;
+
+    .reject, .approve, .reveal-inner, .loose {
+      flex-grow: 1;
+      padding: 0 20px;
+      height: 70px;
+      line-height: 70px;
+      white-space: nowrap;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .reject, .approve, .reveal-inner {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .reject, .approve, .close {
+      &:hover {
+        background: #F5F9FA;
+      }
+    }
+
+    .reject {
+      color: #C73638;
+    }
+
+    .approve {
+      color: #247F92;
+    }
+    
+    .loose {
+      color: black;
+    }
+
+    .close {
+      color: #0C7186;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 3px 6px;
+      margin-right: -6px;
+    }
+
+    .reveal-inner {
+      background: linear-gradient(#4FAFBF, #17748C);
+      color: white;
+
+      &:hover {
+        background: linear-gradient(#4FAFBF, #11596b);
+      }
+
+      .time-left {
+        color: rgba(255, 255, 255, .5);
+        font-size: 12px;
+      }
+    }
+
+    .border {
+      width: 1px;
+      height: 50px;
+      background: #EAEDF4;
+    }
+  }
+}

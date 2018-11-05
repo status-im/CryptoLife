@@ -1,0 +1,88 @@
+@import '../../styles/variables.scss';
+
+.prompts {
+  font-size: 15px;
+  color: black;
+  font-family: $f-regular;
+  margin-top: -16px;
+}
+
+.p-bold {
+  font-size: 15px;
+  color: rgba(0,0,0,.9);
+  font-family: $f-bold;
+  margin-top: 37px;
+}
+
+.p-thin {
+  font-size: 12px;
+  color: rgba(0,0,0,.5);
+  font-family: $f-regular;
+  margin-top: 6px;
+}
+
+.sum-n-button {
+  display: flex;
+  margin-top: 10px;
+
+  .sum {
+    color: #0E1418;
+    font-size: 21px;
+    font-family: $f-medium;
+
+    span {
+      font-size: 28px;
+      font-family: $f-regular;  
+    }
+  }
+
+  .button {
+    button {
+      color: white;
+      font-size: 14px;
+      font-family: $f-medium;
+      background: linear-gradient(#4FAFBF, #17748C);
+      border: 0;
+      padding: 8px 20px;
+      margin-left: 20px;
+      cursor: pointer;
+      border-radius: 4px;
+    
+      &:hover {
+        background: linear-gradient(#4FAFBF, #11596b);
+      }
+    }
+  }
+}
+
+.big-button {
+  background: #CED6E0;
+  margin: 40px -26px 0;
+  padding: 20px 26px 26px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  button {
+    color: white;
+    font-size: 20px;
+    font-family: $f-medium;
+    background: linear-gradient(#4FAFBF, #17748C);
+    border: 0;
+    padding: 15px 35px;
+    border-radius: 4px;
+
+    &.disabled {
+      background: #E6E9F0;
+      color: #BBBEC5;
+      cursor: default;
+      
+      &:hover {
+        background: #E6E9F0;
+      }
+    }
+
+    &:hover {
+      background: linear-gradient(#4FAFBF, #11596b);
+    }
+  }
+}

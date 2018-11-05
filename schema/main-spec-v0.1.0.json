@@ -1,0 +1,160 @@
+{
+  "$comment": "DApp meta-information specification. Main specification. Inspired by https://github.com/eth-registry/EIPs/blob/cb330ebc981874b4a3b2c7f4b944988e2f5ace01/EIPS/eip-1357.md",
+
+  "$schema": "http://json-schema.org/draft-04/schema#",
+
+  "type": "object",
+  "required": ["spec_version", "metadata"],
+
+  "properties": {
+    "spec_version": {
+	  "title": "Current DApp specification version",
+	  "$description": "Version number of JSON schema specifications for DApps",
+      "$comment": "version of DApp metadata specification to use",
+      "$ref": "#/definitions/semver"
+    },
+
+    "prev_meta": {
+	  "title": "IPFS multihash of previous DApp metadata",
+	  "$description": "IPFS multihash of previous version of JSON schema",
+      "$comment": "hash of previous version of this DApp metadata",
+      "$ref": "#/definitions/ipfs_hash"
+    },
+
+    "metadata": {
+      "$comment": "metainfo details",
+	  "title": "Main DApp metadata",
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+
+      "properties": {
+
+        "name": {
+		  "type": "string",
+          "$comment": "Official display name of DApp",
+          "title": "Name of the DApp",
+          "$description": "Official display name of DApp"
+		},
+
+        "description": {
+		  "type": "string",
+		  "$comment": "Full description of DApp",
+          "title": "Full description of the DApp",
+          "$description": "Description of the DApp"
+		},
+
+
+        "short_description": {
+		  "type": "string",
+		  "$comment": "Short descriptionof DApp",
+          "title": "Short description of the DApp",
+          "$description": "Short description of the DApp"
+		},
+
+        "url": {
+          "title": "Official website of the DApp",
+          "$description": "URL of Official website of the DApp",
+          "$comment": "official website of the DApp",
+          "type": "string"
+        },
+
+        "github_url": {
+          "title": "Official github URL",
+          "$description": "Official github of project",
+          "$comment": "github link of the DApp",
+          "type": "string"
+        },
+
+        "logo": {
+          "title": "Logo image",
+          "$description": "IPFS hash of logo, uploaded to IPFS",
+          "$comment": "Logo of the DApp",
+          "$ref": "#/definitions/ipfs_hash"
+        },
+
+        "images": {
+          "title": "Additional images for DApp",
+          "$description": "IPFS hashes of additional images fro DApp (screenshots, schemas, etc...)",
+          "$comment": "additional images (DApp UI screenshots, etc)",
+          "type": "array",
+          "items": {"$ref": "#/definitions/ipfs_hash"}
+        },
+
+		"languages": {
+		  "title": "Languages of DApp interface",
+		  "$comment": "DApp languages",
+		  "type": "array",
+		  "items": {"$ref": "#/definitions/eth_address"}
+		},
+
+        "networks": {
+          "title": "Networks, where DApp is presented",
+          "$comment": "Platform of the DApp",
+          "type": "array",
+		  "items": {"$ref": "#/definitions/network"}
+        }
+
+      }
+    },
+
+    "addresses": {
+	  "title": "Addresses of DApp smart-contracts",
+	  "$description": "Array of DApp smart-contracts addresses",
+      "$comment": "DApp smart contact addresses",
+      "type": "array",
+      "items": {"$ref": "#/definitions/eth_address"}
+    },
+
+    "audience": {
+      "title": "Audience status od DApp",
+      "$comment": "Audience status od DApp",
+      "type": "string"
+    },
+
+    "submission_comment": {
+      "$comment": "comment related to last update (like commit message)",
+      "type": "string"
+    }
+  },
+
+  "additionalProperties": {
+    "$comment": "additional properties are modules, which have their own specs",
+    "$ref": "#/definitions/module"
+  },
+
+  "definitions": {
+    "semver": {
+      "$comment": "semantic versioning",
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+
+    "ipfs_hash": {
+      "type": "string",
+      "maxLength": 80,
+	  "patternProperties": {
+      	"ipfs_hash": "^Qm[1-9A-HJ-NP-Za-km-z]{44}$"
+      }
+    },
+
+	"network": {
+      "type": "string"
+    },
+
+
+    "eth_address": {
+      "type": "string",
+      "pattern": "^(?:0[Xx])?[0-9a-fA-F]{40}|[a-z0-9\\.]+\\.eth$"
+    },
+
+    "module": {
+      "$comment": "We are splitting spec into modules to make spec negotiation more flexible. The only required field for a module is (it's) spec version. Other fields are module-dependent.",
+      "type": "object",
+      "required": ["spec_version"],
+      "properties": {
+        "spec_version": {"$ref": "#/definitions/semver"}
+      }
+    }
+  }
+}

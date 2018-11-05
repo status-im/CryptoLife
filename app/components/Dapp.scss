@@ -1,0 +1,25 @@
+@import '../styles/variables.scss';
+
+.dapp-container {
+  font-family: $f-regular;
+  min-height: 100vh;
+
+  .top-line {
+    padding: 20px;
+    display: flex;
+
+    .logo {
+      flex-grow: 1;
+
+      img {
+        width: 220px;
+      }
+
+      div {
+        font-size: 14px;
+        font-family: $f-thin;
+        margin-top: 6px;
+      }
+    }
+  }
+}

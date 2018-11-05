@@ -1,0 +1,27 @@
+@import '../../styles/variables.scss';
+
+.dapp-name {
+  display: flex;
+  align-items: center;
+  min-height: 70px;
+
+  .icon img {
+    width: 30px;
+    margin-right: 6px;
+  }
+
+  .name {
+    font-size: 14px;
+    font-family: $f-medium;
+    margin-bottom: 3px;
+  }
+
+  .desc-short {
+    font-size: 12px;
+  }
+
+  &:hover {
+    background: #F5F9FA;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,46 @@
+.component-modal {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+
+  &.flex-h {
+    display: flex;
+    justify-content: center;
+  }
+
+  .component-modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  .component-modal-window {
+    position: absolute;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    top: 5vh;
+
+    .component-modal-close {
+      position: absolute;
+      z-index: 100;
+      top: 10px;
+      right: 5;
+      font-size: 36px;
+      color: rgba(0, 0, 0, .5);
+      cursor: pointer;
+      border: 0;
+      background: transparent;
+    }
+  }
+}
+
+.modal-disable-scroll {
+  overflow: hidden;
+}

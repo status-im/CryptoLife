@@ -1,0 +1,66 @@
+@import '../../styles/variables.scss';
+
+.block {
+  margin: 20px;
+  padding: 20px;
+  background: linear-gradient(#F5F9FA, white 50px);
+
+  &.with-tabs {
+    padding-top: 0;
+  }
+
+  .block-tabs {
+    font-family: $f-bold;
+    font-size: 18px;
+    display: flex;
+
+    .name {
+      line-height: 34px;
+      padding: 20px;
+      background: white;
+      border-bottom: 1px solid #D1D1D1;
+      color: rgba(0,0,0,0.5);
+      cursor: pointer;
+
+      &:first-child {
+        margin-left: -20px;
+      }
+
+      &.active {
+        background: transparent;
+        border: 1px solid #D1D1D1;
+        border-bottom: 0;
+        color: #191919;
+        cursor: inherit;
+
+        .applications {
+          color: rgba(36, 127, 146, 1);
+        }
+
+        .challenges {
+          color: rgba(199, 54, 56, 1);
+        }
+      }
+
+      &.last {
+        flex-grow: 1;
+        margin-right: -20px;
+      }
+
+      .applications {
+        color: rgba(36, 127, 146, .5);
+        font-size: 14px;
+      }
+
+      .challenges {
+        color: rgba(199, 54, 56, .5);
+        font-size: 14px;
+      }
+
+      .svg-inline--fa {
+        font-size: 22px;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,18 @@
+{
+  "name": "twitter-daemon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "export $(cat .env) && node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "log4js": "^3.0.6",
+    "twitter": "^1.7.1",
+    "web3": "^1.0.0-beta.36"
+  }
+}
